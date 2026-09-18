@@ -258,6 +258,22 @@
     ]
   },
   {
+    "id": "bnsf-railway-foundation",
+    "name": "BNSF Railway Foundation",
+    "link": "https://bbgm-apply.yourcausegrants.com/apply/programs/adf4da9a-44e6-4e8a-9c6b-a7ebe07594c4",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "General community grant (STEM education is a listed focus area) for 501(c)(3)s in the ~28 states BNSF operates in (Midwest, Southwest, Northwest). Contact the foundation first for asks over $10,000.",
+    "tags": [
+      "501c3-required",
+      "geo-restricted"
+    ]
+  },
+  {
     "id": "boeing-first-grant",
     "name": "Boeing FIRST Grant",
     "link": "https://usfirst.submittable.com/submit/ae2c8982-1d7f-490f-81a1-b2e4216cda65/boeing-team-grant-application-2025-2026",
@@ -1286,6 +1302,22 @@
     ]
   },
   {
+    "id": "norfolk-southern-foundation",
+    "name": "Norfolk Southern Foundation",
+    "link": "https://www.norfolksouthern.com/en/commitments/in-your-community/community-impact/grant-programs",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Thriving Communities grant program, for 501(c)(3)s located within 30 minutes of a Norfolk Southern main line across its 22-state network. Application dates vary by year -- check the grant programs page.",
+    "tags": [
+      "501c3-required",
+      "geo-restricted"
+    ]
+  },
+  {
     "id": "northrop-grumman",
     "name": "Northrop Grumman",
     "link": "https://www.northropgrumman.com/corporate-responsibility/corporate-citizenship/corporate-contributions-guidelines",
@@ -1623,6 +1655,21 @@
       "501c3-required",
       "currently-open",
       "geo-restricted"
+    ]
+  },
+  {
+    "id": "scte-foundation-grant-for-first",
+    "name": "SCTE Foundation Grant for FIRST",
+    "link": "https://account.scte.org/scte-foundation-grants-for-first-application/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "unsure",
+    "notes": "Requires a parent of a team member to be an SCTE (cable telecommunications engineers) member in good standing -- the SCTE-member parent submits the application. Roughly $5,000 per award historically.",
+    "tags": [
+      "no-geo-restrictions"
     ]
   },
   {
