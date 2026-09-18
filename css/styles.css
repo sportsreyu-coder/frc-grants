@@ -425,6 +425,27 @@ main.site-main {
 
 .finder-group .eyebrow { margin-bottom: 11px; }
 
+.finder-boost {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.finder-boost .eyebrow { margin-bottom: 6px; }
+
+.boost-note {
+  margin: 0 0 14px;
+  color: var(--text-faint);
+  font-size: 13px;
+  max-width: 68ch;
+}
+
+.chip[data-filter="boost"].active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -511,6 +532,23 @@ main.site-main {
 }
 
 .grant-card:hover { border-color: var(--border-strong); }
+
+.grant-card.is-boosted { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+
+.great-fit-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
 
 .gc-top {
   display: flex;

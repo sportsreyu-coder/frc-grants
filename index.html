@@ -77,7 +77,7 @@
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:32px; flex-wrap:wrap;">
       <div>
         <h2>Eligibility finder</h2>
-        <p>Tell us about your team and the list narrows to what fits.</p>
+        <p>Tell us your team's real situation. We only hide a grant when it's actually unavailable to you — everything else stays visible.</p>
       </div>
       <button class="reset-btn" id="reset-filters">Reset all</button>
     </div>
@@ -94,27 +94,29 @@
           </div>
         </div>
         <div class="finder-group">
-          <div class="eyebrow">Team profile</div>
+          <div class="eyebrow">501(c)(3) / tax-exempt status</div>
           <div class="chip-row">
-            <button class="chip" data-filter="tag" data-value="rookie-friendly">Rookie / 2nd year</button>
-            <button class="chip" data-filter="tag" data-value="corporate-employee">Mentor at a sponsor co.</button>
-            <button class="chip" data-filter="tag" data-value="demographics">Diversity / outreach</button>
-            <button class="chip" data-filter="tag" data-value="sustainability">Sustainability project</button>
-          </div>
-        </div>
-        <div class="finder-group">
-          <div class="eyebrow">501(c)(3) status</div>
-          <div class="chip-row">
-            <button class="chip" data-filter="c3" data-value="no-501c3-required">We don't have one</button>
-            <button class="chip" data-filter="c3" data-value="school-or-501c3">School-affiliated</button>
-            <button class="chip" data-filter="c3" data-value="501c3-required">We have one</button>
+            <button class="chip" data-filter="c3" data-value="have">We have a 501(c)(3)</button>
+            <button class="chip" data-filter="c3" data-value="school">School-affiliated, no 501(c)(3)</button>
+            <button class="chip" data-filter="c3" data-value="neither">Neither</button>
           </div>
         </div>
         <div class="finder-group">
           <div class="eyebrow">Location</div>
           <div class="chip-row">
-            <button class="chip" data-filter="tag" data-value="no-geo-restrictions">No location restrictions</button>
+            <button class="chip" data-filter="geo" data-value="no-geo-restrictions">Only show nationwide grants</button>
           </div>
+        </div>
+      </div>
+
+      <div class="finder-boost">
+        <div class="eyebrow">Highlight great-fit grants</div>
+        <p class="boost-note">These never hide anything — they just move a strong match to the top and mark it, since having one of these doesn't disqualify you from anything else.</p>
+        <div class="chip-row">
+          <button class="chip" data-filter="boost" data-value="rookie-friendly">We're a rookie / 2nd-year team</button>
+          <button class="chip" data-filter="boost" data-value="corporate-employee">We have a mentor at a sponsor co.</button>
+          <button class="chip" data-filter="boost" data-value="demographics">Diversity / outreach focus</button>
+          <button class="chip" data-filter="boost" data-value="sustainability">Sustainability project</button>
         </div>
       </div>
     </div>

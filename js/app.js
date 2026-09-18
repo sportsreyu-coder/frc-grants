@@ -4,11 +4,18 @@
   var state = {
     search: "",
     statusOpen: false,
-    profileTags: new Set(),
-    c3: null,
+    boosts: new Set(),
+    c3: null, // "have" | "school" | "neither" | null
     geoNoRestrict: false,
     sort: "status",
     limit: 24,
+  };
+
+  var BOOST_LABELS = {
+    "rookie-friendly": "Great fit for a rookie/2nd-year team",
+    "corporate-employee": "Mentor/employee connection helps here",
+    "demographics": "Diversity & outreach focus",
+    "sustainability": "Sustainability project focus",
   };
 
   var PAGE_SIZE = 24;
@@ -139,32 +146,57 @@
     });
   }
 
+  // Only status, 501(c)(3) requirement, and geographic restriction can make
+  // a grant genuinely unavailable to a team -- those are the only things
+  // allowed to remove a grant from the list. Team-profile attributes
+  // (rookie status, a mentor connection, etc.) never disqualify a team
+  // from anything else, so they only re-sort and badge matches below.
   function matchesGrant(g) {
     if (state.search) {
       var hay = (g.name + " " + g.notes).toLowerCase();
       if (hay.indexOf(state.search) === -1) return false;
     }
     if (state.statusOpen && g.status !== "open") return false;
-    var it = state.profileTags.values();
-    var next = it.next();
-    while (!next.done) {
-      if (g.tags.indexOf(next.value) === -1) return false;
-      next = it.next();
-    }
-    if (state.c3 && g.tags.indexOf(state.c3) === -1) return false;
+
+    if (state.c3 === "school" && g.require501c3 === "required") return false;
+    if (state.c3 === "neither" && (g.require501c3 === "required" || g.require501c3 === "school-or-501c3")) return false;
+
     if (state.geoNoRestrict && g.tags.indexOf("no-geo-restrictions") === -1) return false;
     return true;
   }
 
+  function isBoosted(g) {
+    if (state.boosts.size === 0) return false;
+    var matched = false;
+    state.boosts.forEach(function (b) { if (g.tags.indexOf(b) !== -1) matched = true; });
+    return matched;
+  }
+
+  function matchedBoosts(g) {
+    var out = [];
+    state.boosts.forEach(function (b) { if (g.tags.indexOf(b) !== -1) out.push(b); });
+    return out;
+  }
+
   function sortGrants(list) {
     var copy = list.slice();
+    var cmp;
     if (state.sort === "az") {
-      copy.sort(function (a, b) { return a.name.localeCompare(b.name); });
+      cmp = function (a, b) { return a.name.localeCompare(b.name); };
     } else if (state.sort === "deadline") {
-      copy.sort(function (a, b) { return dayOfYear(a.closeDate) - dayOfYear(b.closeDate) || a.name.localeCompare(b.name); });
+      cmp = function (a, b) { return dayOfYear(a.closeDate) - dayOfYear(b.closeDate) || a.name.localeCompare(b.name); };
     } else {
       var rank = { open: 0, unsure: 1, closed: 2 };
-      copy.sort(function (a, b) { return (rank[a.status] - rank[b.status]) || a.name.localeCompare(b.name); });
+      cmp = function (a, b) { return (rank[a.status] - rank[b.status]) || a.name.localeCompare(b.name); };
+    }
+    if (state.boosts.size > 0) {
+      copy.sort(function (a, b) {
+        var ba = isBoosted(a), bb = isBoosted(b);
+        if (ba !== bb) return ba ? -1 : 1;
+        return cmp(a, b);
+      });
+    } else {
+      copy.sort(cmp);
     }
     return copy;
   }
@@ -175,8 +207,13 @@
     if (g.closeDate) dateBits.push("Closes " + g.closeDate);
     var p = pillClass(g.status);
     var visibleTags = TAG_ORDER.filter(function (t) { return g.tags.indexOf(t) !== -1; });
+    var boosted = matchedBoosts(g);
+    var badge = boosted.length
+      ? el("span", { class: "great-fit-badge" }, ["Great fit — " + boosted.map(function (b) { return BOOST_LABELS[b] || b; }).join(", ")])
+      : null;
 
-    return el("article", { class: "grant-card" }, [
+    return el("article", { class: "grant-card" + (boosted.length ? " is-boosted" : "") }, [
+      badge,
       el("div", { class: "gc-top" }, [
         el("h3", { class: "gc-name" }, [g.name]),
         el("span", { class: "pill " + p.cls }, [p.label]),
@@ -233,20 +270,25 @@
       });
     });
 
-    document.querySelectorAll('[data-filter="tag"]').forEach(function (btn) {
+    document.querySelectorAll('[data-filter="geo"]').forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        state.geoNoRestrict = !state.geoNoRestrict;
+        btn.classList.toggle("active", state.geoNoRestrict);
+        state.limit = PAGE_SIZE;
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-filter="boost"]').forEach(function (btn) {
       btn.addEventListener("click", function () {
         var val = btn.getAttribute("data-value");
-        if (val === "no-geo-restrictions") {
-          state.geoNoRestrict = !state.geoNoRestrict;
-          btn.classList.toggle("active", state.geoNoRestrict);
-        } else if (state.profileTags.has(val)) {
-          state.profileTags.delete(val);
+        if (state.boosts.has(val)) {
+          state.boosts.delete(val);
           btn.classList.remove("active");
         } else {
-          state.profileTags.add(val);
+          state.boosts.add(val);
           btn.classList.add("active");
         }
-        state.limit = PAGE_SIZE;
         render();
       });
     });
@@ -282,7 +324,7 @@
     document.getElementById("reset-filters").addEventListener("click", function () {
       state.search = "";
       state.statusOpen = false;
-      state.profileTags.clear();
+      state.boosts.clear();
       state.c3 = null;
       state.geoNoRestrict = false;
       state.limit = PAGE_SIZE;

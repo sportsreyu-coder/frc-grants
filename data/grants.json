@@ -878,8 +878,7 @@
     "require501c3": "unsure",
     "notes": "",
     "tags": [
-      "currently-open",
-      "sustainability"
+      "currently-open"
     ]
   },
   {
@@ -1456,7 +1455,8 @@
     "require501c3": "unsure",
     "notes": "",
     "tags": [
-      "currently-open"
+      "currently-open",
+      "demographics"
     ]
   },
   {
@@ -1566,6 +1566,7 @@
     "notes": "",
     "tags": [
       "501c3-required",
+      "demographics",
       "no-geo-restrictions"
     ]
   },
@@ -1815,8 +1816,7 @@
     "notes": "",
     "tags": [
       "currently-open",
-      "school-or-501c3",
-      "sustainability"
+      "school-or-501c3"
     ]
   },
   {
