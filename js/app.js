@@ -6,10 +6,22 @@
     statusOpen: false,
     boosts: new Set(),
     c3: null, // "have" | "school" | "neither" | null
-    geoNoRestrict: false,
+    stateFilter: "", // "" | "__nationwide__" | a US state name
     sort: "status",
     limit: 24,
   };
+
+  var US_STATES = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+    "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+    "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada",
+    "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
+    "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+    "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+    "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
+    "District of Columbia",
+  ];
 
   var BOOST_LABELS = {
     "rookie-friendly": "Great fit for a rookie/2nd-year team",
@@ -146,23 +158,38 @@
     });
   }
 
+  function textMatches(g) {
+    if (!state.search) return true;
+    var hay = (g.name + " " + g.notes).toLowerCase();
+    return hay.indexOf(state.search) !== -1;
+  }
+
   // Only status, 501(c)(3) requirement, and geographic restriction can make
   // a grant genuinely unavailable to a team -- those are the only things
   // allowed to remove a grant from the list. Team-profile attributes
   // (rookie status, a mentor connection, etc.) never disqualify a team
   // from anything else, so they only re-sort and badge matches below.
-  function matchesGrant(g) {
-    if (state.search) {
-      var hay = (g.name + " " + g.notes).toLowerCase();
-      if (hay.indexOf(state.search) === -1) return false;
+  // Returns null when the grant is available, or a short human reason why
+  // it was excluded -- that reason is what powers the "excluded, see why"
+  // panel instead of just letting grants disappear silently.
+  function exclusionReason(g) {
+    if (state.statusOpen && g.status !== "open") return "Not currently open";
+
+    if (state.c3 === "school" && g.require501c3 === "required") return "Requires a 501(c)(3)";
+    if (state.c3 === "neither") {
+      if (g.require501c3 === "required") return "Requires a 501(c)(3)";
+      if (g.require501c3 === "school-or-501c3") return "Requires a 501(c)(3) or school affiliation";
     }
-    if (state.statusOpen && g.status !== "open") return false;
 
-    if (state.c3 === "school" && g.require501c3 === "required") return false;
-    if (state.c3 === "neither" && (g.require501c3 === "required" || g.require501c3 === "school-or-501c3")) return false;
-
-    if (state.geoNoRestrict && g.tags.indexOf("no-geo-restrictions") === -1) return false;
-    return true;
+    if (state.stateFilter === "__nationwide__" && g.tags.indexOf("no-geo-restrictions") === -1) {
+      return "Has a location restriction";
+    }
+    if (state.stateFilter && state.stateFilter !== "__nationwide__") {
+      var noRestriction = g.tags.indexOf("no-geo-restrictions") !== -1;
+      var mentionsState = g.notes && g.notes.toLowerCase().indexOf(state.stateFilter.toLowerCase()) !== -1;
+      if (!noRestriction && !mentionsState) return "Doesn't mention " + state.stateFilter + " in its notes";
+    }
+    return null;
   }
 
   function isBoosted(g) {
@@ -255,8 +282,15 @@
   }
 
   function render() {
-    var filtered = grants.filter(matchesGrant);
-    var sorted = sortGrants(filtered);
+    var searchMatched = grants.filter(textMatches);
+    var shown = [];
+    var excluded = [];
+    searchMatched.forEach(function (g) {
+      var reason = exclusionReason(g);
+      if (reason) excluded.push({ grant: g, reason: reason });
+      else shown.push(g);
+    });
+    var sorted = sortGrants(shown);
     var grid = document.getElementById("grant-grid");
     grid.innerHTML = "";
 
@@ -280,6 +314,43 @@
     } else {
       moreRow.hidden = true;
     }
+
+    renderExcluded(excluded);
+  }
+
+  function renderExcluded(excluded) {
+    var panel = document.getElementById("excluded-panel");
+    var toggle = document.getElementById("excluded-toggle");
+    var list = document.getElementById("excluded-list");
+
+    if (excluded.length === 0) {
+      panel.hidden = true;
+      list.hidden = true;
+      list.innerHTML = "";
+      return;
+    }
+
+    panel.hidden = false;
+    var expanded = !list.hidden;
+    toggle.textContent = (expanded ? "Hide" : "Show") + " " + excluded.length +
+      (excluded.length === 1 ? " excluded grant" : " excluded grants") + " and why →";
+
+    list.innerHTML = "";
+    excluded
+      .slice()
+      .sort(function (a, b) { return a.grant.name.localeCompare(b.grant.name); })
+      .forEach(function (item) {
+        list.appendChild(el("div", { class: "excluded-row" }, [
+          el("a", { class: "ex-name", href: item.grant.link || "#", target: "_blank", rel: "noopener" }, [item.grant.name]),
+          el("span", { class: "ex-reason" }, [item.reason]),
+        ]));
+      });
+
+    toggle.onclick = function () {
+      list.hidden = !list.hidden;
+      toggle.textContent = (!list.hidden ? "Hide" : "Show") + " " + excluded.length +
+        (excluded.length === 1 ? " excluded grant" : " excluded grants") + " and why →";
+    };
   }
 
   function setupFinder() {
@@ -292,13 +363,14 @@
       });
     });
 
-    document.querySelectorAll('[data-filter="geo"]').forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        state.geoNoRestrict = !state.geoNoRestrict;
-        btn.classList.toggle("active", state.geoNoRestrict);
-        state.limit = PAGE_SIZE;
-        render();
-      });
+    var stateSelect = document.getElementById("state-select");
+    US_STATES.forEach(function (s) {
+      stateSelect.appendChild(el("option", { value: s }, [s]));
+    });
+    stateSelect.addEventListener("change", function (e) {
+      state.stateFilter = e.target.value;
+      state.limit = PAGE_SIZE;
+      render();
     });
 
     document.querySelectorAll('[data-filter="boost"]').forEach(function (btn) {
@@ -348,9 +420,10 @@
       state.statusOpen = false;
       state.boosts.clear();
       state.c3 = null;
-      state.geoNoRestrict = false;
+      state.stateFilter = "";
       state.limit = PAGE_SIZE;
       document.getElementById("search-input").value = "";
+      document.getElementById("state-select").value = "";
       document.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("active"); });
       render();
     });

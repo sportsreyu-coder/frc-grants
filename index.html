@@ -103,9 +103,11 @@
         </div>
         <div class="finder-group">
           <div class="eyebrow">Location</div>
-          <div class="chip-row">
-            <button class="chip" data-filter="geo" data-value="no-geo-restrictions">Only show nationwide grants</button>
-          </div>
+          <select id="state-select" class="finder-select">
+            <option value="">Any location</option>
+            <option value="__nationwide__">Nationwide grants only</option>
+          </select>
+          <p class="finder-hint" id="state-hint">We match your state against what each grant's notes actually say — always double check on the grantor's own site.</p>
         </div>
       </div>
 
@@ -135,6 +137,11 @@
     <div class="grant-grid" id="grant-grid"></div>
     <div class="show-more-row" id="show-more-row" hidden>
       <button class="show-more-btn" id="show-more-btn"></button>
+    </div>
+
+    <div class="excluded-panel" id="excluded-panel" hidden>
+      <button class="excluded-toggle" id="excluded-toggle" type="button"></button>
+      <div class="excluded-list" id="excluded-list" hidden></div>
     </div>
   </section>
 
