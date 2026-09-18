@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRC Grants — Find grants your team can actually get</title>
+<meta name="description" content="A searchable database of FIRST Robotics Competition grants, sponsorships, and fundraising opportunities — filtered by what your team is actually eligible for.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">FR</span>
+      <span>FRC Grants<small>Grant &amp; Sponsorship Finder</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Find Grants</a>
+      <a href="#fundraising">Fundraising</a>
+      <a href="#resources">Resources</a>
+      <a href="pro.html" class="nav-pro">Go Pro →</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Built for FRC teams</span>
+      <h1>Stop scrolling spreadsheets.<br><span>Find grants you're actually eligible for.</span></h1>
+      <p class="lead">Every grant, sponsorship, and fundraising lead teams have collected in one place — filterable by your team's real situation: rookie status, 501(c)(3), mentor connections, and more.</p>
+
+      <div class="hero-stats">
+        <div class="stat"><b id="stat-total">—</b><span>Grants tracked</span></div>
+        <div class="stat open"><b id="stat-open">—</b><span>Currently open</span></div>
+        <div class="stat"><b id="stat-norestrict">—</b><span>No geographic restrictions</span></div>
+        <div class="stat"><b id="stat-no501c3">—</b><span>No 501(c)(3) required</span></div>
+      </div>
+
+      <div class="finder" id="finder">
+        <div class="finder-head">
+          <div>
+            <h2>Eligibility Finder</h2>
+            <p>Tell us about your team. We'll narrow the list to grants that fit.</p>
+          </div>
+          <button class="reset-btn" id="reset-filters">Reset all</button>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="search-input" placeholder="Search by grant name, state, or keyword (e.g. “Texas”, “corporate”, “sustainability”)">
+        </div>
+
+        <div class="finder-grid">
+          <div class="finder-group">
+            <h3>Status</h3>
+            <div class="chip-row" data-group="status">
+              <button class="chip" data-tone="green" data-filter="status" data-value="open">Currently open</button>
+            </div>
+          </div>
+
+          <div class="finder-group">
+            <h3>Team profile</h3>
+            <div class="chip-row" data-group="profile">
+              <button class="chip" data-filter="tag" data-value="rookie-friendly">Rookie / 2nd-year team</button>
+              <button class="chip" data-tone="orange" data-filter="tag" data-value="corporate-employee">Have a mentor at a sponsor co.</button>
+              <button class="chip" data-filter="tag" data-value="demographics">Diversity / outreach focus</button>
+              <button class="chip" data-filter="tag" data-value="sustainability">Sustainability project</button>
+            </div>
+          </div>
+
+          <div class="finder-group">
+            <h3>501(c)(3) status</h3>
+            <div class="chip-row" data-group="c3">
+              <button class="chip" data-filter="c3" data-value="no-501c3-required">We don't have one</button>
+              <button class="chip" data-filter="c3" data-value="school-or-501c3">We're school-affiliated</button>
+              <button class="chip" data-filter="c3" data-value="501c3-required">We have a 501(c)(3)</button>
+            </div>
+          </div>
+
+          <div class="finder-group">
+            <h3>Location</h3>
+            <div class="chip-row" data-group="geo">
+              <button class="chip" data-filter="tag" data-value="no-geo-restrictions">No location restrictions only</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="grants">
+    <div class="category-bar">
+      <h2>Browse by category</h2>
+      <div class="sort-row">
+        <label for="sort-select">Sort</label>
+        <select id="sort-select">
+          <option value="status">Open first</option>
+          <option value="az">A–Z</option>
+          <option value="deadline">Closing soonest</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tabs" id="category-tabs">
+      <button class="tab-btn active" data-cat="all">All grants</button>
+      <button class="tab-btn" data-cat="currently-open">Currently open</button>
+      <button class="tab-btn" data-cat="rookie-friendly">Rookie-friendly</button>
+      <button class="tab-btn" data-cat="corporate-employee">Corporate employee connection</button>
+      <button class="tab-btn" data-cat="demographics">Demographics &amp; outreach</button>
+      <button class="tab-btn" data-cat="sustainability">Sustainability</button>
+      <button class="tab-btn" data-cat="no-geo-restrictions">No location restrictions</button>
+      <button class="tab-btn" data-cat="no-501c3-required">No 501(c)(3) required</button>
+    </div>
+
+    <p class="results-count" id="results-count"></p>
+    <div class="grant-grid" id="grant-grid"></div>
+  </section>
+
+  <section class="wrap">
+    <div class="pro-strip">
+      <div>
+        <h3>Want a first draft written for you?</h3>
+        <p>FRC Grants Pro turns your team info into a ready-to-edit application draft for any grant on this list — then flags what still needs your input.</p>
+      </div>
+      <a href="pro.html" class="pro-cta">See how Pro works →</a>
+    </div>
+  </section>
+
+  <section class="section-block" id="fundraising">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Fundraising ideas</h2>
+        <p>Restaurant givebacks, product sales, and other quick ways to raise cash outside of formal grant applications.</p>
+      </div>
+      <div class="simple-grid" id="fundraising-grid"></div>
+    </div>
+  </section>
+
+  <section class="section-block" id="resources">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Sponsorship &amp; fundraising resources</h2>
+        <p>Templates, guides, and packets other teams have shared — sponsorship packets, treasury handbooks, and fundraising toolkits.</p>
+      </div>
+      <div class="simple-grid" id="resources-grid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>FRC Grants — a community-maintained database for FIRST Robotics Competition teams.</span>
+    <span>Not affiliated with FIRST®. Always confirm eligibility and deadlines on the grantor's own site.</span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

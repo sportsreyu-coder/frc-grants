@@ -1,0 +1,1968 @@
+[
+  {
+    "id": "aauw",
+    "name": "AAUW",
+    "link": "https://aauw.fluxx.io/user_sessions/new",
+    "status": "closed",
+    "openDate": "August 17",
+    "closeDate": "September 17",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "A focus on incorporating women and STEM encouragement",
+    "tags": [
+      "501c3-required",
+      "demographics",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "abell-foundation",
+    "name": "Abell Foundation",
+    "link": "https://abell.org/grants/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Baltimore Area",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "actuonix",
+    "name": "Actuonix",
+    "link": "https://www.actuonix.com/first-robotics",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "aiaa",
+    "name": "AiAA",
+    "link": "https://aiaa.org/get-involved/educators/Classroom-Grants/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Must be k-12 Teacher and a AiAA Member",
+    "tags": [
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "akamai-foundation",
+    "name": "Akamai Foundation",
+    "link": "https://www.akamai.com/company/corporate-responsibility/akamai-foundation",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "american-honda-foundation",
+    "name": "American Honda Foundation",
+    "link": "https://www.cybergrants.com/pls/cybergrants/quiz.display_question?x_gm_id=2587&x_quiz_id=1338&x_order_by=1",
+    "status": "open",
+    "openDate": "February 1",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "Not sure if different from the Honda Grant",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "arconic-foundation",
+    "name": "Arconic Foundation",
+    "link": "https://usfirst.submittable.com/submit/6712a108-bfe6-4fc9-85a3-dd4d76a7b45c/2025-2026-arconic-foundation-grant-application",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "October 31",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "In select counties only",
+    "tags": [
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "at-t",
+    "name": "AT&T",
+    "link": "https://giving.att.com/Account/login.aspx?ReturnUrl=%2f",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Invitation Only (Usuaully means having an employee helping out)",
+    "tags": [
+      "corporate-employee",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "bae-grant",
+    "name": "BAE Grant",
+    "link": "https://www.baesystems.com/en-us/partnership/community-investment/community-investment-partners/first/first-team-grants-application",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "September 13",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "FLL/FTC grant closes July 8th. Will prioritize teams with a BAE mentor or within 70 miles of a BAE location",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "bank-of-america",
+    "name": "Bank of America",
+    "link": "https://about.bankofamerica.com/en/making-an-impact/grant-funding-for-nonprofits-sponsorship-programs",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "bauch",
+    "name": "Bauch",
+    "link": "https://www.bauschfoundation.org/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "benjamin-moore",
+    "name": "Benjamin Moore",
+    "link": "https://www.benjaminmoore.com/en-us/donation-request",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "bloomingdales",
+    "name": "Bloomingdales",
+    "link": "https://www.bloomingdales.com/c/b-the-change/corporate-grants/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "bmw",
+    "name": "BMW",
+    "link": "https://www.bmwgroup-werke.com/spartanburg/en/our-plant/corporate-sponsorship.html",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "South Carolina Only",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "boeing-first-grant",
+    "name": "Boeing FIRST Grant",
+    "link": "https://usfirst.submittable.com/submit/ae2c8982-1d7f-490f-81a1-b2e4216cda65/boeing-team-grant-application-2025-2026",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "November 14",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "corporate-employee"
+    ]
+  },
+  {
+    "id": "brown-rudnick-center",
+    "name": "Brown Rudnick Center",
+    "link": "https://brownrudnickcenter.com/foundation/community-grants/community-grant-application/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "nderserved communities in Boston, Hartford, New York, Washington, D.C., Orange County or London",
+    "tags": [
+      "currently-open",
+      "demographics",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "canon-usa",
+    "name": "Canon USA",
+    "link": "https://canonusa.allegiancetech.com/cgi-bin/qwebcorporate.dll?9JXBU6",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "cisco",
+    "name": "Cisco",
+    "link": "https://www.cisco.com/site/us/en/about/purpose/social-impact/investments/global-impact-cash-grants.html#~eligibility-requirements",
+    "status": "open",
+    "openDate": "2026?",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "coca-cola",
+    "name": "Coca-Cola",
+    "link": "https://coca-cola.smartsimple.com/s_Login.jsp",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "corporate-employee",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "con-edison",
+    "name": "Con Edison",
+    "link": "https://www.coned.com/en/community-affairs/strategic-partnerships/apply-for-a-grant",
+    "status": "closed",
+    "openDate": "January 1",
+    "closeDate": "April 30",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "NYC/Westchester Only",
+    "tags": [
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "costco",
+    "name": "Costco",
+    "link": "https://www.costco.com/charitable-giving-faq.html",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "daniels-fund",
+    "name": "Daniels Fund",
+    "link": "https://danielsfund.org/our-work/grants/#4state",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Wyoming, Colorado, Utah, and New Mexico",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "dodstem",
+    "name": "DoDStem",
+    "link": "https://dodstem.us/first/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "June 13",
+    "employeeConnection": "yes",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Must have DoD or DoDEA mentor or coach",
+    "tags": [
+      "corporate-employee",
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "dow",
+    "name": "Dow",
+    "link": "https://corporate.dow.com/en-us/about/partnerships/citizenship/tomorrows-innovators/first-robotics.html",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "June 30",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "FIRST Come FIRST Serve, Teams without a Dow Mentor won't be viewed until June 23rd",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "dow-international-team-grant",
+    "name": "Dow International Team Grant",
+    "link": "https://usfirst.submittable.com/submit/f09630e0-7687-476e-89d7-a589acdb53a3/2025-2026-dow-frc-international-team-grant",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "September 30",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Only for international teams",
+    "tags": [
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "dr-scholl-foundation",
+    "name": "Dr. Scholl Foundation",
+    "link": "https://www.drschollfoundation.com/application-procedures/preferences-limitations/",
+    "status": "closed",
+    "openDate": "Janurary 1",
+    "closeDate": "January 31",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required"
+    ]
+  },
+  {
+    "id": "ecolab",
+    "name": "Ecolab",
+    "link": "https://www.ecolab.com/corporate-responsibility/social/community-involvement",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "August 11",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "St Paul is main, other locations include: Beloit, City of Industry, CA, Clearing, IL (southwest Chicago), Elk Grove Village, IL, Ellwood City, PA,  Garland, TX, Garyville, LA, Greensboro, NC,  Huntington, IN, Irving / Fort Worth, TX, Jacksonville, FL, Joliet, IL, Martinsburg, WV, McDonough, GA, Naperville, IL, Sugar Land / Fresno, TX (Fort Bend County only)",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "emc-insurance",
+    "name": "EMC Insurance",
+    "link": "https://www.emcinsurance.com/aboutemc/community-involvement",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "eversource",
+    "name": "Eversource",
+    "link": "https://www.eversource.com/content/residential/about/community/supporting-the-community/charitable-contributions-volunteerism",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Must be in service area (New England)",
+    "tags": [
+      "501c3-required",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "fabworks",
+    "name": "Fabworks",
+    "link": "https://www.fabworks.com/resources/partnerships/sponsorshipinfo",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "fikret-y-ksel-foundation",
+    "name": "Fikret Y\u00fcksel Foundation",
+    "link": "https://www.frcturkiye.org/2026hibebasvuru",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "November 15",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "first-grant-submittables",
+    "name": "FIRST Grant Submittables",
+    "link": "https://usfirst.submittable.com/submit",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "Where various grant applications appear like rockwell",
+    "tags": []
+  },
+  {
+    "id": "first-in-texas-grant",
+    "name": "FIRST in Texas Grant",
+    "link": "https://firstintexas.org/team-grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Texas only",
+    "tags": [
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "fnc-bank",
+    "name": "FNC Bank",
+    "link": "https://www.fnc.bank/resources/about-us/grant-program",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "St. Croix, Polk, or Pierce counties",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "ford",
+    "name": "Ford",
+    "link": "https://www.fordphilanthropy.org/deed",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "corporate-employee"
+    ]
+  },
+  {
+    "id": "ford-foundation",
+    "name": "Ford Foundation",
+    "link": "https://www.fordfoundation.org/about/about-the-ford-foundation/new-york-city-good-neighbor-committee/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "NYC",
+    "tags": [
+      "501c3-required",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "frc-tees",
+    "name": "FRC Tees",
+    "link": "https://frctees.com/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "TBD",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Cash Credit is Restricted to Hoodies, Jerseys, and Jackets. All items are priced far lower then other services out there. More info about us at our website, and on https://www.chiefdelphi.com/t/frctees-2025-2026-updates-and-info/505172 contact: beckett@frctees.com",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "geico",
+    "name": "Geico",
+    "link": "https://www.geico.com/philanthropic-foundation/",
+    "status": "closed",
+    "openDate": "October 1",
+    "closeDate": "December 31",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required"
+    ]
+  },
+  {
+    "id": "gene-haas",
+    "name": "Gene Haas",
+    "link": "https://webportalapp.com/sp/login/ghf_first_sae_competitions",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "school-or-501c3",
+    "notes": "OPEN FOR 2027 Applications after September 1st will recieve funding in January",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "general-dynamics-nassco",
+    "name": "General Dynamics NASSCO",
+    "link": "https://nassco.com/about-us/charitable-contributions/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Will not support requests for school trips or athletic or recreational tours.",
+    "tags": [
+      "501c3-required",
+      "corporate-employee",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "glenn-w-bailey-foundation",
+    "name": "Glenn W Bailey Foundation",
+    "link": "https://www.gwbaileyfoundation.org/faqs",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "gm",
+    "name": "GM",
+    "link": "https://www.gm.com/impact/corporate-giving",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "Available annually for sponsorship to teams with affiliated GM employees, can be a parent mentor etc. It's an internal thing so I unfortunately don't have a link to share but for anyone who works at GM and wants to know how to get sponsorship for their FRC team go to the GM FIRST Alliance Yammer page. The sponsorship covers one regional registration fee (idk how they cover districts), and if you qualify for world's you notify them ASAP and if funds are available they'll cover the registration fee for world's.",
+    "tags": [
+      "corporate-employee",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "grants-gov",
+    "name": "Grants.gov",
+    "link": "https://www.grants.gov/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "Database of Government Grants",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "hall-family-foundation",
+    "name": "Hall Family Foundation",
+    "link": "https://www.hallfamilyfoundation.org/overview/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Kansas City",
+    "tags": [
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "harbor-freight",
+    "name": "Harbor Freight",
+    "link": "https://harborfreightgivingback.com/donation-request-information/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "US only",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "hershey",
+    "name": "Hershey",
+    "link": "https://forms.donationx.org/form/4762f381-bf89-4d95-9e33-66c75633f0fe",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open"
+    ]
+  },
+  {
+    "id": "honda",
+    "name": "Honda",
+    "link": "https://csr.honda.com/longform-content/honda-usa-foundation-funding/",
+    "status": "closed",
+    "openDate": "October 1",
+    "closeDate": "October 31",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "US Only (seperate page for Canada), only available in select states",
+    "tags": [
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "idaho-national-labratory",
+    "name": "Idaho National Labratory",
+    "link": "https://inl.gov/community-engagement/community-grants/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Idaho",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "indiana-first-grants",
+    "name": "Indiana FIRST Grants",
+    "link": "https://indianafirst.submittable.com/submit/257192/2023-2024-first-indiana-robotics-grant-application/eligibility",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Only in Indiana",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "indiana-toyota-grant",
+    "name": "Indiana Toyota Grant",
+    "link": "https://www.firstindianarobotics.org/toyota-grant/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Only in Indiana",
+    "tags": [
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "intuitive-grant",
+    "name": "Intuitive grant",
+    "link": "https://www.intuitive-foundation.org/first-robotics/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "August 14",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "investors-foundation",
+    "name": "Investors Foundation",
+    "link": "https://investorsfoundation.org/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "New Jersey, NYC, Long Island Only",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "jb-hunt",
+    "name": "JB Hunt",
+    "link": "https://www.jbhunt.com/our-company/esg/social-responsibility/company-giving",
+    "status": "open",
+    "openDate": "December",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "john-deere",
+    "name": "John Deere",
+    "link": "https://johndeerefirst.submittable.com/submit",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "December 25",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "40 miles of a John Deere Inspire location. Having a mentor helps if you don't meet all eligibility requirements  For a list of locations",
+    "tags": [
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "johnson-controls",
+    "name": "Johnson Controls",
+    "link": "https://www.johnsoncontrols.com/corporate-sustainability/social/philanthropy/funding-guidelines",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "sustainability"
+    ]
+  },
+  {
+    "id": "kars4kids",
+    "name": "Kars4Kids",
+    "link": "https://www.kars4kidsgrants.org/#apply",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "kgmiaa-kettering",
+    "name": "KGMIAA (Kettering)",
+    "link": "https://www.kettering.edu/robotics/kgmiaa-sponsorships",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "last-anvil",
+    "name": "Last Anvil",
+    "link": "https://forms.gle/tUcnU7ZJR987Qg5T6",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "August 14",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "lockheed-martin",
+    "name": "Lockheed Martin",
+    "link": "https://www.lockheedmartin.com/en-us/who-we-are/communities/applying-for-contributions.html",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "corporate-employee",
+      "currently-open"
+    ]
+  },
+  {
+    "id": "m-j-murdock",
+    "name": "M.J. Murdock",
+    "link": "https://mjmurdockcharitabletrust.submittable.com/submit",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Alaska, Idaho, Montana, Oregon, and Washington",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "makers-making-change",
+    "name": "Makers Making Change",
+    "link": "https://www.makersmakingchange.com/clubs-that-care",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Canada only",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "max-and-victoria-dreyfus-foundation",
+    "name": "Max and Victoria Dreyfus Foundation",
+    "link": "https://www.mvdreyfusfoundation.org/application-guidelines",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "May 11th- November 10th is a new round",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "mccarthey-dressman-education-foundation",
+    "name": "McCarthey Dressman Education Foundation",
+    "link": "https://mccartheydressman.org/academic-enrichment-grants/",
+    "status": "closed",
+    "openDate": "January 15",
+    "closeDate": "April 15",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "meta",
+    "name": "Meta",
+    "link": "https://datacenters.atmeta.com/community-action-grants/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "michael-and-susan-dell-foundation",
+    "name": "Michael and Susan Dell Foundation",
+    "link": "https://www.dell.org/how-we-fund/apply/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "midco",
+    "name": "Midco",
+    "link": "https://midco.com/about/midco-foundation/grant-application-form/",
+    "status": "open",
+    "openDate": "January 5",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Must be in Midco Service area ( WI, MN, ND, SD, KS)",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "molex",
+    "name": "Molex",
+    "link": "https://www.molex.com/en-us/experience/first-robotics#tabs-88b58838a8-item-3a55c6053a-tab",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "motorola-solutions",
+    "name": "Motorola Solutions",
+    "link": "https://www.motorolasolutions.com/en_us/about/motorola-solutions-foundation/annual-grants.html",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "January 22",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "corporate-employee"
+    ]
+  },
+  {
+    "id": "msc",
+    "name": "Msc",
+    "link": "https://www.mscdirect.com/corporate/community-relations-partners",
+    "status": "closed",
+    "openDate": "March 1",
+    "closeDate": "May 31",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "Form says 2023",
+    "tags": [
+      "501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "msoe",
+    "name": "MSOE",
+    "link": "https://www.msoe.edu/about-msoe/k-12-stem-at-msoe/first-frc-ftc-amp-fll-team-sponsorship/",
+    "status": "closed",
+    "openDate": "September 6",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "nasa",
+    "name": "NASA",
+    "link": "https://robotics.nasa.gov/category/nasa-grants/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "September 30",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "No veteran grants at this time but rookie and Year-Two teams can apply",
+    "tags": [
+      "geo-restricted",
+      "no-501c3-required",
+      "rookie-friendly"
+    ]
+  },
+  {
+    "id": "national-fuel",
+    "name": "National Fuel",
+    "link": "https://www.nationalfuel.com/corporate/grant-application/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Only in regions of NY and PA that National Fuel services",
+    "tags": [
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "nea-foundation",
+    "name": "NEA Foundation",
+    "link": "https://www.neafoundation.org/educator-grants-and-fellowships/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "September 15",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Must be a NEA member",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "ni",
+    "name": "NI",
+    "link": "https://www.ni.com/pdf/forms/us/grant-request-application.pdf",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "nikon",
+    "name": "Nikon",
+    "link": "https://nikon.tfaforms.net/179",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "US Only",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "nordstrom",
+    "name": "Nordstrom",
+    "link": "https://www.nordstrom.com/browse/nordstrom-cares/corporate-philanthropy/corporate-grant",
+    "status": "closed",
+    "openDate": "October 1",
+    "closeDate": "October 31",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "North America Only",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "northrop-grumman",
+    "name": "Northrop Grumman",
+    "link": "https://www.northropgrumman.com/corporate-responsibility/corporate-citizenship/corporate-contributions-guidelines",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "501c3-required",
+      "corporate-employee",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "online-metals",
+    "name": "Online Metals",
+    "link": "https://www.onlinemetals.com/en/sponsorships",
+    "status": "closed",
+    "openDate": "September 3",
+    "closeDate": "September 15",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "optimum",
+    "name": "Optimum",
+    "link": "https://form.jotform.com/260825245242049",
+    "status": "closed",
+    "openDate": "April 1",
+    "closeDate": "April 24",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Be in areas that Optimum Services",
+    "tags": [
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "pershing-square-foundation",
+    "name": "Pershing Square Foundation",
+    "link": "https://prizeapplication.smapply.io/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Greater NYC Area",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "pitsco",
+    "name": "Pitsco",
+    "link": "https://go.pitsco.com/pitsco-team-grant",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "Gift card once a year",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "polymaker",
+    "name": "Polymaker",
+    "link": "https://forms.office.com/pages/responsepage.aspx?id=BQyYUx-4Y0OJy1d0sa6vLf4cA9HisHhMnUoYz-FLLSVUNFZJVlRNWVBaSjJKTkdZUFc5MzNIN1JLUiQlQCN0PWcu",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Requires using only Polymaker Filament",
+    "tags": [
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "ptc",
+    "name": "PTC",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLScVmjnd6srr86qa9V5zz70Jsy0Plm2rBlqaYLlZ1uj59fxPOA/formResponse",
+    "status": "open",
+    "openDate": "July 10",
+    "closeDate": "September 27",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "FTC Closes August 24",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "raytheon",
+    "name": "Raytheon",
+    "link": "https://rtx.sandbox.versaic.com/login",
+    "status": "closed",
+    "openDate": "June 1",
+    "closeDate": "August 2",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required"
+    ]
+  },
+  {
+    "id": "regeneron",
+    "name": "Regeneron",
+    "link": "https://regeneron.versaic.com/login",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "501c3-required",
+      "corporate-employee",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "reiman-foundation",
+    "name": "Reiman Foundation",
+    "link": "https://www.reimanfoundation.org/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "rev-robotics",
+    "name": "Rev Robotics",
+    "link": "https://www.revrobotics.com/team-sponsorship/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "FTC available too",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "robonauts-everybot-sustainability-grant",
+    "name": "Robonauts Everybot Sustainability Grant",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLSeoq1iYie-3XI3iEGbnIMfC1sfUtwYW7UpylmU9xgtRZ-PHIQ/viewform",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "October 17",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Must be 1st or 2nd year team",
+    "tags": [
+      "geo-restricted",
+      "rookie-friendly",
+      "school-or-501c3",
+      "sustainability"
+    ]
+  },
+  {
+    "id": "rockland-trust",
+    "name": "Rockland Trust",
+    "link": "https://www.rocklandtrust.com/about-us/explore/charitable-giving",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "New England Area",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "rockwell-automation",
+    "name": "Rockwell Automation",
+    "link": "https://www.rockwellautomation.com/en-us/company/news/articles/giving-guidelines.html",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "corporate-employee",
+      "currently-open"
+    ]
+  },
+  {
+    "id": "rural-technology-fund",
+    "name": "Rural Technology Fund",
+    "link": "https://ruraltechfund.org/apply-for-grants/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "saint-gobain-corporation-foundation",
+    "name": "Saint-Gobain Corporation Foundation",
+    "link": "https://www.saint-gobain-northamerica.com/company/corporate-social-responsibility/our-foundation/direct-grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "samsung-solve-for-tomorrow",
+    "name": "Samsung Solve For Tomorrow",
+    "link": "https://www.samsung.com/us/solvefortomorrow/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "samsung-south-carolina",
+    "name": "Samsung South Carolina",
+    "link": "https://www.samsungscrequests.com/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "South Carolina only",
+    "tags": [
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "sc-johnson",
+    "name": "SC Johnson",
+    "link": "https://scjohnson.com/en/community/grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "required",
+    "notes": "Open to international",
+    "tags": [
+      "501c3-required",
+      "currently-open"
+    ]
+  },
+  {
+    "id": "science-education-foundation-general-atomics",
+    "name": "Science Education Foundation General Atomics",
+    "link": "https://www.sci-ed-ga.org/funding",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "San Diego County",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "siemens",
+    "name": "Siemens",
+    "link": "https://solidedge.siemens.com/en/firstrobotics/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": [
+      "corporate-employee"
+    ]
+  },
+  {
+    "id": "society-for-science",
+    "name": "Society for Science",
+    "link": "https://www.societyforscience.org/outreach-and-equity/stem-action-grants/",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "February 15",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "sony",
+    "name": "Sony",
+    "link": "https://www.sony.com/en_us/SCA/social-responsibility/giving-guidelines.html",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "US only",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "state-farm",
+    "name": "State Farm",
+    "link": "https://www.statefarm.com/about-us/corporate-responsibility/community-grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "corporate-employee",
+      "currently-open",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "stemify-grants",
+    "name": "Stemify Grants",
+    "link": "https://stemfinity.com/pages/stem-grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "1000s of grants for states and nationally",
+    "tags": [
+      "currently-open"
+    ]
+  },
+  {
+    "id": "swyft",
+    "name": "Swyft",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLSedhF8yWVuGr7cs_WAJX5iRHuY3cKmCZF7WiCj9PEFC-vMA-g/viewform",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "January 17",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "FTC Applications close September 13th",
+    "tags": [
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "target",
+    "name": "Target",
+    "link": "https://corporate.target.com/about/purpose-history/communities/grants-corporate-giving/community-engagement-funds",
+    "status": "open",
+    "openDate": "August 3",
+    "closeDate": "September 3",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "td-bank",
+    "name": "TD Bank",
+    "link": "https://www.td.com/us/en/about-us/communities/ready-commitment/funding-opportunities/community-sponsorships",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "te-connectivity",
+    "name": "TE Connectivity",
+    "link": "https://www.te.com/en/about-te/corporate-responsibility/request-funding.html",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "no",
+    "require501c3": "required",
+    "notes": "",
+    "tags": [
+      "501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "team-foundation",
+    "name": "Team Foundation",
+    "link": "https://team-foundation.org/grant-application/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Minnesota only",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "the-standard",
+    "name": "The Standard",
+    "link": "https://www.standard.com/get-to-know-standard/community-impact/apply-funds",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "US Only",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "toshiba",
+    "name": "Toshiba",
+    "link": "https://www.toshiba.com/taf/612.jsp",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "not-required",
+    "notes": "Foe 6-12 teachers",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "toyota",
+    "name": "Toyota",
+    "link": "https://toyotaeffect.com/grant-seekers/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Alabama, Illinois, Indiana, Kentucky, Mississippi, Missouri, North Carolina, Tennessee, Texas, West Virginia",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "union-pacific-grant",
+    "name": "Union Pacific Grant",
+    "link": "https://www.up.com/aboutup/community/foundation-backup/grant-program/criteria-eligibility/index.htm",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Must be located in a community that is served by Union Pacific",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "united-therapeutics",
+    "name": "United Therapeutics",
+    "link": "https://www.utcrequests.com/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "verizon",
+    "name": "Verizon",
+    "link": "https://www.verizon.com/about/responsibility/giving-and-grants",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "yes",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "Retired employees can apply",
+    "tags": [
+      "corporate-employee",
+      "currently-open"
+    ]
+  },
+  {
+    "id": "viasat",
+    "name": "Viasat",
+    "link": "https://www.viasat.com/about/sustainability-impact/corporate-giving/request-form/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "school-or-501c3",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "school-or-501c3",
+      "sustainability"
+    ]
+  },
+  {
+    "id": "w-k-kellog-foundation",
+    "name": "W.K Kellog Foundation",
+    "link": "https://www.wkkf.org/grantseekers/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Michigan, Mississippi, New Mexico and New Orleans",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "walmart",
+    "name": "Walmart",
+    "link": "https://walmart.org/how-we-give/program-guidelines/spark-good-local-grants-guidelines",
+    "status": "open",
+    "openDate": "August 1st",
+    "closeDate": "November 30",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "school-or-501c3",
+    "notes": "Multiple application windows - March 1st - July 15th, August 1st - October 15th, November 1st - December 31st",
+    "tags": [
+      "currently-open",
+      "no-geo-restrictions",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "weinberg-foundation",
+    "name": "Weinberg Foundation",
+    "link": "https://hjweinbergfoundation.org/grants/how-we-give/",
+    "status": "unsure",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Israel,Baltimore, Northeastern Pennsylvania, New York City, San Francisco, or Hawai\u02bbi",
+    "tags": [
+      "501c3-required",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "wells-fargo",
+    "name": "Wells Fargo",
+    "link": "https://www.wellsfargo.com/about/corporate-responsibility/community-giving/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Invitation Only (Usuaully means having an employee)",
+    "tags": [
+      "corporate-employee",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "west-coast-products",
+    "name": "West Coast Products",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLSe_fzw8ibjy3R6eqfpCE28nIMK5MEzE-aw3E2OyAQs1v65hLg/viewform",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "October 31",
+    "employeeConnection": "no",
+    "geoRestricted": "unsure",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "currently-open",
+      "no-501c3-required"
+    ]
+  },
+  {
+    "id": "westinghouse",
+    "name": "Westinghouse",
+    "link": "https://westinghousenuclear.com/About/Community-and-Education/Charitable-Giving-Program/Program-Details-and-Application-Process",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "yes",
+    "require501c3": "required",
+    "notes": "Within 50 miles from their locations",
+    "tags": [
+      "501c3-required",
+      "currently-open",
+      "geo-restricted"
+    ]
+  },
+  {
+    "id": "wolfspeed-grant",
+    "name": "Wolfspeed Grant",
+    "link": "https://usfirst.submittable.com/submit/310267/2025-wolfspeed-grant-application",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "unsure",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "",
+    "tags": [
+      "no-501c3-required",
+      "no-geo-restrictions"
+    ]
+  },
+  {
+    "id": "yawkey-foundation",
+    "name": "Yawkey Foundation",
+    "link": "https://yawkeyfoundation.org/giving-process/guidelines-eligibility/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "school-or-501c3",
+    "notes": "Eastern Massachussetts and Georgetown County South Carolina",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "school-or-501c3"
+    ]
+  },
+  {
+    "id": "zendesk-foundation",
+    "name": "Zendesk Foundation",
+    "link": "https://techforgood.zendesk.com/hc/en-us",
+    "status": "closed",
+    "openDate": "",
+    "closeDate": "July 15",
+    "employeeConnection": "unsure",
+    "geoRestricted": "unsure",
+    "require501c3": "unsure",
+    "notes": "",
+    "tags": []
+  }
+]

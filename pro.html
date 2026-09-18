@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRC Grants Pro — Drafted grant applications</title>
+<meta name="description" content="FRC Grants Pro drafts your grant applications for you: upload your team info once, and get an editable first draft for any grant on the list.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">FR</span>
+      <span>FRC Grants<small>Grant &amp; Sponsorship Finder</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Find Grants</a>
+      <a href="index.html#fundraising">Fundraising</a>
+      <a href="index.html#resources">Resources</a>
+      <a href="pro.html" class="nav-pro active">Go Pro →</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="pro-hero wrap">
+    <span class="eyebrow">Coming soon</span>
+    <h1>Let the assistant write your first draft.</h1>
+    <p class="lead">Upload your team's info once. FRC Grants Pro's chatbot drafts the application for any grant in the database, asks you for anything it's missing, and hands back an editable draft with unfinished sections clearly flagged.</p>
+
+    <div class="price-tag"><b id="pro-price">$—</b><span>/ team / season</span></div>
+    <p class="price-note">Priced to cover chatbot usage — not a profit center. Final price confirmed before launch.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Create a team account</h3>
+        <p>Sign up with your team or organization email so your info and drafts are saved between sessions.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Upload your documents</h3>
+        <p>Proof of team registration, a PDF with your budget &amp; season plan, and proof of 501(c)(3) status (or your school affiliation) if applicable.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Pick a grant &amp; chat</h3>
+        <p>Choose any grant from the database. The assistant asks follow-up questions only when it needs specifics that aren't in your documents.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Get your first draft</h3>
+        <p>Receive a complete draft application with any unfinished or uncertain sections clearly marked, ready for your team to review and finish.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="chat-mock">
+      <div class="cm-head"><span class="cm-dot"></span> Grant Draft Assistant · Sample</div>
+      <div class="bubble user">We're applying to the Costco Foundation grant. Here's our budget PDF and registration proof.</div>
+      <div class="bubble bot">Got it — Team 4152, rookie season, $6,200 requested. Your budget doesn't break out a shipping/travel line. What's your estimated regional travel cost?</div>
+      <div class="bubble user">About $1,400 for one regional.</div>
+      <div class="bubble draft">Draft ready: Costco Foundation application, Section 1–4 complete.
+        <span class="flag">Flagged: community impact statement needs your input</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="compare">
+      <div class="plan-card">
+        <h3>Free</h3>
+        <div class="plan-price">$0<span> forever</span></div>
+        <ul>
+          <li>Full searchable grant &amp; sponsorship database</li>
+          <li>Eligibility Finder filters</li>
+          <li>Fundraising ideas &amp; resource library</li>
+          <li>Manual applications, as always</li>
+        </ul>
+      </div>
+      <div class="plan-card highlight">
+        <h3>Pro</h3>
+        <div class="plan-price" id="plan-pro-price">$—<span> / season</span></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Team account with saved documents</li>
+          <li>AI-drafted applications for any grant</li>
+          <li>Unfinished sections flagged for you</li>
+          <li>Draft history per grant</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="signup-panel">
+      <h3>Join the waitlist</h3>
+      <p class="small">Pro isn't live yet — we're setting up accounts and the drafting assistant. Leave your info and we'll email your team when it opens.</p>
+      <form id="waitlist-form">
+        <div class="field">
+          <label for="team-number">Team number &amp; name</label>
+          <input type="text" id="team-number" placeholder="e.g. 4152 — RoboCats" required>
+        </div>
+        <div class="field">
+          <label for="team-email">Team or mentor email</label>
+          <input type="email" id="team-email" placeholder="you@yourteam.org" required>
+        </div>
+        <button type="submit" class="submit-btn">Notify my team</button>
+        <p class="form-note">We'll only use this to email you about Pro launching. No account or payment is created yet.</p>
+      </form>
+      <div class="form-success" id="form-success">Thanks — we'll email you when Pro is ready.</div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>FRC Grants — a community-maintained database for FIRST Robotics Competition teams.</span>
+    <span>Not affiliated with FIRST®.</span>
+  </div>
+</footer>
+
+<script src="js/pro.js" defer></script>
+</body>
+</html>
