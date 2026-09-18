@@ -1,5 +1,22 @@
 [
   {
+    "id": "3m-grant",
+    "name": "3M Grant",
+    "link": "https://usfirst.submittable.com/submit/367876/2026-2027-3m-grant-application",
+    "status": "open",
+    "openDate": "September 17",
+    "closeDate": "October 17",
+    "employeeConnection": "yes",
+    "geoRestricted": "no",
+    "require501c3": "unsure",
+    "notes": "Only teams with a 3M employee mentor may apply. US, Mexico, and Canada eligible.",
+    "tags": [
+      "corporate-employee",
+      "currently-open",
+      "no-geo-restrictions"
+    ]
+  },
+  {
     "id": "aauw",
     "name": "AAUW",
     "link": "https://aauw.fluxx.io/user_sessions/new",
@@ -108,6 +125,23 @@
     "tags": [
       "geo-restricted",
       "no-501c3-required"
+    ]
+  },
+  {
+    "id": "argosy-new-team-grant",
+    "name": "Argosy New Team Grant",
+    "link": "https://cafirst.org/grants/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "October 12",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "$3,000 for new FRC teams starting in the 2026-2027 season. California only -- apply by contacting your Regional Director.",
+    "tags": [
+      "currently-open",
+      "geo-restricted",
+      "rookie-friendly"
     ]
   },
   {
@@ -239,6 +273,23 @@
     ]
   },
   {
+    "id": "boston-scientific-frc-grant",
+    "name": "Boston Scientific FRC Grant",
+    "link": "https://usfirst.submittable.com/submit/a73801b4-1d46-4fbe-8f72-de268526e0cf/2026-2027-boston-scientific-frc-grant-application",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "September 30",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "Within 60 miles of a Boston Scientific location in CA, IN, MA, or MN. Prioritizes schools/communities with economic need.",
+    "tags": [
+      "currently-open",
+      "demographics",
+      "geo-restricted"
+    ]
+  },
+  {
     "id": "brown-rudnick-center",
     "name": "Brown Rudnick Center",
     "link": "https://brownrudnickcenter.com/foundation/community-grants/community-grant-application/",
@@ -354,6 +405,24 @@
       "501c3-required",
       "currently-open",
       "geo-restricted"
+    ]
+  },
+  {
+    "id": "digital-citizen-fund-rookie-team-grant",
+    "name": "Digital Citizen Fund Rookie Team Grant",
+    "link": "https://forms.monday.com/forms/88d6872f000e6134ee4671f373a17d45?r=use1",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "yes",
+    "require501c3": "unsure",
+    "notes": "For US-based rookie teams with all or majority-female membership. Up to five $5,000 grants across the 2025-26 and 2026-27 seasons.",
+    "tags": [
+      "currently-open",
+      "demographics",
+      "geo-restricted",
+      "rookie-friendly"
     ]
   },
   {
@@ -1232,6 +1301,24 @@
       "corporate-employee",
       "currently-open",
       "geo-restricted"
+    ]
+  },
+  {
+    "id": "novelis-and-ball-first-robotics-alliance",
+    "name": "Novelis and Ball FIRST Robotics Alliance",
+    "link": "https://novelis.com/the-novelis-and-ball-first-robotics-alliance/first-grant/",
+    "status": "open",
+    "openDate": "",
+    "closeDate": "",
+    "employeeConnection": "no",
+    "geoRestricted": "no",
+    "require501c3": "not-required",
+    "notes": "Global FRC teams commit to building a sustainability-themed robot ('CanBot'), aluminum can collection, and monthly recycling promotion September through April, plus Novelis/Ball branding.",
+    "tags": [
+      "currently-open",
+      "no-501c3-required",
+      "no-geo-restrictions",
+      "sustainability"
     ]
   },
   {
