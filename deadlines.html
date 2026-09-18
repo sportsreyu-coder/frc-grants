@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadlines — FRC Grants</title>
+<meta name="description" content="Every grant application deadline in the FRC Grants database, plus a recommended season timeline for sponsorship and fundraising work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">FR</span>
+      <span class="brand-name">FRC Grants</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html#grants">Find grants</a>
+      <a href="deadlines.html" class="active">Deadlines</a>
+      <a href="fundraising.html">Fundraising</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <a href="pro.html" class="nav-pro">Go Pro</a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main class="site-main">
+  <section class="page-head">
+    <h1>Deadlines</h1>
+    <p>Two kinds of dates: the actual application deadlines grantors set, and a suggested internal timeline for staying ahead of them.</p>
+  </section>
+
+  <section style="margin-top:44px;">
+    <div class="eyebrow">Grant deadlines — dates you must meet to apply</div>
+    <p style="margin:8px 0 20px; color:var(--text-dim); max-width:64ch;">Every grant in the database with a published close date, soonest first. Dates repeat annually unless the grantor says otherwise — always confirm on the grantor's own site.</p>
+    <div class="dates-table" id="all-dates-table"></div>
+  </section>
+
+  <section style="margin-top:64px;">
+    <div class="eyebrow">Recommended planning timeline — suggested, not required</div>
+    <p style="margin:8px 0 24px; color:var(--text-dim); max-width:64ch;">A general-purpose season calendar for sponsorship &amp; fundraising work, built from how most FRC teams pace this. Shift it to fit your own team's schedule.</p>
+
+    <div class="dates-table" id="recommended-table"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>FRC Grants — a community-maintained database for FIRST Robotics Competition teams.</span>
+    <span>Not affiliated with FIRST®. Always confirm eligibility and deadlines on the grantor's own site.</span>
+  </div>
+</footer>
+
+<script src="js/deadlines.js"></script>
+</body>
+</html>

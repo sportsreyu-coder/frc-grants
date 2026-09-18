@@ -248,9 +248,10 @@ main.site-main {
 
 .featured-top {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
+  gap: 14px 24px;
   margin-top: 10px;
 }
 
@@ -355,6 +356,7 @@ main.site-main {
 .pill-open { background: var(--green-bg); color: var(--green); }
 .pill-closed { background: var(--gray-bg); color: var(--gray-fg); }
 .pill-unsure { background: var(--amber-bg); color: var(--amber); }
+.pill-suggested { background: var(--accent-soft); color: var(--accent); }
 
 /* ---------- Eligibility finder ---------- */
 
@@ -962,5 +964,7 @@ main.site-main {
   .main-nav { display: none; }
   .nav-toggle { display: inline-flex; }
   .category-bar { flex-direction: column; align-items: flex-start; }
-  .dates-row { grid-template-columns: 1fr; gap: 4px; }
+  .dates-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .dates-row .dsub { white-space: normal; overflow: visible; text-overflow: clip; }
+  .dates-row .pill { justify-self: start; margin-top: 4px; }
 }
