@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRC Grants Pro — Team Account</title>
+<meta name="description" content="Create your FRC Grants Pro team account and upload your registration proof, budget plan, and tax-exempt documentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .account-wrap { max-width: 560px; margin: 0 auto; padding: 60px 24px 100px; }
+  .account-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; margin-bottom: 20px; }
+  .account-card h2 { margin: 0 0 6px; font-size: 1.2rem; }
+  .account-card p.small { margin: 0 0 20px; color: var(--text-faint); font-size: 0.85rem; }
+  .tab-switch { display: flex; gap: 8px; margin-bottom: 20px; }
+  .tab-switch button { flex: 1; background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); padding: 10px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+  .tab-switch button.active { background: var(--blue-dim); border-color: var(--blue); color: #cfe0ff; }
+  .error-msg { background: var(--red-dim); border: 1px solid rgba(255,99,99,0.4); color: #ffaeae; padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; margin-bottom: 14px; display: none; }
+  .info-msg { background: var(--green-dim); border: 1px solid rgba(55,201,143,0.4); color: #bdf3dc; padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; margin-bottom: 14px; display: none; }
+  .doc-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-soft); }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-row .doc-info b { display: block; font-size: 0.9rem; }
+  .doc-row .doc-info span { font-size: 0.78rem; color: var(--text-faint); }
+  .doc-status { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 9px; border-radius: 999px; }
+  .doc-status.uploaded { background: var(--green-dim); color: #7fe8bd; }
+  .doc-status.missing { background: #33395a; color: var(--text-dim); }
+  .file-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
+  .file-btn:hover { border-color: var(--blue); color: var(--text); }
+  .signout-row { text-align: right; margin-bottom: 10px; }
+  .signout-row button { background: none; border: none; color: var(--text-faint); font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
+  .config-warning { max-width: 560px; margin: 60px auto; padding: 24px; background: var(--red-dim); border: 1px solid rgba(255,99,99,0.4); border-radius: var(--radius); color: #ffcccc; font-size: 0.88rem; line-height: 1.6; }
+  .config-warning code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">FR</span>
+      <span>FRC Grants<small>Grant &amp; Sponsorship Finder</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Find Grants</a>
+      <a href="index.html#fundraising">Fundraising</a>
+      <a href="index.html#resources">Resources</a>
+      <a href="pro.html" class="nav-pro">Go Pro →</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <div id="config-warning" class="config-warning" hidden>
+    Supabase isn't configured yet. Add your project URL and anon key to
+    <code>js/supabase-config.js</code> and run <code>supabase/schema.sql</code>
+    in your project's SQL editor before accounts will work.
+  </div>
+
+  <div id="app" class="account-wrap" hidden>
+
+    <section id="auth-section">
+      <div class="account-card">
+        <div class="tab-switch">
+          <button id="tab-signin" class="active">Sign in</button>
+          <button id="tab-signup">Create account</button>
+        </div>
+        <div class="error-msg" id="auth-error"></div>
+        <div class="info-msg" id="auth-info"></div>
+        <form id="auth-form">
+          <div class="field">
+            <label for="auth-email">Team or mentor email</label>
+            <input type="email" id="auth-email" required placeholder="you@yourteam.org">
+          </div>
+          <div class="field">
+            <label for="auth-password">Password</label>
+            <input type="password" id="auth-password" required minlength="6" placeholder="At least 6 characters">
+          </div>
+          <button type="submit" class="submit-btn" id="auth-submit">Sign in</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="dashboard-section" hidden>
+      <div class="signout-row"><button id="signout-btn">Sign out</button></div>
+
+      <div class="account-card">
+        <h2>Team profile</h2>
+        <p class="small">This is attached to every draft and document your team submits.</p>
+        <div class="info-msg" id="profile-info"></div>
+        <form id="profile-form">
+          <div class="field">
+            <label for="team-number-input">Team number &amp; name</label>
+            <input type="text" id="team-number-input" placeholder="e.g. 4152 — RoboCats" required>
+          </div>
+          <div class="field">
+            <label for="contact-email-input">Best contact email</label>
+            <input type="email" id="contact-email-input" placeholder="you@yourteam.org" required>
+          </div>
+          <button type="submit" class="submit-btn">Save profile</button>
+        </form>
+      </div>
+
+      <div class="account-card">
+        <h2>Required documents</h2>
+        <p class="small">Upload these once — they'll be reused whenever a draft is generated for a grant. PDF, JPG, or PNG, up to 10MB each.</p>
+        <div id="doc-list"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>FRC Grants — a community-maintained database for FIRST Robotics Competition teams.</span>
+    <span>Not affiliated with FIRST®.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/account.js" defer></script>
+</body>
+</html>
