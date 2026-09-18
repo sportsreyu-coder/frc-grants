@@ -230,15 +230,37 @@
     ]);
   }
 
+  function resultsText(sorted) {
+    if (!grants.length) return "Loading grant data…";
+
+    var total = grants.length;
+    var base;
+    if (sorted.length === total) {
+      base = "Showing all " + total + " grants";
+    } else if (sorted.length === 0) {
+      base = "None of the " + total + " grants fit those requirements";
+    } else {
+      base = "Showing " + sorted.length + " of " + total + " grants you're eligible for";
+    }
+
+    if (state.boosts.size > 0 && sorted.length > 0) {
+      var boostedCount = sorted.filter(isBoosted).length;
+      if (boostedCount > 0) {
+        base += " — " + boostedCount + (boostedCount === 1 ? " is" : " are") + " a great fit for you";
+      } else {
+        base += " — none stand out as an especially strong fit, but you can still apply to any of them";
+      }
+    }
+    return base;
+  }
+
   function render() {
     var filtered = grants.filter(matchesGrant);
     var sorted = sortGrants(filtered);
     var grid = document.getElementById("grant-grid");
     grid.innerHTML = "";
 
-    document.getElementById("results-count").textContent = grants.length
-      ? sorted.length + (sorted.length === 1 ? " grant matches" : " grants match") + " your filters"
-      : "Loading grant data…";
+    document.getElementById("results-count").textContent = resultsText(sorted);
 
     if (sorted.length === 0 && grants.length > 0) {
       grid.appendChild(el("div", { class: "empty-state" }, [
