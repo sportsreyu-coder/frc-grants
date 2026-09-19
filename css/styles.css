@@ -815,6 +815,142 @@ main.site-main {
   font-size: 14px;
 }
 
+/* ---------- Season Tracker ---------- */
+
+.pace-card { margin-top: 32px; }
+
+.pace-box, .pace-neutral {
+  border-radius: 16px;
+  padding: 28px 30px;
+  border: 1px solid var(--border);
+}
+
+.pace-neutral { background: var(--bg-card); }
+.pace-neutral p { margin: 8px 0 0; color: var(--text-faint); }
+
+.pace-box.pace-ahead { background: var(--green-bg); border-color: rgba(14,124,93,0.3); }
+.pace-box.pace-behind { background: #fbe9e7; border-color: #f0b8ae; }
+.pace-box.pace-even { background: var(--accent-soft); border-color: #cddcf5; }
+
+.pace-eyebrow {
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+
+.pace-headline {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.pace-box p, .pace-neutral p { margin: 10px 0 0; color: var(--text-dim); font-size: 14.5px; }
+
+.season-progress { margin-top: 28px; }
+
+.season-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.phase-section { margin-top: 44px; }
+
+.phase-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.phase-head h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+}
+
+.phase-count {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.milestone-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  cursor: pointer;
+}
+
+.milestone-row:hover { border-color: var(--border-strong); }
+
+.milestone-row input[type="checkbox"] {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.ms-body { flex: 1; min-width: 0; }
+
+.ms-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ms-label { font-weight: 600; font-size: 15px; color: var(--text); }
+
+.ms-detail { margin: 6px 0 0; color: var(--text-faint); font-size: 13.5px; }
+
+.ms-date {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.ms-done { background: var(--green-bg); color: var(--green); }
+.ms-overdue { background: #fbe9e7; color: #a3391f; }
+.ms-upcoming { background: var(--gray-bg); color: var(--gray-fg); }
+
 /* ---------- Footer ---------- */
 
 .site-footer { border-top: 1px solid var(--border); }

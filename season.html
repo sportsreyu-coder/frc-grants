@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Season Tracker — FRC Grants</title>
+<meta name="description" content="Track your FRC team's pace against a recommended preseason, build season, competition season, and postseason schedule.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">FR</span>
+      <span class="brand-name">FRC Grants</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html#grants">Find grants</a>
+      <a href="season.html" class="active">Season Tracker</a>
+      <a href="deadlines.html">Deadlines</a>
+      <a href="fundraising.html">Fundraising</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <a href="pro.html" class="nav-pro">Go Pro</a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main class="site-main">
+  <section class="page-head">
+    <h1>Season Tracker</h1>
+    <p>A recommended pace for the whole year — preseason training, build season, competition season, and postseason — built from FIRST's own build season timeline and community-tested preseason plans. Check off what your team has actually finished and see whether you're ahead or behind.</p>
+  </section>
+
+  <section class="pace-card" id="pace-card"></section>
+
+  <section class="season-progress">
+    <div class="season-progress-head">
+      <span class="eyebrow" id="progress-label">0 of 0 milestones complete</span>
+      <button class="reset-btn" id="season-reset">Reset progress</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <p class="finder-hint">Saved in this browser only, for now — no account needed. Anchored to Kickoff on <span id="kickoff-date"></span>.</p>
+  </section>
+
+  <div id="phase-list"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>FRC Grants — a community-maintained database for FIRST Robotics Competition teams.</span>
+    <span>Not affiliated with FIRST®. This schedule is a suggested pace, not an official requirement.</span>
+  </div>
+</footer>
+
+<script src="js/season-data.js"></script>
+<script src="js/season.js"></script>
+</body>
+</html>
