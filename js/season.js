@@ -70,6 +70,8 @@
     return prevKickoff;
   }
 
+  var expandedIds = new Set();
+
   var today = startOfDay(new Date());
   var anchor = resolveAnchor(today);
   var milestones = (window.SEASON_MILESTONES || []).map(function (m) {
@@ -157,7 +159,7 @@
         var statusLabel = done ? "Done" : overdue ? "Overdue" : "Upcoming";
         var statusClass = done ? "ms-done" : overdue ? "ms-overdue" : "ms-upcoming";
 
-        var checkbox = el("input", { type: "checkbox", id: "chk-" + m.id });
+        var checkbox = el("input", { type: "checkbox", id: "chk-" + m.id, "aria-label": m.label });
         checkbox.checked = done;
         checkbox.addEventListener("change", function () {
           if (checkbox.checked) progress[m.id] = today.toISOString();
@@ -166,17 +168,44 @@
           render();
         });
 
-        var row = el("label", { class: "milestone-row", for: "chk-" + m.id }, [
-          checkbox,
-          el("div", { class: "ms-body" }, [
-            el("div", { class: "ms-top" }, [
-              el("span", { class: "ms-label" }, [m.label]),
-              el("span", { class: "pill " + statusClass }, [statusLabel]),
-            ]),
-            el("p", { class: "ms-detail" }, [m.detail]),
-            el("span", { class: "ms-date" }, ["Recommended: " + formatDate(m.date)]),
+        var isOpen = expandedIds.has(m.id);
+        function toggleExpand() {
+          if (expandedIds.has(m.id)) expandedIds.delete(m.id);
+          else expandedIds.add(m.id);
+          render();
+        }
+
+        var toggleBtn = el("button", { type: "button", class: "ms-expand-toggle" }, [isOpen ? "Show less ▴" : "More detail ▾"]);
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleExpand();
+        });
+
+        var bodyChildren = [
+          el("div", { class: "ms-top" }, [
+            el("span", { class: "ms-label" }, [m.label]),
+            el("span", { class: "pill " + statusClass }, [statusLabel]),
           ]),
-        ]);
+          el("p", { class: "ms-detail" }, [m.detail]),
+        ];
+        if (isOpen && m.expanded) {
+          bodyChildren.push(el("p", { class: "ms-expanded" }, [m.expanded]));
+        }
+        bodyChildren.push(el("div", { class: "ms-meta-row" }, [
+          el("span", { class: "ms-date" }, ["Recommended: " + formatDate(m.date)]),
+          toggleBtn,
+        ]));
+
+        var body = el("div", { class: "ms-body", tabindex: "0", role: "button", "aria-expanded": isOpen ? "true" : "false" }, bodyChildren);
+        body.addEventListener("click", toggleExpand);
+        body.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleExpand();
+          }
+        });
+
+        var row = el("div", { class: "milestone-row" }, [checkbox, body]);
         list.appendChild(row);
       });
 

@@ -912,7 +912,6 @@ main.site-main {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--bg-card);
-  cursor: pointer;
 }
 
 .milestone-row:hover { border-color: var(--border-strong); }
@@ -926,7 +925,12 @@ main.site-main {
   cursor: pointer;
 }
 
-.ms-body { flex: 1; min-width: 0; }
+.ms-body {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+}
 
 .ms-top {
   display: flex;
@@ -939,13 +943,43 @@ main.site-main {
 
 .ms-detail { margin: 6px 0 0; color: var(--text-faint); font-size: 13.5px; }
 
-.ms-date {
-  display: block;
+.ms-expanded {
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--text-dim);
+  font-size: 13.5px;
+  line-height: 1.55;
+  border-radius: 0 8px 8px 0;
+}
+
+.ms-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 8px;
+}
+
+.ms-date {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-faint);
 }
+
+.ms-expand-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ms-expand-toggle:hover { color: var(--accent-hover); }
 
 .ms-done { background: var(--green-bg); color: var(--green); }
 .ms-overdue { background: #fbe9e7; color: #a3391f; }
