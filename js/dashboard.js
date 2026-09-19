@@ -1,0 +1,124 @@
+(function () {
+  "use strict";
+
+  var Core = window.SeasonCore;
+
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (k) {
+        if (k === "class") node.className = attrs[k];
+        else node.setAttribute(k, attrs[k]);
+      });
+    }
+    (children || []).forEach(function (c) {
+      if (c) node.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    });
+    return node;
+  }
+
+  // ---- Season Tracker widget ----
+
+  function renderSeasonWidget() {
+    var body = document.getElementById("dash-season-body");
+    body.innerHTML = "";
+
+    var today = Core.startOfDay(new Date());
+    var milestones = Core.getMilestonesWithDates();
+    var progress = Core.loadProgress();
+
+    function isDone(m) { return !!progress[m.id]; }
+
+    var completed = milestones.filter(isDone);
+
+    if (completed.length === 0) {
+      body.appendChild(el("div", { class: "dash-headline" }, ["Get started"]));
+      body.appendChild(el("p", { class: "dash-sub" }, ["Check off your first milestone to see your pace."]));
+    } else {
+      var furthest = completed.reduce(function (a, b) { return b.offset > a.offset ? b : a; });
+      var pace = Core.daysBetween(today, furthest.date);
+      var headline;
+      if (pace > 0) headline = pace + (pace === 1 ? " day ahead" : " days ahead");
+      else if (pace < 0) headline = Math.abs(pace) + (Math.abs(pace) === 1 ? " day behind" : " days behind");
+      else headline = "Right on schedule";
+      body.appendChild(el("div", { class: "dash-headline" }, [headline]));
+      body.appendChild(el("p", { class: "dash-sub" }, [completed.length + " of " + milestones.length + " milestones done"]));
+    }
+
+    var upcoming = milestones
+      .filter(function (m) { return !isDone(m); })
+      .sort(function (a, b) { return a.date - b.date; })
+      .slice(0, 3);
+
+    if (upcoming.length) {
+      var list = el("div", { class: "dash-mini-list" });
+      upcoming.forEach(function (m) {
+        var overdue = Core.daysBetween(today, m.date) < 0;
+        list.appendChild(el("div", { class: "dash-mini-row" }, [
+          el("span", { class: "dash-mini-label" }, [m.label]),
+          el("span", { class: "dash-mini-date" + (overdue ? " dash-overdue" : "") }, [overdue ? "Overdue" : Core.formatDate(m.date)]),
+        ]));
+      });
+      body.appendChild(list);
+    }
+  }
+
+  // ---- Grants closing soon widget ----
+
+  var MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+  function dayOfYear(str) {
+    if (!str) return 9999;
+    var m = String(str).toLowerCase().match(/([a-z]+)\s*(\d+)?/);
+    if (!m) return 9999;
+    var mi = -1;
+    for (var i = 0; i < MONTHS.length; i++) {
+      if (MONTHS[i].indexOf(m[1].slice(0, 3)) === 0) { mi = i; break; }
+    }
+    if (mi < 0) return 9999;
+    return mi * 31 + (parseInt(m[2] || "1", 10) || 1);
+  }
+
+  function untilNext(str, todayIdx) {
+    var d = dayOfYear(str);
+    if (d === 9999) return 9999;
+    return d >= todayIdx ? d - todayIdx : d - todayIdx + 372;
+  }
+
+  function renderGrantsWidget() {
+    var body = document.getElementById("dash-grants-body");
+    fetch("data/grants.json")
+      .then(function (r) { return r.json(); })
+      .then(function (grants) {
+        var today = new Date();
+        var todayIdx = today.getMonth() * 31 + today.getDate();
+
+        var soon = grants
+          .filter(function (g) { return g.status === "open" && g.closeDate; })
+          .sort(function (a, b) { return untilNext(a.closeDate, todayIdx) - untilNext(b.closeDate, todayIdx); })
+          .slice(0, 4);
+
+        body.innerHTML = "";
+        if (!soon.length) {
+          body.appendChild(el("p", { class: "dash-sub" }, ["No published deadlines right now."]));
+          return;
+        }
+
+        var list = el("div", { class: "dash-mini-list" });
+        soon.forEach(function (g) {
+          list.appendChild(el("div", { class: "dash-mini-row" }, [
+            el("span", { class: "dash-mini-label" }, [g.name]),
+            el("span", { class: "dash-mini-date" }, [g.closeDate]),
+          ]));
+        });
+        body.appendChild(list);
+      })
+      .catch(function () {
+        body.innerHTML = "";
+        body.appendChild(el("p", { class: "dash-sub" }, ["Couldn't load grant data."]));
+      });
+  }
+
+  renderSeasonWidget();
+  renderGrantsWidget();
+})();

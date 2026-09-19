@@ -1,8 +1,11 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "frcgrants_season_progress_v1";
-  var MS_PER_DAY = 24 * 60 * 60 * 1000;
+  var Core = window.SeasonCore;
+  var daysBetween = Core.daysBetween;
+  var formatDate = Core.formatDate;
+  var saveProgress = Core.saveProgress;
+  var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   function el(tag, attrs, children) {
     var node = document.createElement(tag);
@@ -18,74 +21,48 @@
     return node;
   }
 
-  function startOfDay(d) {
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  }
-
-  function firstSaturdayOfJanuary(year) {
-    var d = new Date(year, 0, 1);
-    var day = d.getDay(); // 0 = Sunday .. 6 = Saturday
-    var delta = (6 - day + 7) % 7;
-    return startOfDay(new Date(year, 0, 1 + delta));
-  }
-
-  function addDays(date, days) {
-    return new Date(date.getTime() + days * MS_PER_DAY);
-  }
-
-  function daysBetween(a, b) {
-    return Math.round((startOfDay(b).getTime() - startOfDay(a).getTime()) / MS_PER_DAY);
-  }
-
-  function loadProgress() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    } catch (e) {
-      return {};
-    }
-  }
-
-  function saveProgress(p) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
-    } catch (e) { /* ignore -- private browsing etc. */ }
-  }
-
-  function formatDate(d) {
-    return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-  }
-
-  // Figure out which Kickoff this moment in the yearly cycle is anchored
-  // to. If we're within the ~18-week preseason window before the next
-  // Kickoff, anchor to that upcoming one (offsets read as "days to go").
-  // Otherwise anchor to the most recent past Kickoff (build season onward).
-  function resolveAnchor(today) {
-    var year = today.getFullYear();
-    var kickoffThisYear = firstSaturdayOfJanuary(year);
-    var nextKickoff = today <= kickoffThisYear ? kickoffThisYear : firstSaturdayOfJanuary(year + 1);
-    var prevKickoff = firstSaturdayOfJanuary(nextKickoff.getFullYear() - 1);
-
-    var daysToNext = daysBetween(today, nextKickoff);
-    if (daysToNext <= 126) return nextKickoff;
-    return prevKickoff;
-  }
-
   var expandedIds = new Set();
+  var viewMode = "checklist"; // or "calendar"
 
-  var today = startOfDay(new Date());
-  var anchor = resolveAnchor(today);
-  var milestones = (window.SEASON_MILESTONES || []).map(function (m) {
-    return Object.assign({}, m, { date: addDays(anchor, m.offset) });
-  });
-  var progress = loadProgress();
+  var today = Core.startOfDay(new Date());
+  var anchor = Core.resolveAnchor(today);
+  var milestones = Core.getMilestonesWithDates();
+  var progress = Core.loadProgress();
+  var calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
   function isDone(m) { return !!progress[m.id]; }
+  function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
+  function isSubtaskDone(m, idx) { return !!progress[subtaskKey(m, idx)]; }
+
+  function toggleMilestone(m) {
+    if (progress[m.id]) delete progress[m.id];
+    else progress[m.id] = today.toISOString();
+    saveProgress(progress);
+    render();
+  }
+
+  function toggleSubtask(m, idx) {
+    var key = subtaskKey(m, idx);
+    if (progress[key]) delete progress[key];
+    else progress[key] = today.toISOString();
+
+    // Auto-complete the parent once every subtask is checked -- but never
+    // auto-uncheck it, in case a team confirmed it done despite one
+    // subtask not applying to them.
+    if (m.subtasks && m.subtasks.length && !progress[m.id]) {
+      var allDone = m.subtasks.every(function (_, i) { return isSubtaskDone(m, i); });
+      if (allDone) progress[m.id] = today.toISOString();
+    }
+    saveProgress(progress);
+    render();
+  }
 
   function render() {
     document.getElementById("kickoff-date").textContent = formatDate(anchor);
     renderPace();
     renderProgressBar();
     renderPhases();
+    renderCalendar();
   }
 
   function renderPace() {
@@ -135,9 +112,23 @@
     document.getElementById("progress-fill").style.width = pct + "%";
   }
 
+  function statusOf(m) {
+    var done = isDone(m);
+    var overdue = !done && daysBetween(today, m.date) < 0;
+    return {
+      done: done,
+      overdue: overdue,
+      label: done ? "Done" : overdue ? "Overdue" : "Upcoming",
+      cls: done ? "ms-done" : overdue ? "ms-overdue" : "ms-upcoming",
+    };
+  }
+
   function renderPhases() {
-    var order = ["Preseason", "Build Season", "Competition Season", "Postseason"];
     var container = document.getElementById("phase-list");
+    container.hidden = viewMode !== "checklist";
+    if (viewMode !== "checklist") return;
+
+    var order = ["Preseason", "Build Season", "Competition Season", "Postseason"];
     container.innerHTML = "";
 
     order.forEach(function (phase) {
@@ -154,19 +145,11 @@
 
       var list = el("div", { class: "milestone-list" });
       items.forEach(function (m) {
-        var done = isDone(m);
-        var overdue = !done && daysBetween(today, m.date) < 0;
-        var statusLabel = done ? "Done" : overdue ? "Overdue" : "Upcoming";
-        var statusClass = done ? "ms-done" : overdue ? "ms-overdue" : "ms-upcoming";
+        var status = statusOf(m);
 
         var checkbox = el("input", { type: "checkbox", id: "chk-" + m.id, "aria-label": m.label });
-        checkbox.checked = done;
-        checkbox.addEventListener("change", function () {
-          if (checkbox.checked) progress[m.id] = today.toISOString();
-          else delete progress[m.id];
-          saveProgress(progress);
-          render();
-        });
+        checkbox.checked = status.done;
+        checkbox.addEventListener("change", function () { toggleMilestone(m); });
 
         var isOpen = expandedIds.has(m.id);
         function toggleExpand() {
@@ -184,13 +167,34 @@
         var bodyChildren = [
           el("div", { class: "ms-top" }, [
             el("span", { class: "ms-label" }, [m.label]),
-            el("span", { class: "pill " + statusClass }, [statusLabel]),
+            el("span", { class: "pill " + status.cls }, [status.label]),
           ]),
           el("p", { class: "ms-detail" }, [m.detail]),
         ];
-        if (isOpen && m.expanded) {
-          bodyChildren.push(el("p", { class: "ms-expanded" }, [m.expanded]));
+
+        if (isOpen) {
+          if (m.expanded) bodyChildren.push(el("p", { class: "ms-expanded" }, [m.expanded]));
+
+          if (m.subtasks && m.subtasks.length) {
+            var subList = el("div", { class: "ms-subtasks" });
+            subList.addEventListener("click", function (e) { e.stopPropagation(); });
+
+            m.subtasks.forEach(function (sub, idx) {
+              var subDone = isSubtaskDone(m, idx);
+              var subId = "chk-" + m.id + "-sub" + idx;
+              var subChk = el("input", { type: "checkbox", id: subId });
+              subChk.checked = subDone;
+              subChk.addEventListener("change", function () { toggleSubtask(m, idx); });
+
+              subList.appendChild(el("label", { class: "ms-subtask-row", for: subId }, [
+                subChk,
+                el("span", { class: subDone ? "ms-subtask-text ms-subtask-done" : "ms-subtask-text" }, [sub]),
+              ]));
+            });
+            bodyChildren.push(subList);
+          }
         }
+
         bodyChildren.push(el("div", { class: "ms-meta-row" }, [
           el("span", { class: "ms-date" }, ["Recommended: " + formatDate(m.date)]),
           toggleBtn,
@@ -214,10 +218,96 @@
     });
   }
 
+  function renderCalendar() {
+    var container = document.getElementById("calendar-view");
+    container.hidden = viewMode !== "calendar";
+    if (viewMode !== "calendar") return;
+
+    container.innerHTML = "";
+
+    var monthLabel = calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+    var prevBtn = el("button", { type: "button", class: "cal-nav", "aria-label": "Previous month" }, ["←"]);
+    var nextBtn = el("button", { type: "button", class: "cal-nav", "aria-label": "Next month" }, ["→"]);
+    prevBtn.addEventListener("click", function () {
+      calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+      renderCalendar();
+    });
+    nextBtn.addEventListener("click", function () {
+      calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    var todayBtn = el("button", { type: "button", class: "cal-today-btn" }, ["Today"]);
+    todayBtn.addEventListener("click", function () {
+      calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      renderCalendar();
+    });
+
+    container.appendChild(el("div", { class: "cal-header" }, [
+      prevBtn,
+      el("div", { class: "cal-month-label" }, [monthLabel]),
+      nextBtn,
+      todayBtn,
+    ]));
+
+    var grid = el("div", { class: "cal-grid" });
+    DOW.forEach(function (d) { grid.appendChild(el("div", { class: "cal-dow" }, [d])); });
+
+    var firstOfMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+    var startDow = firstOfMonth.getDay();
+    var daysInMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
+
+    var byDay = {};
+    milestones.forEach(function (m) {
+      if (m.date.getFullYear() === calendarMonth.getFullYear() && m.date.getMonth() === calendarMonth.getMonth()) {
+        var d = m.date.getDate();
+        (byDay[d] = byDay[d] || []).push(m);
+      }
+    });
+
+    for (var i = 0; i < startDow; i++) grid.appendChild(el("div", { class: "cal-cell cal-empty" }));
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var cellDate = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), day);
+      var isToday = daysBetween(today, cellDate) === 0;
+      var cell = el("div", { class: "cal-cell" + (isToday ? " cal-today" : "") }, [
+        el("div", { class: "cal-daynum" }, [String(day)]),
+      ]);
+
+      (byDay[day] || []).forEach(function (m) {
+        var status = statusOf(m);
+        var chip = el("button", {
+          type: "button",
+          class: "cal-chip " + status.cls,
+          title: m.label + " (" + m.phase + ") -- click to mark " + (status.done ? "not done" : "done"),
+        }, [m.label]);
+        chip.addEventListener("click", function () { toggleMilestone(m); });
+        cell.appendChild(chip);
+      });
+
+      grid.appendChild(cell);
+    }
+
+    container.appendChild(grid);
+  }
+
   document.getElementById("season-reset").addEventListener("click", function () {
     if (!confirm("Clear all season progress saved in this browser?")) return;
     progress = {};
     saveProgress(progress);
+    render();
+  });
+
+  document.getElementById("view-tab-checklist").addEventListener("click", function () {
+    viewMode = "checklist";
+    document.getElementById("view-tab-checklist").classList.add("active");
+    document.getElementById("view-tab-calendar").classList.remove("active");
+    render();
+  });
+  document.getElementById("view-tab-calendar").addEventListener("click", function () {
+    viewMode = "calendar";
+    document.getElementById("view-tab-calendar").classList.add("active");
+    document.getElementById("view-tab-checklist").classList.remove("active");
     render();
   });
 

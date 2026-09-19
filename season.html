@@ -19,7 +19,7 @@
       <span class="brand-name">FRC Grants</span>
     </a>
     <nav class="main-nav">
-      <a href="index.html#grants">Find grants</a>
+      <a href="grants.html">Find grants</a>
       <a href="season.html" class="active">Season Tracker</a>
       <a href="deadlines.html">Deadlines</a>
       <a href="fundraising.html">Fundraising</a>
@@ -47,7 +47,13 @@
     <p class="finder-hint">Saved in this browser only, for now — no account needed. Anchored to Kickoff on <span id="kickoff-date"></span>.</p>
   </section>
 
+  <div class="view-switch">
+    <button type="button" class="view-tab active" id="view-tab-checklist">Checklist</button>
+    <button type="button" class="view-tab" id="view-tab-calendar">Calendar</button>
+  </div>
+
   <div id="phase-list"></div>
+  <div id="calendar-view" hidden></div>
 </main>
 
 <footer class="site-footer">
@@ -57,6 +63,7 @@
   </div>
 </footer>
 
+<script src="js/season-core.js"></script>
 <script src="js/season-data.js"></script>
 <script src="js/season.js"></script>
 </body>
