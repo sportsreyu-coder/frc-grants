@@ -11,208 +11,331 @@
 //    submissions, sponsor thank-yous, off-season events, recruiting)
 //
 // This is a recommended pace, not an official requirement -- teams should
-// adapt it to their own season plan.
+// adapt it to their own season plan, including who on the team owns what
+// (the `team` tags below are a reasonable default split across design,
+// mechanical, electrical, programming, and business/outreach subteams).
 //
-// `detail` is the one-line summary shown in the list. `expanded` is the
-// longer write-up shown when a team clicks into a milestone for more
-// context. `subtasks` breaks the milestone into smaller checkable steps.
+// `label` is the full checklist name. `short` is what's shown on the
+// calendar. `detail` is the one-line summary; `expanded` is the longer
+// write-up. `subtasks` are {label, team} steps -- they also get plotted
+// on the calendar, on the same day as their parent milestone.
 window.SEASON_MILESTONES = [
   // ---- Preseason (Sept -> Kickoff) ----
-  { id: "ps-roster", phase: "Preseason", offset: -105,
+  { id: "ps-roster", phase: "Preseason", offset: -105, team: "business",
     label: "Subteams assigned & season registration confirmed",
+    short: "Assign Roles",
     detail: "Mechanical, electrical, programming, CAD, and business roles set; Kickoff Kit selection window and event registration confirmed.",
     expanded: "Confirm who is leading mechanical, electrical, programming, CAD, and business/outreach before real training work starts -- ambiguity here is one of the most common reasons preseason plans stall out. Lock in your event registration and payment deadlines, and decide whether you're keeping last year's Kickoff Kit checklist or updating it. If you're attending any fall off-season events, get them on the calendar now so training has a real deadline to build toward.",
     subtasks: [
-      "Assign leads for mechanical, electrical, programming, CAD, and business/outreach",
-      "Confirm event registration and payment deadlines",
-      "Decide on any fall off-season events to attend",
+      { label: "Assign leads for mechanical, electrical, programming, CAD, and business/outreach", team: "business" },
+      { label: "Confirm event registration and payment deadlines", team: "business" },
+      { label: "Decide on any fall off-season events to attend", team: "business" },
     ] },
-  { id: "ps-fundamentals", phase: "Preseason", offset: -77,
+  { id: "ps-fundamentals", phase: "Preseason", offset: -77, team: "cross-team",
     label: "Training chassis drives under teleop control",
+    short: "Chassis Drives",
     detail: "Practice/training robot has a working drivetrain a student can drive, with basic wiring and CAN bus in place.",
     expanded: "This is the first real capability checkpoint: a student should be able to pick up a controller and drive the practice chassis around under teleop control. Mechanical should have the drivetrain fabricated and mounted, electrical should have the full power path and CAN bus wired end to end, and programming should have a basic command-based drivetrain subsystem running -- all three tracks working in parallel rather than waiting on each other.",
     subtasks: [
-      "Fabricate and mount the training chassis drivetrain",
-      "Wire the full power path and CAN bus",
-      "Get a basic drivetrain subsystem running in code",
+      { label: "Fabricate and mount the training chassis drivetrain", team: "mechanical" },
+      { label: "Wire the full power path and CAN bus", team: "electrical" },
+      { label: "Get a basic drivetrain subsystem running in code", team: "programming" },
     ] },
-  { id: "ps-auto", phase: "Preseason", offset: -49,
+  { id: "ps-auto", phase: "Preseason", offset: -49, team: "programming",
     label: "Autonomous path + PID motion working on the practice bot",
+    short: "Auto + PID",
     detail: "One scripted autonomous path and one PID-controlled motion running, vision/AprilTag detection mounted if used.",
     expanded: "Push the practice robot past manual driving: get one PID-tuned motion (like turning to an angle or driving a fixed distance) running cleanly, and one scripted autonomous path executing start to finish. If your team uses vision, this is also the checkpoint to get an AprilTag or camera pipeline mounted and returning real data, even if it isn't wired into a full autonomous routine yet.",
     subtasks: [
-      "Tune one PID-controlled motion (turn-to-angle or drive-to-distance)",
-      "Get one scripted autonomous path running start to finish",
-      "Mount a vision/AprilTag pipeline and confirm it returns real data",
+      { label: "Tune one PID-controlled motion (turn-to-angle or drive-to-distance)", team: "programming" },
+      { label: "Get one scripted autonomous path running start to finish", team: "programming" },
+      { label: "Mount a vision/AprilTag pipeline and confirm it returns real data", team: "programming" },
     ] },
-  { id: "ps-offseason-event", phase: "Preseason", offset: -28,
+  { id: "ps-offseason-event", phase: "Preseason", offset: -28, team: "business",
     label: "Fall off-season event attended / scouting app tested",
+    short: "Fall Event",
     detail: "Good checkpoint to test scouting systems live and start drafting your Impact Award narrative while it's fresh.",
     expanded: "A fall off-season event (or even a scrimmage) is the cheapest way to find problems in your scouting system before it actually matters. Run your real scouting app or spreadsheet against live matches, and have your outreach lead start drafting the Impact Award narrative now -- the details are freshest right after an event, not in December when you're trying to reconstruct them.",
     subtasks: [
-      "Register for and attend a fall off-season event or scrimmage",
-      "Run the scouting app/spreadsheet against live matches",
-      "Start drafting the Impact Award narrative",
+      { label: "Register for and attend a fall off-season event or scrimmage", team: "business" },
+      { label: "Run the scouting app/spreadsheet against live matches", team: "business" },
+      { label: "Start drafting the Impact Award narrative", team: "business" },
     ] },
-  { id: "ps-mock-kickoff", phase: "Preseason", offset: -7,
+  { id: "ps-mock-kickoff", phase: "Preseason", offset: -7, team: "cross-team",
     label: "Mock kickoff run & practice robot fully verified",
+    short: "Mock Kickoff",
     detail: "Rehearse strategy discussion under time pressure with an old game manual; confirm teleop, autonomous, and electrical are solid before the real Kickoff.",
     expanded: "Pull an old game manual and run a full mock kickoff: read the rules cold, brainstorm strategy, and present a plan under a tight time limit, the same way you'll have to on the real day. In parallel, do a final pass on the practice robot -- confirm teleop, autonomous, and every electrical connection are solid, since this is the platform new drivers and programmers will lean on once build season starts.",
     subtasks: [
-      "Run a mock kickoff using an old game manual",
-      "Present a strategy plan under a time limit",
-      "Verify teleop, autonomous, and electrical on the practice robot",
+      { label: "Run a mock kickoff using an old game manual", team: "design" },
+      { label: "Present a strategy plan under a time limit", team: "design" },
+      { label: "Verify teleop, autonomous, and electrical on the practice robot", team: "electrical" },
     ] },
 
   // ---- Build Season (Kickoff -> first event, ~6-8 weeks) ----
-  { id: "bs-strategy", phase: "Build Season", offset: 3,
+  { id: "bs-strategy", phase: "Build Season", offset: 3, team: "design",
     label: "Game strategy set",
+    short: "Set Strategy",
     detail: "Game manual read, priorities agreed on as a team -- FIRST's own timeline allots the first 2-3 days for this.",
     expanded: "Read the manual as a full team, then narrow down to the two or three game tasks your robot will actually prioritize. FIRST's own build season timeline allots roughly the first 2-3 days to this -- spending much longer usually just delays prototyping without meaningfully improving the strategy.",
     subtasks: [
-      "Read the game manual as a full team",
-      "Agree on the top 2-3 game tasks to prioritize",
+      { label: "Read the game manual as a full team", team: "design" },
+      { label: "Agree on the top 2-3 game tasks to prioritize", team: "design" },
     ] },
-  { id: "bs-concepts", phase: "Build Season", offset: 5,
+  { id: "bs-concepts", phase: "Build Season", offset: 5, team: "design",
     label: "Prototype concepts chosen",
+    short: "Pick Concepts",
     detail: "Mechanism brainstorming done and which concepts to prototype decided.",
     expanded: "Turn your strategy into a short list of mechanism concepts worth building rough prototypes of. The goal isn't a finished design yet -- it's picking which two or three approaches per mechanism are worth a few days of prototyping before committing to one in CAD.",
     subtasks: [
-      "Brainstorm mechanism concepts for each priority task",
-      "Pick 2-3 concepts per mechanism worth prototyping",
+      { label: "Brainstorm mechanism concepts for each priority task", team: "design" },
+      { label: "Pick 2-3 concepts per mechanism worth prototyping", team: "design" },
     ] },
-  { id: "bs-prototyping", phase: "Build Season", offset: 21,
+  { id: "bs-prototyping", phase: "Build Season", offset: 21, team: "design",
     label: "Prototyping complete",
+    short: "Prototyping Done",
     detail: "Rough mechanism prototypes built and tested enough to commit to a direction.",
     expanded: "By this point you should have tested rough versions of your key mechanisms enough to know which approach works and commit to it. It's normal for prototypes to look rough -- the point is answering \"will this actually work\" before spending fabrication time on a polished version.",
     subtasks: [
-      "Build rough prototypes of each chosen concept",
-      "Test prototypes enough to commit to one direction per mechanism",
+      { label: "Build rough prototypes of each chosen concept", team: "design" },
+      { label: "Test prototypes enough to commit to one direction per mechanism", team: "design" },
     ] },
-  { id: "bs-cad", phase: "Build Season", offset: 28,
+  { id: "bs-cad", phase: "Build Season", offset: 28, team: "design",
     label: "CAD / detailed design complete",
+    short: "CAD Done",
     detail: "Full robot modeled and ready to release for fabrication.",
     expanded: "The full robot should be modeled and ready to release for fabrication -- not just the mechanisms you prototyped, but how they mount together, wiring routing, and the bumper/frame perimeter. Releasing CAD on time here is usually what keeps fabrication from running into week 6.",
     subtasks: [
-      "Model the full robot, not just the prototyped mechanisms",
-      "Route wiring and finalize the bumper/frame perimeter",
-      "Release CAD for fabrication",
+      { label: "Model the full robot, not just the prototyped mechanisms", team: "design" },
+      { label: "Route wiring and finalize the bumper/frame perimeter", team: "design" },
+      { label: "Release CAD for fabrication", team: "design" },
     ] },
-  { id: "bs-fab", phase: "Build Season", offset: 35,
+  { id: "bs-fab", phase: "Build Season", offset: 35, team: "mechanical",
     label: "Drivetrain & core mechanisms fabricated",
+    short: "Fab Done",
     detail: "Main structural and mechanism parts cut, machined, or printed.",
     expanded: "Structural parts, drivetrain, and your main mechanisms should be cut, machined, or printed by now. This is usually the busiest shop week of the season -- if fabrication is running behind, it's often better to cut scope on a mechanism than to let it slip into assembly week.",
     subtasks: [
-      "Cut/machine/print structural and drivetrain parts",
-      "Fabricate main mechanism parts",
+      { label: "Cut/machine/print structural and drivetrain parts", team: "mechanical" },
+      { label: "Fabricate main mechanism parts", team: "mechanical" },
     ] },
-  { id: "bs-assembly", phase: "Build Season", offset: 42,
+  { id: "bs-assembly", phase: "Build Season", offset: 42, team: "mechanical",
     label: "Robot assembly & wiring complete",
+    short: "Assembly Done",
     detail: "Competition robot fully assembled and wired -- FIRST's timeline targets this by end of week 6.",
     expanded: "Everything should be bolted together and wired on the actual competition robot, not just the practice chassis. FIRST's build season timeline targets assembly and wiring wrapping up by the end of week 6, leaving the remaining time for programming, driver practice, and fixing whatever breaks.",
     subtasks: [
-      "Assemble the competition robot",
-      "Complete wiring on the competition robot",
+      { label: "Assemble the competition robot", team: "mechanical" },
+      { label: "Complete wiring on the competition robot", team: "electrical" },
     ] },
-  { id: "bs-code", phase: "Build Season", offset: 45,
+  { id: "bs-code", phase: "Build Season", offset: 45, team: "programming",
     label: "Autonomous + teleop code running on the competition robot",
+    short: "Code on Robot",
     detail: "Code running on the actual robot, not just the practice chassis.",
     expanded: "Move your code off the practice chassis and onto the real robot -- sensors, motor IDs, and wiring are never identical between the two, so this always takes longer than expected. Get basic teleop driving and at least one autonomous routine running on the competition bot itself before spending more time polishing either.",
     subtasks: [
-      "Port code from the practice chassis to the competition robot",
-      "Get teleop driving working on the competition robot",
-      "Get at least one autonomous routine running on the competition robot",
+      { label: "Port code from the practice chassis to the competition robot", team: "programming" },
+      { label: "Get teleop driving working on the competition robot", team: "programming" },
+      { label: "Get at least one autonomous routine running on the competition robot", team: "programming" },
     ] },
-  { id: "bs-practice", phase: "Build Season", offset: 49,
+  { id: "bs-practice", phase: "Build Season", offset: 49, team: "mechanical",
     label: "Driver practice & iteration underway",
+    short: "Driver Practice",
     detail: "Regular driver practice time scheduled, punch list of fixes being worked through.",
     expanded: "Get drivers real stick time on the actual robot, and start a running punch list of fixes and improvements from what you see. Teams that treat the last week as practice-and-iterate instead of still-building usually show up to their first event in noticeably better shape.",
     subtasks: [
-      "Schedule regular driver practice time",
-      "Keep a running punch list of fixes and improvements",
+      { label: "Schedule regular driver practice time", team: "mechanical" },
+      { label: "Keep a running punch list of fixes and improvements", team: "mechanical" },
     ] },
 
   // ---- Competition Season (first event -> last event) ----
-  { id: "cs-event1", phase: "Competition Season", offset: 49,
+  { id: "cs-event1", phase: "Competition Season", offset: 49, team: "cross-team",
     label: "First competition event attended",
+    short: "Event #1",
     detail: "Robot competing at its first regional or district event.",
     expanded: "Your robot is competing for real. Treat this event as data collection as much as competition -- note what broke, what the drive team struggled with, and what alliance partners' robots do well, since all of it feeds directly into how you spend the weeks before your next event.",
     subtasks: [
-      "Compete at the first regional/district event",
-      "Log what broke and what the drive team struggled with",
+      { label: "Compete at the first regional/district event", team: "cross-team" },
+      { label: "Log what broke and what the drive team struggled with", team: "mechanical" },
     ] },
-  { id: "cs-scouting", phase: "Competition Season", offset: 49,
+  { id: "cs-scouting", phase: "Competition Season", offset: 49, team: "business",
     label: "Scouting system running live at events",
+    short: "Scouting Live",
     detail: "Match scouting (paper or app) actually being collected and used for alliance selection.",
     expanded: "Whatever scouting tool you built or tested in the preseason should be in actual use in the stands -- collecting match data your alliance-selection lead can use, not just sitting on a laptop. If it's not working smoothly yet, this is the event to fix it, not the one right before champs.",
     subtasks: [
-      "Collect match scouting data live in the stands",
-      "Use scouting data for alliance selection",
+      { label: "Collect match scouting data live in the stands", team: "business" },
+      { label: "Use scouting data for alliance selection", team: "business" },
     ] },
-  { id: "cs-awards", phase: "Competition Season", offset: 60,
+  { id: "cs-awards", phase: "Competition Season", offset: 60, team: "business",
     label: "Award submissions completed",
+    short: "Awards Submitted",
     detail: "Impact/Chairman's Award, Engineering Inspiration, and other written submissions turned in.",
     expanded: "Impact Award (formerly Chairman's), Engineering Inspiration, and any other written award submissions your team is eligible for should be turned in. These often have earlier deadlines than teams expect, and the writing goes faster if you've been logging outreach and documentation all season instead of reconstructing it now.",
     subtasks: [
-      "Submit the Impact Award (Chairman's) write-up",
-      "Submit Engineering Inspiration and any other eligible award write-ups",
+      { label: "Submit the Impact Award (Chairman's) write-up", team: "business" },
+      { label: "Submit Engineering Inspiration and any other eligible award write-ups", team: "business" },
     ] },
-  { id: "cs-iterate", phase: "Competition Season", offset: 70,
+  { id: "cs-iterate", phase: "Competition Season", offset: 70, team: "mechanical",
     label: "Robot iteration & repairs between events done",
+    short: "Iterate / Repair",
     detail: "Fixes and improvements from event 1 carried into later events.",
     expanded: "Whatever your first event exposed -- a mechanism that jams, a code bug, a repeated foul -- should be fixed and tested before your next event, not patched in the pits. This is also a good checkpoint to revisit your scouting data and see if your game strategy still holds up against what other teams are doing.",
     subtasks: [
-      "Fix issues found at the first event",
-      "Revisit game strategy against what other teams are doing",
+      { label: "Fix issues found at the first event", team: "mechanical" },
+      { label: "Revisit game strategy against what other teams are doing", team: "design" },
     ] },
-  { id: "cs-champs", phase: "Competition Season", offset: 90,
+  { id: "cs-champs", phase: "Competition Season", offset: 90, team: "cross-team",
     label: "Championship qualification decided",
+    short: "Champs Decided",
     detail: "Team knows whether it's advancing to district/state champs or the FIRST Championship.",
     expanded: "By now your team should know whether it's advancing to a district/state championship or the FIRST Championship. Whichever way it goes, this is the natural checkpoint to start planning the postseason -- what to fix for next year, and how to wrap up outreach and sponsor relationships either way.",
     subtasks: [
-      "Confirm championship/district/state qualification status",
-      "Start planning postseason priorities",
+      { label: "Confirm championship/district/state qualification status", team: "business" },
+      { label: "Start planning postseason priorities", team: "business" },
     ] },
 
   // ---- Postseason (last event -> next preseason) ----
-  { id: "post-thankyou", phase: "Postseason", offset: 115,
+  { id: "post-thankyou", phase: "Postseason", offset: 115, team: "business",
     label: "Sponsor thank-you letters & season impact report sent",
+    short: "Thank Sponsors",
     detail: "Every sponsor and grantor hears back about how their support was used while the season is still fresh.",
     expanded: "Every sponsor and grant-maker should hear specifically how their support was used -- a photo, a result, a number of students reached -- while the season is still fresh. This is also the single best thing you can do to make next year's renewal conversation easier.",
     subtasks: [
-      "Send thank-you letters to every sponsor and grantor",
-      "Share a season impact report or results summary",
+      { label: "Send thank-you letters to every sponsor and grantor", team: "business" },
+      { label: "Share a season impact report or results summary", team: "business" },
     ] },
-  { id: "post-archive", phase: "Postseason", offset: 120,
+  { id: "post-archive", phase: "Postseason", offset: 120, team: "cross-team",
     label: "Season documentation archived",
+    short: "Archive Season",
     detail: "Photos, videos, CAD files, and code from the season organized for next year's team and future award submissions.",
     expanded: "Pull together this season's photos, videos, CAD files, and code into somewhere next year's team -- and you, writing next year's award submissions -- can actually find them. Teams that skip this step usually end up rebuilding institutional knowledge from scratch every August.",
     subtasks: [
-      "Organize season photos and videos",
-      "Archive CAD files and code for next year",
+      { label: "Organize season photos and videos", team: "business" },
+      { label: "Archive CAD files and code for next year", team: "design" },
     ] },
-  { id: "post-offseason-demo", phase: "Postseason", offset: 160,
+  { id: "post-offseason-demo", phase: "Postseason", offset: 160, team: "business",
     label: "Off-season event or robot demo completed",
+    short: "Off-season Demo",
     detail: "Robot shown off at a summer/fall off-season event, school event, or community demo.",
     expanded: "Show the robot off -- at a summer off-season competition, a school event, or a community demo. It's good outreach, it's a low-stakes way to onboard new members on the real robot, and it keeps the team visible to sponsors and your school between seasons.",
     subtasks: [
-      "Book an off-season event, school event, or community demo",
-      "Show off the robot in person",
+      { label: "Book an off-season event, school event, or community demo", team: "business" },
+      { label: "Show off the robot in person", team: "business" },
     ] },
-  { id: "post-leads", phase: "Postseason", offset: 180,
+  { id: "post-leads", phase: "Postseason", offset: 180, team: "business",
     label: "Next season's officer/lead roles assigned",
+    short: "Assign Leads",
     detail: "Team captains and subteam leads for next season decided before the new members show up.",
     expanded: "Decide who's leading each subteam next season before new members show up in the fall. Handing off leadership with enough runway for the outgoing lead to actually mentor their replacement tends to matter more than who gets picked.",
     subtasks: [
-      "Decide next season's subteam leads",
-      "Give outgoing leads time to mentor their replacements",
+      { label: "Decide next season's subteam leads", team: "business" },
+      { label: "Give outgoing leads time to mentor their replacements", team: "business" },
     ] },
-  { id: "post-renewal", phase: "Postseason", offset: 200,
+  { id: "post-renewal", phase: "Postseason", offset: 200, team: "business",
     label: "Sponsor renewal outreach started",
+    short: "Sponsor Renewal",
     detail: "Early outreach to last year's sponsors -- most decide next year's giving budget over the summer.",
     expanded: "Reach out to last year's sponsors early -- most companies and foundations set their giving budgets over the summer, so a renewal ask in August lands very differently than one in November. This is also the natural bridge back into the preseason roster and registration milestone.",
     subtasks: [
-      "Send renewal outreach to last year's sponsors",
-      "Bridge into next season's registration & roster planning",
+      { label: "Send renewal outreach to last year's sponsors", team: "business" },
+      { label: "Bridge into next season's registration & roster planning", team: "business" },
     ] },
 ];
+
+// ---- Fine-grained calendar goals (generated, not hand-typed) ----
+//
+// These are calendar-only -- they don't clutter the main checklist, but
+// they're exactly the "daily goals" a team can check off day by day
+// during the two portions of the year that actually have a fixed,
+// universal calendar shape (preseason and build season). Competition
+// season and postseason vary too much team-to-team (how many events,
+// whether you make champs) to responsibly invent a fake daily schedule
+// for them, so those stay at the milestone level above.
+(function () {
+  "use strict";
+
+  var fine = [];
+
+  // Weekly preseason goals (LearnFRC's 18-week plan, subdivided into a
+  // logical weekly step toward each phase's stated deliverable).
+  var PRESEASON_WEEKS = [
+    { week: 1, team: "business", short: "Assign Leads", label: "Assign subteam leads for the season" },
+    { week: 2, team: "business", short: "Lock Registration", label: "Confirm event registration & payment deadlines" },
+    { week: 3, team: "business", short: "Kickoff Kit Plan", label: "Finalize Kickoff Kit selection plan" },
+    { week: 4, team: "mechanical", short: "Drivetrain Start", label: "Start training chassis drivetrain fabrication" },
+    { week: 5, team: "electrical", short: "Wire CAN Bus", label: "Wire power path & CAN bus on training chassis" },
+    { week: 6, team: "programming", short: "Drivetrain Code", label: "Get basic drivetrain code running" },
+    { week: 7, team: "programming", short: "Chassis Drives", label: "Training chassis drives under teleop" },
+    { week: 8, team: "electrical", short: "Mount Vision", label: "Mount vision/camera system on practice bot" },
+    { week: 9, team: "programming", short: "Tune PID", label: "Tune one PID-controlled motion" },
+    { week: 10, team: "programming", short: "Build Auto Path", label: "Build one autonomous path" },
+    { week: 11, team: "programming", short: "Auto Runs E2E", label: "Autonomous path runs start to finish" },
+    { week: 12, team: "business", short: "Fall Event", label: "Attend a fall off-season event" },
+    { week: 13, team: "business", short: "Test Scouting", label: "Test scouting system live at an event" },
+    { week: 14, team: "business", short: "Draft Impact Award", label: "Start drafting the Impact Award narrative" },
+    { week: 15, team: "design", short: "Old Manual", label: "Pull an old game manual for mock kickoff" },
+    { week: 16, team: "design", short: "Mock Strategy", label: "Run a mock kickoff strategy session" },
+    { week: 17, team: "electrical", short: "Verify Systems", label: "Verify teleop, auto, and electrical on practice bot" },
+    { week: 18, team: "mechanical", short: "Final Check", label: "Final practice robot check before Kickoff" },
+  ];
+
+  PRESEASON_WEEKS.forEach(function (w) {
+    // Preseason spans the 18 weeks immediately before Kickoff (offset 0).
+    var offset = -126 + w.week * 7;
+    fine.push({
+      id: "fine-ps-wk" + w.week,
+      phase: "Preseason",
+      offset: offset,
+      team: w.team,
+      granularity: "weekly",
+      short: w.short,
+      label: "Preseason Wk " + w.week + ": " + w.label,
+      detail: w.label + " (preseason week " + w.week + " of 18).",
+    });
+  });
+
+  // Daily build season goals, derived from FIRST's own Build Season
+  // Timeline phase ranges (see header comment for the source). Each day's
+  // headline is whichever active phase started most recently -- i.e. the
+  // newest thing the team should be shifting focus onto -- with the
+  // other concurrent phases noted in the detail line.
+  var BUILD_PHASES = [
+    { key: "strategy", short: "Strategy", team: "design", start: 1, end: 3 },
+    { key: "concepts", short: "Concepts", team: "design", start: 3, end: 5 },
+    { key: "prototyping", short: "Prototyping", team: "design", start: 6, end: 21 },
+    { key: "cad", short: "CAD", team: "design", start: 8, end: 31 },
+    { key: "fab", short: "Fabrication", team: "mechanical", start: 15, end: 42 },
+    { key: "assembly", short: "Assembly", team: "mechanical", start: 22, end: 42 },
+    { key: "programming", short: "Programming", team: "programming", start: 8, end: 42 },
+    { key: "testing", short: "Code Testing", team: "programming", start: 29, end: 52 },
+    { key: "practice", short: "Practice", team: "mechanical", start: 36, end: 49 },
+  ];
+
+  for (var day = 1; day <= 49; day++) {
+    var active = BUILD_PHASES.filter(function (p) { return day >= p.start && day <= p.end; });
+    if (!active.length) continue;
+    active.sort(function (a, b) { return b.start - a.start; });
+    var headline = active[0];
+    var others = active.slice(1).map(function (p) { return p.short; });
+
+    fine.push({
+      id: "fine-bs-day" + day,
+      phase: "Build Season",
+      offset: day,
+      team: headline.team,
+      granularity: "daily",
+      short: "Day " + day + ": " + headline.short,
+      label: "Build Day " + day + ": " + headline.short,
+      detail: "Day " + day + " of build season. Main focus: " + headline.short +
+        (others.length ? "; also ongoing: " + others.join(", ") + "." : "."),
+    });
+  }
+
+  window.SEASON_FINE_GOALS = fine;
+})();
+
+// Recurring Open Alliance update reminders, when a team opts in (see the
+// toggle on season.html). Open Alliance teams publicly post a short
+// progress update on a regular cadence through build season.
+window.SEASON_OA_OFFSETS = [7, 14, 21, 28, 35, 42, 49];

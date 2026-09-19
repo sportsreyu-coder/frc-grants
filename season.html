@@ -50,10 +50,32 @@
   <div class="view-switch">
     <button type="button" class="view-tab active" id="view-tab-checklist">Checklist</button>
     <button type="button" class="view-tab" id="view-tab-calendar">Calendar</button>
+    <button type="button" class="settings-toggle" id="settings-toggle">⚙ Team settings</button>
   </div>
+
+  <section class="team-settings" id="team-settings" hidden>
+    <div class="settings-row">
+      <label class="oa-toggle">
+        <input type="checkbox" id="oa-checkbox">
+        <span>Our team is part of <strong>Open Alliance</strong> — remind us to post a progress update video</span>
+      </label>
+    </div>
+
+    <div class="settings-row custom-event-row">
+      <span class="eyebrow">Add your own date (robot reveal, ship date, anything else)</span>
+      <form id="custom-event-form">
+        <input type="text" id="custom-event-label" placeholder="e.g. Robot Reveal" maxlength="40" required>
+        <input type="date" id="custom-event-date" required>
+        <button type="submit" class="submit-btn-sm">Add to calendar</button>
+        <button type="button" class="submit-btn-sm submit-btn-ghost" id="quick-add-reveal">+ Robot Reveal</button>
+      </form>
+      <div id="custom-event-list" class="custom-event-list"></div>
+    </div>
+  </section>
 
   <div id="phase-list"></div>
   <div id="calendar-view" hidden></div>
+  <div id="cal-legend" class="cal-legend" hidden></div>
 </main>
 
 <footer class="site-footer">

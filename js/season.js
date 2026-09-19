@@ -7,6 +7,19 @@
   var saveProgress = Core.saveProgress;
   var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  var CUSTOM_KEY = "frcgrants_season_custom_events_v1";
+  var OA_KEY = "frcgrants_season_oa_enabled_v1";
+
+  var TEAM_LABELS = {
+    design: "Design",
+    mechanical: "Mechanical",
+    electrical: "Electrical",
+    programming: "Programming",
+    business: "Business/Outreach",
+    "cross-team": "Cross-team",
+    custom: "Your custom events",
+  };
+
   function el(tag, attrs, children) {
     var node = document.createElement(tag);
     if (attrs) {
@@ -21,6 +34,19 @@
     return node;
   }
 
+  function loadCustomEvents() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function saveCustomEvents(list) {
+    try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
+  function loadOAEnabled() {
+    try { return localStorage.getItem(OA_KEY) === "1"; } catch (e) { return false; }
+  }
+  function saveOAEnabled(v) {
+    try { localStorage.setItem(OA_KEY, v ? "1" : "0"); } catch (e) { /* ignore */ }
+  }
+
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
 
@@ -29,6 +55,8 @@
   var milestones = Core.getMilestonesWithDates();
   var progress = Core.loadProgress();
   var calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  var customEvents = loadCustomEvents();
+  var oaEnabled = loadOAEnabled();
 
   function isDone(m) { return !!progress[m.id]; }
   function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
@@ -57,12 +85,28 @@
     render();
   }
 
+  function toggleGeneric(id) {
+    if (progress[id]) delete progress[id];
+    else progress[id] = today.toISOString();
+    saveProgress(progress);
+    render();
+  }
+
+  function removeCustomEvent(id) {
+    customEvents = customEvents.filter(function (ce) { return ce.id !== id; });
+    saveCustomEvents(customEvents);
+    delete progress["custom-" + id];
+    saveProgress(progress);
+    render();
+  }
+
   function render() {
     document.getElementById("kickoff-date").textContent = formatDate(anchor);
     renderPace();
     renderProgressBar();
     renderPhases();
     renderCalendar();
+    renderSettings();
   }
 
   function renderPace() {
@@ -112,9 +156,8 @@
     document.getElementById("progress-fill").style.width = pct + "%";
   }
 
-  function statusOf(m) {
-    var done = isDone(m);
-    var overdue = !done && daysBetween(today, m.date) < 0;
+  function statusOf(done, date) {
+    var overdue = !done && daysBetween(today, date) < 0;
     return {
       done: done,
       overdue: overdue,
@@ -145,7 +188,7 @@
 
       var list = el("div", { class: "milestone-list" });
       items.forEach(function (m) {
-        var status = statusOf(m);
+        var status = statusOf(isDone(m), m.date);
 
         var checkbox = el("input", { type: "checkbox", id: "chk-" + m.id, "aria-label": m.label });
         checkbox.checked = status.done;
@@ -188,7 +231,8 @@
 
               subList.appendChild(el("label", { class: "ms-subtask-row", for: subId }, [
                 subChk,
-                el("span", { class: subDone ? "ms-subtask-text ms-subtask-done" : "ms-subtask-text" }, [sub]),
+                el("span", { class: "team-dot team-" + (sub.team || m.team || "cross-team") }),
+                el("span", { class: subDone ? "ms-subtask-text ms-subtask-done" : "ms-subtask-text" }, [sub.label]),
               ]));
             });
             bodyChildren.push(subList);
@@ -209,7 +253,7 @@
           }
         });
 
-        var row = el("div", { class: "milestone-row" }, [checkbox, body]);
+        var row = el("div", { class: "milestone-row team-edge team-edge-" + (m.team || "cross-team") }, [checkbox, body]);
         list.appendChild(row);
       });
 
@@ -218,9 +262,69 @@
     });
   }
 
+  // ---- Unified calendar item list: milestones + subtasks + fine-grained
+  // daily/weekly goals + Open Alliance reminders + team custom events. ----
+  function buildCalendarItems() {
+    var items = [];
+
+    milestones.forEach(function (m) {
+      items.push({
+        date: m.date, team: m.team || "cross-team", kind: "milestone",
+        short: m.short || m.label, title: m.label,
+        isDone: function () { return isDone(m); },
+        toggle: function () { toggleMilestone(m); },
+      });
+      (m.subtasks || []).forEach(function (sub, idx) {
+        items.push({
+          date: m.date, team: sub.team || m.team || "cross-team", kind: "subtask",
+          short: sub.label, title: sub.label + "  (part of “" + m.label + "”)",
+          isDone: function () { return isSubtaskDone(m, idx); },
+          toggle: function () { toggleSubtask(m, idx); },
+        });
+      });
+    });
+
+    (window.SEASON_FINE_GOALS || []).forEach(function (g) {
+      var gDate = Core.addDays(anchor, g.offset);
+      items.push({
+        date: gDate, team: g.team, kind: g.granularity,
+        short: g.short, title: g.label,
+        isDone: function () { return !!progress[g.id]; },
+        toggle: function () { toggleGeneric(g.id); },
+      });
+    });
+
+    if (oaEnabled) {
+      (window.SEASON_OA_OFFSETS || []).forEach(function (off, idx) {
+        var oaId = "oa-update-" + idx;
+        var oaDate = Core.addDays(anchor, off);
+        items.push({
+          date: oaDate, team: "business", kind: "oa",
+          short: "📹 Post OA Update", title: "Open Alliance: post this week's progress update video",
+          isDone: function () { return !!progress[oaId]; },
+          toggle: function () { toggleGeneric(oaId); },
+        });
+      });
+    }
+
+    customEvents.forEach(function (ce) {
+      var ceId = "custom-" + ce.id;
+      items.push({
+        date: new Date(ce.date + "T00:00:00"), team: "custom", kind: "custom",
+        short: ce.label, title: ce.label + " (your custom event)",
+        isDone: function () { return !!progress[ceId]; },
+        toggle: function () { toggleGeneric(ceId); },
+      });
+    });
+
+    return items;
+  }
+
   function renderCalendar() {
     var container = document.getElementById("calendar-view");
+    var legend = document.getElementById("cal-legend");
     container.hidden = viewMode !== "calendar";
+    legend.hidden = viewMode !== "calendar";
     if (viewMode !== "calendar") return;
 
     container.innerHTML = "";
@@ -257,11 +361,12 @@
     var startDow = firstOfMonth.getDay();
     var daysInMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
 
+    var items = buildCalendarItems();
     var byDay = {};
-    milestones.forEach(function (m) {
-      if (m.date.getFullYear() === calendarMonth.getFullYear() && m.date.getMonth() === calendarMonth.getMonth()) {
-        var d = m.date.getDate();
-        (byDay[d] = byDay[d] || []).push(m);
+    items.forEach(function (item) {
+      if (item.date.getFullYear() === calendarMonth.getFullYear() && item.date.getMonth() === calendarMonth.getMonth()) {
+        var d = item.date.getDate();
+        (byDay[d] = byDay[d] || []).push(item);
       }
     });
 
@@ -274,14 +379,15 @@
         el("div", { class: "cal-daynum" }, [String(day)]),
       ]);
 
-      (byDay[day] || []).forEach(function (m) {
-        var status = statusOf(m);
+      (byDay[day] || []).forEach(function (item) {
+        var done = item.isDone();
+        var status = statusOf(done, item.date);
         var chip = el("button", {
           type: "button",
-          class: "cal-chip " + status.cls,
-          title: m.label + " (" + m.phase + ") -- click to mark " + (status.done ? "not done" : "done"),
-        }, [m.label]);
-        chip.addEventListener("click", function () { toggleMilestone(m); });
+          class: "cal-chip " + status.cls + " team-edge team-edge-" + item.team,
+          title: item.title + " -- click to mark " + (done ? "not done" : "done"),
+        }, [item.short]);
+        chip.addEventListener("click", item.toggle);
         cell.appendChild(chip);
       });
 
@@ -289,6 +395,39 @@
     }
 
     container.appendChild(grid);
+    renderLegend();
+  }
+
+  function renderLegend() {
+    var legend = document.getElementById("cal-legend");
+    legend.innerHTML = "";
+    ["design", "mechanical", "electrical", "programming", "business", "cross-team", "custom"].forEach(function (team) {
+      legend.appendChild(el("span", { class: "legend-item" }, [
+        el("span", { class: "team-dot team-" + team }),
+        TEAM_LABELS[team],
+      ]));
+    });
+  }
+
+  function renderSettings() {
+    document.getElementById("oa-checkbox").checked = oaEnabled;
+
+    var list = document.getElementById("custom-event-list");
+    list.innerHTML = "";
+    if (!customEvents.length) return;
+
+    customEvents
+      .slice()
+      .sort(function (a, b) { return a.date.localeCompare(b.date); })
+      .forEach(function (ce) {
+        var row = el("div", { class: "custom-event-item" }, [
+          el("span", {}, [ce.label + " — " + formatDate(new Date(ce.date + "T00:00:00"))]),
+        ]);
+        var removeBtn = el("button", { type: "button", class: "custom-event-remove", "aria-label": "Remove" }, ["×"]);
+        removeBtn.addEventListener("click", function () { removeCustomEvent(ce.id); });
+        row.appendChild(removeBtn);
+        list.appendChild(row);
+      });
   }
 
   document.getElementById("season-reset").addEventListener("click", function () {
@@ -309,6 +448,39 @@
     document.getElementById("view-tab-calendar").classList.add("active");
     document.getElementById("view-tab-checklist").classList.remove("active");
     render();
+  });
+
+  document.getElementById("settings-toggle").addEventListener("click", function () {
+    var panel = document.getElementById("team-settings");
+    panel.hidden = !panel.hidden;
+  });
+
+  document.getElementById("oa-checkbox").addEventListener("change", function (e) {
+    oaEnabled = e.target.checked;
+    saveOAEnabled(oaEnabled);
+    render();
+  });
+
+  document.getElementById("custom-event-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var labelInput = document.getElementById("custom-event-label");
+    var dateInput = document.getElementById("custom-event-date");
+    if (!labelInput.value.trim() || !dateInput.value) return;
+
+    customEvents.push({
+      id: "ce" + Date.now() + Math.floor(Math.random() * 1000),
+      label: labelInput.value.trim(),
+      date: dateInput.value,
+    });
+    saveCustomEvents(customEvents);
+    labelInput.value = "";
+    dateInput.value = "";
+    render();
+  });
+
+  document.getElementById("quick-add-reveal").addEventListener("click", function () {
+    document.getElementById("custom-event-label").value = "Robot Reveal";
+    document.getElementById("custom-event-date").focus();
   });
 
   render();
