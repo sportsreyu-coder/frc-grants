@@ -1105,7 +1105,33 @@ main.site-main {
   gap: 12px;
 }
 
+.ms-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
 .ms-label { font-weight: 600; font-size: 15px; color: var(--text); }
+
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+.team-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-right: 2px;
+}
 
 .ms-detail { margin: 6px 0 0; color: var(--text-faint); font-size: 13.5px; }
 
@@ -1285,6 +1311,36 @@ main.site-main {
 
 .custom-event-row .eyebrow { margin-bottom: 10px; display: block; }
 
+.roster-row .eyebrow { margin-bottom: 6px; display: block; }
+
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.roster-field {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.roster-field input {
+  width: 52px;
+  padding: 6px 8px;
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.roster-field input:focus { outline: none; border-color: var(--accent); }
+
 #custom-event-form {
   display: flex;
   flex-wrap: wrap;
@@ -1442,6 +1498,33 @@ main.site-main {
 .ms-done { background: var(--green-bg); color: var(--green); }
 .ms-overdue { background: var(--red-bg); color: var(--red-fg); }
 .ms-upcoming { background: var(--gray-bg); color: var(--gray-fg); }
+
+.cal-chip-big {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 5px 6px;
+  text-align: center;
+  cursor: default;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.kickoff-jump-btn {
+  margin-left: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.kickoff-jump-btn:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
 
 /* ---------- Footer ---------- */
 

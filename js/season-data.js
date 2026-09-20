@@ -246,12 +246,16 @@ window.SEASON_MILESTONES = [
 // ---- Fine-grained calendar goals (generated, not hand-typed) ----
 //
 // These are calendar-only -- they don't clutter the main checklist, but
-// they're exactly the "daily goals" a team can check off day by day
-// during the two portions of the year that actually have a fixed,
-// universal calendar shape (preseason and build season). Competition
-// season and postseason vary too much team-to-team (how many events,
-// whether you make champs) to responsibly invent a fake daily schedule
-// for them, so those stay at the milestone level above.
+// they're exactly the "daily goals" a team can check off day by day.
+// Preseason gets a weekly cadence and build season gets a day-by-day
+// build phase, since both have a fixed, universal shape from FIRST's own
+// timeline. Competition season's daily tasks are generated separately,
+// below `window.SEASON_FINE_GOALS`, since -- unlike these two -- they
+// depend on a per-team setting (subteam roster size) rather than being
+// fixed at load time. Postseason varies too much team to team (whether
+// you make champs, how many off-season events you attend) to responsibly
+// invent a daily schedule for it, so it stays at the milestone level
+// above.
 (function () {
   "use strict";
 
@@ -334,6 +338,147 @@ window.SEASON_MILESTONES = [
 
   window.SEASON_FINE_GOALS = fine;
 })();
+
+// ---- Competition season daily tasks (roster-aware, generated) ----
+//
+// Competition season doesn't have a fixed universal shape the way
+// preseason/build season do (event count and dates vary team to team), so
+// instead of a fixed calendar we generate one: each subteam gets its own
+// pool of specific, competition-relevant tasks, and how often a subteam's
+// tasks show up on the calendar scales with how many students are on it
+// (season.html's Team Settings panel; season.js persists it and calls
+// buildCompetitionSeasonGoals with the result). A bigger subteam has more
+// hands free to always have something in flight, so it gets a task most
+// or every day; a one- or two-person subteam gets a task every few days
+// instead of being asked to do something new daily. Tasks rotate through
+// each pool in order before repeating, so the season doesn't loop the
+// same handful of lines -- and since only a couple of entries per pool
+// mention driver practice, it shows up occasionally, not constantly.
+window.SEASON_COMPETITION_POOLS = {
+  mechanical: [
+    { short: "Fastener Check", label: "Inspect and tighten fasteners across the drivetrain and mechanisms" },
+    { short: "Pit Kit Restock", label: "Restock and reorganize the pit spare-parts kit" },
+    { short: "Wheel/Tread Swap", label: "Inspect wheels and treads and swap any that are worn" },
+    { short: "Chain/Belt Check", label: "Clean, lubricate, and inspect chains, belts, and gearboxes" },
+    { short: "Pit-Stop Drill", label: "Run a pit-stop drill: swap a battery and clear a simulated jam in under two minutes" },
+    { short: "Fab Replacement", label: "Fabricate or 3D print replacement parts for anything that broke last event" },
+    { short: "Reliability Run", label: "Run mechanisms back-to-back to simulate a full match day and catch failures early" },
+    { short: "Bumper Check", label: "Inspect bumpers and the frame perimeter for damage and rule compliance" },
+    { short: "Practice: Endgame", label: "Run focused driver practice reps on the endgame/climb routine" },
+    { short: "Wiring Strain Check", label: "Recheck wiring strain relief and connectors after transport and competition use" },
+    { short: "Update Pit Checklist", label: "Review and update the pit-crew checklist from the last event" },
+    { short: "Practice: Cycle Time", label: "Run driver practice focused on cycle time and consistency" },
+  ],
+  electrical: [
+    { short: "Battery Rotation", label: "Check and rotate battery charge cycles; retire any battery below spec" },
+    { short: "Connector Check", label: "Inspect connectors and wire crimps for wear or corrosion" },
+    { short: "Panel Relabel", label: "Relabel and photograph the electrical panel for faster pit troubleshooting" },
+    { short: "Backup Wiring Kit", label: "Build or restock a spare wiring harness kit for quick swaps" },
+    { short: "Voltage Check", label: "Check voltage drop under load on the drivetrain and mechanisms" },
+    { short: "CAN Bus Audit", label: "Audit CAN bus wiring and device IDs for loose connections" },
+    { short: "Radio/Comms Check", label: "Test radio and driver station comms for a clean connection" },
+    { short: "Practice: Power Cycle", label: "Time a full robot power-cycle and boot sequence for pit efficiency" },
+    { short: "Sensor Recalibrate", label: "Recalibrate sensors (gyro, encoders, limit switches) after transport" },
+    { short: "Indicator Check", label: "Check status LEDs and indicators used for pit diagnostics" },
+  ],
+  programming: [
+    { short: "Code Review", label: "Review and clean up autonomous and teleop code from the last event" },
+    { short: "Log Bugs", label: "Log and triage bugs and glitches seen at the last event" },
+    { short: "Tune Autonomous", label: "Retune autonomous paths based on the last event's field conditions" },
+    { short: "Dashboard Update", label: "Update the driver station dashboard with the data the drive team actually needs" },
+    { short: "Practice: Auto Reliability", label: "Run autonomous routines repeatedly to confirm reliability" },
+    { short: "Vision Tuning", label: "Retune the vision/AprilTag pipeline lighting thresholds for the next venue" },
+    { short: "Backup Code Path", label: "Build or test a simplified backup autonomous/teleop mode" },
+    { short: "Data Log Review", label: "Review match data logs for unexpected sensor or controller behavior" },
+    { short: "Practice: Driver Feedback", label: "Get driver feedback on control feel and adjust sensitivity/curves" },
+    { short: "Repo Cleanup", label: "Clean up and tag the code repository after the last event" },
+    { short: "Pit Display Check", label: "Confirm the pit and scouting display tools are working correctly" },
+    { short: "Simulate Match Code", label: "Simulate a full match sequence in code to catch state-machine bugs" },
+  ],
+  design: [
+    { short: "Post-Event Debrief", label: "Debrief with the drive team and mentors on what worked and what didn't" },
+    { short: "Strategy Update", label: "Update game strategy based on scouting data from other teams" },
+    { short: "Alliance Selection Prep", label: "Prepare alliance-selection criteria and target picks for the next event" },
+    { short: "Iteration Plan", label: "Turn the punch list into a prioritized iteration plan for the next event" },
+    { short: "CAD Update", label: "Update CAD to reflect any on-the-fly changes made at the last event" },
+    { short: "Rules Recheck", label: "Re-examine field elements and rules for any missed scoring opportunities" },
+    { short: "Match Video Review", label: "Review match video with the team to spot mechanism or driving issues" },
+    { short: "Opponent Trends", label: "Track trends across other teams' robots and playing styles" },
+    { short: "Practice: Strategy Call", label: "Run a mock strategy call under a timer, like alliance selection" },
+    { short: "Postmortem Doc", label: "Write up a short postmortem of anything that broke and why" },
+  ],
+  business: [
+    { short: "Scouting Data Review", label: "Clean up and review scouting data collected at the last event" },
+    { short: "Sponsor Update", label: "Send a short update to sponsors about how the last event went" },
+    { short: "Social Media Post", label: "Post event photos and a recap to team social media" },
+    { short: "Award Draft Update", label: "Add fresh details from the last event to the Impact Award draft" },
+    { short: "Fundraising Check-in", label: "Check in on merch sales or fundraising totals" },
+    { short: "Volunteer Coordination", label: "Confirm volunteer and chaperone coverage for the next event" },
+    { short: "Scouting Lead Training", label: "Train new scouts on the scouting app/spreadsheet before the next event" },
+    { short: "Travel Logistics", label: "Confirm travel, lodging, and pit logistics for the next event" },
+    { short: "Thank-You Notes", label: "Send thank-you notes to any judges, volunteers, or hosts from the last event" },
+    { short: "Practice: Judging Q&A", label: "Run a mock judging Q&A session with the team" },
+    { short: "Budget Check-in", label: "Check the remaining season budget against upcoming event costs" },
+    { short: "Outreach Post", label: "Share a season update with school or community partners" },
+  ],
+};
+
+// How many days apart a subteam's tasks land, based on its member count --
+// more students means more bandwidth to always have something going, so
+// their tasks show up more often; a one- or two-person subteam gets a
+// lighter, less frequent cadence instead of a new task every single day.
+function seasonCadenceForTeamSize(n) {
+  if (!n || n <= 0) return 0; // no members on this subteam -> no tasks generated
+  if (n === 1) return 6;
+  if (n === 2) return 4;
+  if (n === 3) return 3;
+  if (n <= 5) return 2;
+  return 1;
+}
+window.seasonCadenceForTeamSize = seasonCadenceForTeamSize;
+
+// Builds the roster-aware Competition Season daily items for offsets
+// 49-90 (Kickoff+49 through Kickoff+90). `teamSizes` is a
+// {mechanical, electrical, programming, design, business} map of student
+// counts; `teamLabels` optionally maps team id -> display name for the
+// generated detail text.
+window.buildCompetitionSeasonGoals = function (teamSizes, teamLabels) {
+  var TEAM_ORDER = ["mechanical", "electrical", "programming", "design", "business"];
+  var goals = [];
+
+  TEAM_ORDER.forEach(function (team, teamIdx) {
+    var size = (teamSizes && teamSizes[team]) || 0;
+    var cadence = seasonCadenceForTeamSize(size);
+    if (!cadence) return;
+
+    var pool = window.SEASON_COMPETITION_POOLS[team] || [];
+    if (!pool.length) return;
+
+    var dayOffset = teamIdx % cadence; // stagger subteams so they don't all land on the same days
+    var poolIdx = 0;
+    var teamName = (teamLabels && teamLabels[team]) || team;
+
+    for (var day = 49; day <= 90; day++) {
+      if ((day - 49 - dayOffset) % cadence !== 0) continue;
+      var task = pool[poolIdx % pool.length];
+      poolIdx++;
+      var compDayNum = day - 48;
+
+      goals.push({
+        id: "fine-cs-day" + day + "-" + team,
+        phase: "Competition Season",
+        offset: day,
+        team: team,
+        granularity: "daily",
+        short: task.short,
+        label: "Comp Day " + compDayNum + " (" + teamName + "): " + task.label,
+        detail: task.label + " -- day " + compDayNum + " of competition season, " + size + "-person " + teamName + " subteam.",
+      });
+    }
+  });
+
+  return goals;
+};
 
 // Recurring Open Alliance update reminders, when a team opts in (see the
 // toggle on season.html). Open Alliance teams publicly post a short

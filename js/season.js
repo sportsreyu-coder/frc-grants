@@ -9,6 +9,8 @@
 
   var CUSTOM_KEY = "frcgrants_season_custom_events_v1";
   var OA_KEY = "frcgrants_season_oa_enabled_v1";
+  var ROSTER_KEY = "frcgrants_season_team_sizes_v1";
+  var DEFAULT_TEAM_SIZES = { mechanical: 6, electrical: 3, programming: 4, design: 4, business: 5 };
 
   var TEAM_LABELS = {
     design: "Design",
@@ -46,6 +48,17 @@
   function saveOAEnabled(v) {
     try { localStorage.setItem(OA_KEY, v ? "1" : "0"); } catch (e) { /* ignore */ }
   }
+  function loadTeamSizes() {
+    try {
+      var stored = JSON.parse(localStorage.getItem(ROSTER_KEY) || "{}");
+      return Object.assign({}, DEFAULT_TEAM_SIZES, stored);
+    } catch (e) {
+      return Object.assign({}, DEFAULT_TEAM_SIZES);
+    }
+  }
+  function saveTeamSizes(sizes) {
+    try { localStorage.setItem(ROSTER_KEY, JSON.stringify(sizes)); } catch (e) { /* ignore */ }
+  }
 
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
@@ -57,6 +70,7 @@
   var calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   var customEvents = loadCustomEvents();
   var oaEnabled = loadOAEnabled();
+  var teamSizes = loadTeamSizes();
 
   function isDone(m) { return !!progress[m.id]; }
   function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
@@ -207,9 +221,16 @@
           toggleExpand();
         });
 
+        var msTeam = m.team || "cross-team";
         var bodyChildren = [
           el("div", { class: "ms-top" }, [
-            el("span", { class: "ms-label" }, [m.label]),
+            el("div", { class: "ms-title-group" }, [
+              el("span", { class: "ms-label" }, [m.label]),
+              el("span", { class: "team-badge" }, [
+                el("span", { class: "team-dot team-" + msTeam }),
+                TEAM_LABELS[msTeam] || msTeam,
+              ]),
+            ]),
             el("span", { class: "pill " + status.cls }, [status.label]),
           ]),
           el("p", { class: "ms-detail" }, [m.detail]),
@@ -225,13 +246,15 @@
             m.subtasks.forEach(function (sub, idx) {
               var subDone = isSubtaskDone(m, idx);
               var subId = "chk-" + m.id + "-sub" + idx;
+              var subTeam = sub.team || m.team || "cross-team";
               var subChk = el("input", { type: "checkbox", id: subId });
               subChk.checked = subDone;
               subChk.addEventListener("change", function () { toggleSubtask(m, idx); });
 
               subList.appendChild(el("label", { class: "ms-subtask-row", for: subId }, [
                 subChk,
-                el("span", { class: "team-dot team-" + (sub.team || m.team || "cross-team") }),
+                el("span", { class: "team-dot team-" + subTeam }),
+                el("span", { class: "team-tag" }, [TEAM_LABELS[subTeam] || subTeam]),
                 el("span", { class: subDone ? "ms-subtask-text ms-subtask-done" : "ms-subtask-text" }, [sub.label]),
               ]));
             });
@@ -267,6 +290,13 @@
   function buildCalendarItems() {
     var items = [];
 
+    items.push({
+      date: anchor, team: "cross-team", kind: "kickoff", big: true,
+      short: "🚀 KICKOFF", title: "Kickoff — the season officially begins",
+      isDone: function () { return today >= anchor; },
+      toggle: function () {},
+    });
+
     milestones.forEach(function (m) {
       items.push({
         date: m.date, team: m.team || "cross-team", kind: "milestone",
@@ -284,7 +314,12 @@
       });
     });
 
-    (window.SEASON_FINE_GOALS || []).forEach(function (g) {
+    var fineGoals = (window.SEASON_FINE_GOALS || []);
+    if (window.buildCompetitionSeasonGoals) {
+      fineGoals = fineGoals.concat(window.buildCompetitionSeasonGoals(teamSizes, TEAM_LABELS));
+    }
+
+    fineGoals.forEach(function (g) {
       var gDate = Core.addDays(anchor, g.offset);
       items.push({
         date: gDate, team: g.team, kind: g.granularity,
@@ -380,6 +415,15 @@
       ]);
 
       (byDay[day] || []).forEach(function (item) {
+        if (item.big) {
+          var bigChip = el("div", {
+            class: "cal-chip cal-chip-big",
+            title: item.title,
+          }, [item.short]);
+          cell.appendChild(bigChip);
+          return;
+        }
+
         var done = item.isDone();
         var status = statusOf(done, item.date);
         var chip = el("button", {
@@ -409,8 +453,15 @@
     });
   }
 
+  var ROSTER_TEAMS = ["mechanical", "electrical", "programming", "design", "business"];
+
   function renderSettings() {
     document.getElementById("oa-checkbox").checked = oaEnabled;
+
+    ROSTER_TEAMS.forEach(function (team) {
+      var input = document.getElementById("roster-" + team);
+      if (input && document.activeElement !== input) input.value = teamSizes[team];
+    });
 
     var list = document.getElementById("custom-event-list");
     list.innerHTML = "";
@@ -450,6 +501,14 @@
     render();
   });
 
+  document.getElementById("goto-kickoff").addEventListener("click", function () {
+    viewMode = "calendar";
+    document.getElementById("view-tab-calendar").classList.add("active");
+    document.getElementById("view-tab-checklist").classList.remove("active");
+    calendarMonth = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+    render();
+  });
+
   document.getElementById("settings-toggle").addEventListener("click", function () {
     var panel = document.getElementById("team-settings");
     panel.hidden = !panel.hidden;
@@ -459,6 +518,17 @@
     oaEnabled = e.target.checked;
     saveOAEnabled(oaEnabled);
     render();
+  });
+
+  ROSTER_TEAMS.forEach(function (team) {
+    var input = document.getElementById("roster-" + team);
+    if (!input) return;
+    input.addEventListener("change", function (e) {
+      var n = parseInt(e.target.value, 10);
+      teamSizes[team] = isNaN(n) || n < 0 ? 0 : n;
+      saveTeamSizes(teamSizes);
+      render();
+    });
   });
 
   document.getElementById("custom-event-form").addEventListener("submit", function (e) {
