@@ -12,6 +12,8 @@
   var ROSTER_KEY = "frcgrants_season_team_sizes_v1";
   var DEFAULT_TEAM_SIZES = { mechanical: 6, electrical: 3, programming: 4, design: 4, business: 5 };
   var MECH_KEY = "frcgrants_season_mechanisms_v1";
+  var MEMBERS_KEY = "frcgrants_season_members_v1";
+  var ASSIGN_KEY = "frcgrants_season_assignments_v1";
 
   var TEAM_LABELS = {
     design: "Design",
@@ -66,6 +68,18 @@
   function saveMechanisms(list) {
     try { localStorage.setItem(MECH_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
   }
+  function loadMembers() {
+    try { return JSON.parse(localStorage.getItem(MEMBERS_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function saveMembers(list) {
+    try { localStorage.setItem(MEMBERS_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
+  function loadAssignments() {
+    try { return JSON.parse(localStorage.getItem(ASSIGN_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function saveAssignments(a) {
+    try { localStorage.setItem(ASSIGN_KEY, JSON.stringify(a)); } catch (e) { /* ignore */ }
+  }
 
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
@@ -79,6 +93,8 @@
   var oaEnabled = loadOAEnabled();
   var teamSizes = loadTeamSizes();
   var mechanisms = loadMechanisms();
+  var members = loadMembers();
+  var assignments = loadAssignments();
 
   function isDone(m) { return !!progress[m.id]; }
   function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
@@ -126,6 +142,57 @@
     mechanisms.splice(idx, 1);
     saveMechanisms(mechanisms);
     render();
+  }
+
+  function memberById(id) {
+    return members.filter(function (mm) { return mm.id === id; })[0] || null;
+  }
+  function assignedMember(itemId) {
+    var mid = assignments[itemId];
+    return mid ? memberById(mid) : null;
+  }
+  function setAssignment(itemId, memberId) {
+    if (memberId) assignments[itemId] = memberId;
+    else delete assignments[itemId];
+    saveAssignments(assignments);
+    render();
+  }
+  function removeMember(idx) {
+    var mm = members[idx];
+    members.splice(idx, 1);
+    saveMembers(members);
+    if (mm) {
+      Object.keys(assignments).forEach(function (k) {
+        if (assignments[k] === mm.id) delete assignments[k];
+      });
+      saveAssignments(assignments);
+    }
+    render();
+  }
+
+  // Fills a <select> with "Unassigned" + every team member, selecting
+  // `currentId` if given. Shared by the checklist's inline assign control
+  // and the calendar item modal.
+  function fillMemberOptions(selectEl, currentId) {
+    selectEl.innerHTML = "";
+    selectEl.appendChild(el("option", { value: "" }, ["Unassigned"]));
+    members.forEach(function (mm) {
+      selectEl.appendChild(el("option", { value: mm.id }, [mm.name + " (" + (TEAM_LABELS[mm.team] || mm.team) + ")"]));
+    });
+    selectEl.value = currentId || "";
+  }
+
+  // Compact "assign to" dropdown used inline on checklist rows. Stops
+  // propagation so it doesn't trigger the row's expand/checkbox behavior.
+  function buildAssignControl(itemId) {
+    var wrap = el("div", { class: "assign-wrap" });
+    wrap.addEventListener("click", function (e) { e.stopPropagation(); });
+    var select = el("select", { class: "assign-select", "aria-label": "Assign to" });
+    fillMemberOptions(select, assignments[itemId]);
+    select.disabled = !members.length;
+    select.addEventListener("change", function () { setAssignment(itemId, select.value || null); });
+    wrap.appendChild(select);
+    return wrap;
   }
 
   function render() {
@@ -270,6 +337,7 @@
                 el("span", { class: "team-dot team-" + subTeam }),
                 el("span", { class: "team-tag" }, [TEAM_LABELS[subTeam] || subTeam]),
                 el("span", { class: subDone ? "ms-subtask-text ms-subtask-done" : "ms-subtask-text" }, [sub.label]),
+                buildAssignControl(subtaskKey(m, idx)),
               ]));
             });
             bodyChildren.push(subList);
@@ -277,7 +345,10 @@
         }
 
         bodyChildren.push(el("div", { class: "ms-meta-row" }, [
-          el("span", { class: "ms-date" }, ["Recommended: " + formatDate(m.date)]),
+          el("div", { class: "ms-meta-left" }, [
+            el("span", { class: "ms-date" }, ["Recommended: " + formatDate(m.date)]),
+            buildAssignControl(m.id),
+          ]),
           toggleBtn,
         ]));
 
@@ -305,6 +376,7 @@
     var items = [];
 
     items.push({
+      id: "kickoff",
       date: anchor, team: "cross-team", kind: "kickoff", big: true,
       short: "🚀 KICKOFF", title: "Kickoff — the season officially begins",
       detail: "FIRST releases this year's game today. Read the manual as a full team, run an early strategy discussion, and get moving on Day 1 tasks.",
@@ -314,6 +386,7 @@
 
     milestones.forEach(function (m) {
       items.push({
+        id: m.id,
         date: m.date, team: m.team || "cross-team", kind: "milestone",
         short: m.short || m.label, title: m.label,
         detail: m.detail, expanded: m.expanded,
@@ -322,6 +395,7 @@
       });
       (m.subtasks || []).forEach(function (sub, idx) {
         items.push({
+          id: subtaskKey(m, idx),
           date: m.date, team: sub.team || m.team || "cross-team", kind: "subtask",
           short: sub.label, title: sub.label,
           detail: "Part of the “" + m.label + "” milestone. " + (m.detail || ""),
@@ -342,6 +416,7 @@
     fineGoals.forEach(function (g) {
       var gDate = Core.addDays(anchor, g.offset);
       items.push({
+        id: g.id,
         date: gDate, team: g.team, kind: g.granularity,
         short: g.short, title: g.label,
         detail: g.detail,
@@ -355,6 +430,7 @@
         var oaId = "oa-update-" + idx;
         var oaDate = Core.addDays(anchor, off);
         items.push({
+          id: oaId,
           date: oaDate, team: "business", kind: "oa",
           short: "📹 Post OA Update", title: "Open Alliance: post this week's progress update video",
           detail: "Open Alliance teams publicly post a short progress-update video on a regular cadence through build season. This is one of those check-ins.",
@@ -367,6 +443,7 @@
     customEvents.forEach(function (ce) {
       var ceId = "custom-" + ce.id;
       items.push({
+        id: ceId,
         date: new Date(ce.date + "T00:00:00"), team: "custom", kind: "custom",
         short: ce.label, title: ce.label,
         detail: "A custom date your team added to the calendar.",
@@ -449,13 +526,17 @@
           return;
         }
 
+        var assignedTo = assignedMember(item.id);
+        var chipText = item.short + (assignedTo ? " · " + assignedTo.name.split(" ")[0] : "");
+        var chipTitle = item.title + (assignedTo ? " — assigned to " + assignedTo.name : "");
+
         var done = item.isDone();
         var status = statusOf(done, item.date);
         var chip = el("button", {
           type: "button",
           class: "cal-chip " + status.cls + " team-edge team-edge-" + item.team,
-          title: item.title,
-        }, [item.short]);
+          title: chipTitle,
+        }, [chipText]);
         chip.addEventListener("click", function () { openItemModal(item); });
         cell.appendChild(chip);
       });
@@ -502,11 +583,18 @@
     if (item.expanded) body.appendChild(el("p", { class: "ms-expanded" }, [item.expanded]));
 
     var toggleBtn = document.getElementById("cal-modal-toggle");
+    var assignRow = document.getElementById("cal-modal-assign-row");
     if (item.big) {
       toggleBtn.hidden = true;
+      assignRow.hidden = true;
     } else {
       toggleBtn.hidden = false;
+      assignRow.hidden = false;
       refreshModalToggle();
+      var assignSelect = document.getElementById("cal-modal-assign");
+      fillMemberOptions(assignSelect, assignments[item.id]);
+      assignSelect.disabled = !members.length;
+      assignSelect.onchange = function () { setAssignment(item.id, assignSelect.value || null); };
     }
 
     modalOverlay.hidden = false;
@@ -557,6 +645,19 @@
       removeBtn.addEventListener("click", function () { removeMechanism(idx); });
       chip.appendChild(removeBtn);
       mechList.appendChild(chip);
+    });
+
+    var memberListEl = document.getElementById("member-list");
+    memberListEl.innerHTML = "";
+    members.forEach(function (mm, idx) {
+      var chip = el("span", { class: "member-chip" }, [
+        el("span", { class: "team-dot team-" + mm.team }),
+        mm.name,
+      ]);
+      var removeBtn = el("button", { type: "button", class: "member-remove", "aria-label": "Remove " + mm.name }, ["×"]);
+      removeBtn.addEventListener("click", function () { removeMember(idx); });
+      chip.appendChild(removeBtn);
+      memberListEl.appendChild(chip);
     });
 
     var list = document.getElementById("custom-event-list");
@@ -662,6 +763,75 @@
     saveMechanisms(mechanisms);
     input.value = "";
     render();
+  });
+
+  document.getElementById("member-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nameInput = document.getElementById("member-name");
+    var teamSelect = document.getElementById("member-team");
+    var name = nameInput.value.trim();
+    if (!name) return;
+
+    members.push({
+      id: "mem" + Date.now() + Math.floor(Math.random() * 1000),
+      name: name,
+      team: teamSelect.value,
+    });
+    saveMembers(members);
+    nameInput.value = "";
+    render();
+  });
+
+  // ---- Calendar export (.ics) ----
+  function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+  function icsDate(d) { return d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()); }
+  function icsEscape(s) {
+    return String(s || "")
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\n/g, "\\n");
+  }
+
+  function buildICS() {
+    var items = buildCalendarItems();
+    var now = new Date();
+    var stamp = icsDate(now) + "T" + pad2(now.getUTCHours()) + pad2(now.getUTCMinutes()) + pad2(now.getUTCSeconds()) + "Z";
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FRC Grants//Season Tracker//EN", "CALSCALE:GREGORIAN"];
+
+    items.forEach(function (item) {
+      var start = icsDate(item.date);
+      var end = icsDate(new Date(item.date.getTime() + 24 * 60 * 60 * 1000));
+      var assignedTo = assignedMember(item.id);
+      var desc = item.detail || "";
+      if (assignedTo) desc += (desc ? "\n\n" : "") + "Assigned to: " + assignedTo.name;
+
+      lines.push(
+        "BEGIN:VEVENT",
+        "UID:" + item.id + "@frcgrants-season-tracker",
+        "DTSTAMP:" + stamp,
+        "DTSTART;VALUE=DATE:" + start,
+        "DTEND;VALUE=DATE:" + end,
+        "SUMMARY:" + icsEscape(item.title),
+        "DESCRIPTION:" + icsEscape(desc),
+        "END:VEVENT"
+      );
+    });
+
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+
+  document.getElementById("ics-export-btn").addEventListener("click", function () {
+    var blob = new Blob([buildICS()], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "frc-season-tracker.ics";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   });
 
   render();

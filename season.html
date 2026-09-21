@@ -58,6 +58,7 @@
   <div class="view-switch">
     <button type="button" class="view-tab active" id="view-tab-checklist">Checklist</button>
     <button type="button" class="view-tab" id="view-tab-calendar">Calendar</button>
+    <button type="button" class="ics-export-btn" id="ics-export-btn">⬇ Export .ics</button>
     <button type="button" class="settings-toggle" id="settings-toggle">⚙ Team settings</button>
   </div>
 
@@ -82,6 +83,24 @@
         <button type="submit" class="submit-btn-sm">Add mechanism</button>
       </form>
       <div id="mechanism-list" class="mechanism-list"></div>
+    </div>
+
+    <div class="settings-row members-row">
+      <span class="eyebrow">Team members — for assigning specific tasks to specific people</span>
+      <p class="finder-hint" style="margin-top:0">Add your teammates once, then open any task (checklist or calendar) to assign it to someone by name.</p>
+      <form id="member-form">
+        <input type="text" id="member-name" placeholder="e.g. Alex Kim" maxlength="40" required>
+        <select id="member-team">
+          <option value="mechanical">Mechanical</option>
+          <option value="electrical">Electrical</option>
+          <option value="programming">Programming</option>
+          <option value="design">Design/Strategy</option>
+          <option value="business">Business/Outreach</option>
+          <option value="cross-team">Cross-team</option>
+        </select>
+        <button type="submit" class="submit-btn-sm">Add member</button>
+      </form>
+      <div id="member-list" class="member-list"></div>
     </div>
 
     <div class="settings-row">
@@ -115,6 +134,10 @@
     <h3 class="cal-modal-title" id="cal-modal-title"></h3>
     <div class="cal-modal-team" id="cal-modal-team"></div>
     <div id="cal-modal-body"></div>
+    <div class="cal-modal-assign" id="cal-modal-assign-row">
+      <label for="cal-modal-assign" class="eyebrow">Assigned to</label>
+      <select id="cal-modal-assign"></select>
+    </div>
     <div class="cal-modal-actions">
       <button type="button" class="submit-btn-sm" id="cal-modal-toggle">Mark done</button>
     </div>
