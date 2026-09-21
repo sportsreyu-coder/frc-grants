@@ -1507,7 +1507,7 @@ main.site-main {
   letter-spacing: 0.04em;
   padding: 5px 6px;
   text-align: center;
-  cursor: default;
+  cursor: pointer;
   box-shadow: 0 0 0 1px var(--accent);
 }
 
@@ -1525,6 +1525,127 @@ main.site-main {
 }
 
 .kickoff-jump-btn:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+/* ---------- Calendar item detail modal ---------- */
+
+.cal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.cal-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.cal-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-faint);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cal-modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+.cal-modal-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+
+.cal-modal-title {
+  margin: 0 0 10px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 22px;
+  padding-right: 30px;
+}
+
+.cal-modal-team { margin-bottom: 14px; }
+
+.cal-modal-body .ms-detail { margin: 0 0 10px; }
+
+.cal-modal-actions {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---------- Mechanism list (Team Settings) ---------- */
+
+#mechanism-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#mechanism-form input[type="text"] {
+  flex: 1;
+  min-width: 160px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 13.5px;
+}
+
+.mechanism-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.mechanism-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px 5px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mechanism-remove {
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  padding: 2px;
+}
+
+.mechanism-remove:hover { opacity: 1; }
 
 /* ---------- Footer ---------- */
 

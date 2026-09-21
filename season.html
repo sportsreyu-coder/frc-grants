@@ -74,6 +74,16 @@
       </div>
     </div>
 
+    <div class="settings-row mechanism-row">
+      <span class="eyebrow">What's on your robot this year?</span>
+      <p class="finder-hint" style="margin-top:0">Add each mechanism (e.g. Intake, Shooter, Climber) and the build season calendar will generate specific tasks for it — "Finish Intake design", "Finish machining Climber parts", and so on.</p>
+      <form id="mechanism-form">
+        <input type="text" id="mechanism-label" placeholder="e.g. Intake" maxlength="30" required>
+        <button type="submit" class="submit-btn-sm">Add mechanism</button>
+      </form>
+      <div id="mechanism-list" class="mechanism-list"></div>
+    </div>
+
     <div class="settings-row">
       <label class="oa-toggle">
         <input type="checkbox" id="oa-checkbox">
@@ -97,6 +107,19 @@
   <div id="calendar-view" hidden></div>
   <div id="cal-legend" class="cal-legend" hidden></div>
 </main>
+
+<div class="cal-modal-overlay" id="cal-modal-overlay" hidden>
+  <div class="cal-modal" role="dialog" aria-modal="true" aria-labelledby="cal-modal-title">
+    <button type="button" class="cal-modal-close" id="cal-modal-close" aria-label="Close">×</button>
+    <div class="cal-modal-date" id="cal-modal-date"></div>
+    <h3 class="cal-modal-title" id="cal-modal-title"></h3>
+    <div class="cal-modal-team" id="cal-modal-team"></div>
+    <div id="cal-modal-body"></div>
+    <div class="cal-modal-actions">
+      <button type="button" class="submit-btn-sm" id="cal-modal-toggle">Mark done</button>
+    </div>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="wrap">

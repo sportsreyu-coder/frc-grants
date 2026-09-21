@@ -339,6 +339,63 @@ window.SEASON_MILESTONES = [
   window.SEASON_FINE_GOALS = fine;
 })();
 
+// ---- Mechanism-specific build season tasks (roster-aware, generated) ----
+//
+// The generic day-by-day build season goals above ("Day 20: CAD") describe
+// what phase the *team* should be in, but say nothing about what's
+// actually on the robot. Once a team tells us what they're building
+// (season.html's "What's on your robot this year?" list, e.g. "Intake",
+// "Climber"), we generate a concrete task per mechanism per build phase --
+// "Finish Intake design (CAD)", "Finish machining Climber parts", etc. --
+// so the calendar has real, specific work instead of only generic
+// checkpoints. Every mechanism goes through the same phase order (they're
+// normally worked in parallel), staggered by a couple of days per
+// mechanism so a team with several of them doesn't get every task piled
+// onto the exact same day.
+var SEASON_MECHANISM_STEPS = [
+  { day: 4, team: "design", short: "Brainstorm", label: "Brainstorm {m} concepts and pick 2-3 worth prototyping" },
+  { day: 11, team: "mechanical", short: "Prototype", label: "Build and test a rough {m} prototype" },
+  { day: 20, team: "design", short: "Finish CAD", label: "Finish {m} design (CAD) and release it for fabrication" },
+  { day: 29, team: "mechanical", short: "Machine Parts", label: "Finish machining/printing {m} parts" },
+  { day: 35, team: "mechanical", short: "Assemble", label: "Assemble {m} onto the robot" },
+  { day: 38, team: "electrical", short: "Wire", label: "Wire {m} motors, sensors, and wiring" },
+  { day: 41, team: "programming", short: "Code", label: "Write and bench-test {m} control code" },
+  { day: 45, team: "mechanical", short: "Test & Tune", label: "Test and tune {m} on the competition robot" },
+];
+
+function seasonSlugify(s, fallback) {
+  var slug = String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return slug || fallback;
+}
+
+// `mechanisms` is an array of strings the team entered, e.g. ["Intake",
+// "Climber"]. Returns Build Season fine-goal objects, staggered so
+// multiple mechanisms don't all land on the same days.
+window.buildMechanismGoals = function (mechanisms) {
+  var goals = [];
+  var STAGGER_DAYS = 2;
+
+  (mechanisms || []).forEach(function (m, mIdx) {
+    var slug = seasonSlugify(m, "mech" + mIdx);
+    SEASON_MECHANISM_STEPS.forEach(function (step, stepIdx) {
+      var day = Math.min(49, Math.max(1, step.day + mIdx * STAGGER_DAYS));
+      var label = step.label.replace(/\{m\}/g, m);
+      goals.push({
+        id: "fine-bs-mech-" + slug + "-" + stepIdx,
+        phase: "Build Season",
+        offset: day,
+        team: step.team,
+        granularity: "daily",
+        short: step.short + ": " + m,
+        label: label,
+        detail: label + " -- part of building the " + m + " subsystem.",
+      });
+    });
+  });
+
+  return goals;
+};
+
 // ---- Competition season daily tasks (roster-aware, generated) ----
 //
 // Competition season doesn't have a fixed universal shape the way

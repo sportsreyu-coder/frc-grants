@@ -11,6 +11,7 @@
   var OA_KEY = "frcgrants_season_oa_enabled_v1";
   var ROSTER_KEY = "frcgrants_season_team_sizes_v1";
   var DEFAULT_TEAM_SIZES = { mechanical: 6, electrical: 3, programming: 4, design: 4, business: 5 };
+  var MECH_KEY = "frcgrants_season_mechanisms_v1";
 
   var TEAM_LABELS = {
     design: "Design",
@@ -59,6 +60,12 @@
   function saveTeamSizes(sizes) {
     try { localStorage.setItem(ROSTER_KEY, JSON.stringify(sizes)); } catch (e) { /* ignore */ }
   }
+  function loadMechanisms() {
+    try { return JSON.parse(localStorage.getItem(MECH_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function saveMechanisms(list) {
+    try { localStorage.setItem(MECH_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
 
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
@@ -71,6 +78,7 @@
   var customEvents = loadCustomEvents();
   var oaEnabled = loadOAEnabled();
   var teamSizes = loadTeamSizes();
+  var mechanisms = loadMechanisms();
 
   function isDone(m) { return !!progress[m.id]; }
   function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
@@ -111,6 +119,12 @@
     saveCustomEvents(customEvents);
     delete progress["custom-" + id];
     saveProgress(progress);
+    render();
+  }
+
+  function removeMechanism(idx) {
+    mechanisms.splice(idx, 1);
+    saveMechanisms(mechanisms);
     render();
   }
 
@@ -293,6 +307,7 @@
     items.push({
       date: anchor, team: "cross-team", kind: "kickoff", big: true,
       short: "🚀 KICKOFF", title: "Kickoff — the season officially begins",
+      detail: "FIRST releases this year's game today. Read the manual as a full team, run an early strategy discussion, and get moving on Day 1 tasks.",
       isDone: function () { return today >= anchor; },
       toggle: function () {},
     });
@@ -301,13 +316,15 @@
       items.push({
         date: m.date, team: m.team || "cross-team", kind: "milestone",
         short: m.short || m.label, title: m.label,
+        detail: m.detail, expanded: m.expanded,
         isDone: function () { return isDone(m); },
         toggle: function () { toggleMilestone(m); },
       });
       (m.subtasks || []).forEach(function (sub, idx) {
         items.push({
           date: m.date, team: sub.team || m.team || "cross-team", kind: "subtask",
-          short: sub.label, title: sub.label + "  (part of “" + m.label + "”)",
+          short: sub.label, title: sub.label,
+          detail: "Part of the “" + m.label + "” milestone. " + (m.detail || ""),
           isDone: function () { return isSubtaskDone(m, idx); },
           toggle: function () { toggleSubtask(m, idx); },
         });
@@ -315,6 +332,9 @@
     });
 
     var fineGoals = (window.SEASON_FINE_GOALS || []);
+    if (window.buildMechanismGoals) {
+      fineGoals = fineGoals.concat(window.buildMechanismGoals(mechanisms));
+    }
     if (window.buildCompetitionSeasonGoals) {
       fineGoals = fineGoals.concat(window.buildCompetitionSeasonGoals(teamSizes, TEAM_LABELS));
     }
@@ -324,6 +344,7 @@
       items.push({
         date: gDate, team: g.team, kind: g.granularity,
         short: g.short, title: g.label,
+        detail: g.detail,
         isDone: function () { return !!progress[g.id]; },
         toggle: function () { toggleGeneric(g.id); },
       });
@@ -336,6 +357,7 @@
         items.push({
           date: oaDate, team: "business", kind: "oa",
           short: "📹 Post OA Update", title: "Open Alliance: post this week's progress update video",
+          detail: "Open Alliance teams publicly post a short progress-update video on a regular cadence through build season. This is one of those check-ins.",
           isDone: function () { return !!progress[oaId]; },
           toggle: function () { toggleGeneric(oaId); },
         });
@@ -346,7 +368,8 @@
       var ceId = "custom-" + ce.id;
       items.push({
         date: new Date(ce.date + "T00:00:00"), team: "custom", kind: "custom",
-        short: ce.label, title: ce.label + " (your custom event)",
+        short: ce.label, title: ce.label,
+        detail: "A custom date your team added to the calendar.",
         isDone: function () { return !!progress[ceId]; },
         toggle: function () { toggleGeneric(ceId); },
       });
@@ -416,10 +439,12 @@
 
       (byDay[day] || []).forEach(function (item) {
         if (item.big) {
-          var bigChip = el("div", {
+          var bigChip = el("button", {
+            type: "button",
             class: "cal-chip cal-chip-big",
             title: item.title,
           }, [item.short]);
+          bigChip.addEventListener("click", function () { openItemModal(item); });
           cell.appendChild(bigChip);
           return;
         }
@@ -429,9 +454,9 @@
         var chip = el("button", {
           type: "button",
           class: "cal-chip " + status.cls + " team-edge team-edge-" + item.team,
-          title: item.title + " -- click to mark " + (done ? "not done" : "done"),
+          title: item.title,
         }, [item.short]);
-        chip.addEventListener("click", item.toggle);
+        chip.addEventListener("click", function () { openItemModal(item); });
         cell.appendChild(chip);
       });
 
@@ -453,6 +478,67 @@
     });
   }
 
+  // ---- Calendar item detail popup ----
+  var modalOverlay = document.getElementById("cal-modal-overlay");
+  var modalItem = null;
+
+  function openItemModal(item) {
+    modalItem = item;
+
+    var team = item.team || "cross-team";
+    document.getElementById("cal-modal-date").textContent = formatDate(item.date);
+    document.getElementById("cal-modal-title").textContent = item.title;
+
+    var teamRow = document.getElementById("cal-modal-team");
+    teamRow.innerHTML = "";
+    teamRow.appendChild(el("span", { class: "team-badge" }, [
+      el("span", { class: "team-dot team-" + team }),
+      TEAM_LABELS[team] || team,
+    ]));
+
+    var body = document.getElementById("cal-modal-body");
+    body.innerHTML = "";
+    if (item.detail) body.appendChild(el("p", { class: "ms-detail" }, [item.detail]));
+    if (item.expanded) body.appendChild(el("p", { class: "ms-expanded" }, [item.expanded]));
+
+    var toggleBtn = document.getElementById("cal-modal-toggle");
+    if (item.big) {
+      toggleBtn.hidden = true;
+    } else {
+      toggleBtn.hidden = false;
+      refreshModalToggle();
+    }
+
+    modalOverlay.hidden = false;
+  }
+
+  function refreshModalToggle() {
+    if (!modalItem || modalItem.big) return;
+    var done = modalItem.isDone();
+    var toggleBtn = document.getElementById("cal-modal-toggle");
+    toggleBtn.textContent = done ? "Mark not done" : "Mark done";
+    toggleBtn.className = "submit-btn-sm" + (done ? " submit-btn-ghost" : "");
+  }
+
+  function closeItemModal() {
+    modalOverlay.hidden = true;
+    modalItem = null;
+  }
+
+  document.getElementById("cal-modal-close").addEventListener("click", closeItemModal);
+  modalOverlay.addEventListener("click", function (e) {
+    if (e.target === modalOverlay) closeItemModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modalOverlay.hidden) closeItemModal();
+  });
+  document.getElementById("cal-modal-toggle").addEventListener("click", function () {
+    if (!modalItem) return;
+    modalItem.toggle();
+    render();
+    refreshModalToggle();
+  });
+
   var ROSTER_TEAMS = ["mechanical", "electrical", "programming", "design", "business"];
 
   function renderSettings() {
@@ -461,6 +547,16 @@
     ROSTER_TEAMS.forEach(function (team) {
       var input = document.getElementById("roster-" + team);
       if (input && document.activeElement !== input) input.value = teamSizes[team];
+    });
+
+    var mechList = document.getElementById("mechanism-list");
+    mechList.innerHTML = "";
+    mechanisms.forEach(function (m, idx) {
+      var chip = el("span", { class: "mechanism-chip" }, [m]);
+      var removeBtn = el("button", { type: "button", class: "mechanism-remove", "aria-label": "Remove " + m }, ["×"]);
+      removeBtn.addEventListener("click", function () { removeMechanism(idx); });
+      chip.appendChild(removeBtn);
+      mechList.appendChild(chip);
     });
 
     var list = document.getElementById("custom-event-list");
@@ -551,6 +647,21 @@
   document.getElementById("quick-add-reveal").addEventListener("click", function () {
     document.getElementById("custom-event-label").value = "Robot Reveal";
     document.getElementById("custom-event-date").focus();
+  });
+
+  document.getElementById("mechanism-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var input = document.getElementById("mechanism-label");
+    var val = input.value.trim();
+    if (!val) return;
+    if (mechanisms.some(function (m) { return m.toLowerCase() === val.toLowerCase(); })) {
+      input.value = "";
+      return;
+    }
+    mechanisms.push(val);
+    saveMechanisms(mechanisms);
+    input.value = "";
+    render();
   });
 
   render();
