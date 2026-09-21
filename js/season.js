@@ -797,7 +797,7 @@
     var items = buildCalendarItems();
     var now = new Date();
     var stamp = icsDate(now) + "T" + pad2(now.getUTCHours()) + pad2(now.getUTCMinutes()) + pad2(now.getUTCSeconds()) + "Z";
-    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FRC Grants//Season Tracker//EN", "CALSCALE:GREGORIAN"];
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FRC Hub//Season Tracker//EN", "CALSCALE:GREGORIAN"];
 
     items.forEach(function (item) {
       var start = icsDate(item.date);

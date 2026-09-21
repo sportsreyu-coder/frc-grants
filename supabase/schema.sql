@@ -1,4 +1,4 @@
--- FRC Grants Pro — database schema
+-- FRC Hub Pro — database schema
 -- Run this once in the Supabase SQL editor (Project -> SQL Editor -> New query).
 
 -- One row per team account, keyed to the Supabase auth user id.
