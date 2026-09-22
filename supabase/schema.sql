@@ -1,5 +1,13 @@
 -- FRC Hub Pro — database schema
 -- Run this once in the Supabase SQL editor (Project -> SQL Editor -> New query).
+--
+-- Written for a project with "Automatically expose new tables" turned OFF
+-- (Settings -> API -> the Data API security toggles) -- so every table
+-- gets an explicit grant below instead of relying on that default. RLS
+-- policies still do the actual per-row access control; the grants just
+-- let the authenticated role reach the table at all.
+
+grant usage on schema public to authenticated;
 
 -- One row per team account, keyed to the Supabase auth user id.
 create table if not exists public.teams (
@@ -25,6 +33,8 @@ create policy "Teams can update their own row"
   on public.teams for update
   using (auth.uid() = id);
 
+grant select, insert, update on public.teams to authenticated;
+
 -- Metadata for the three required documents per team.
 create table if not exists public.team_documents (
   id uuid primary key default gen_random_uuid(),
@@ -48,6 +58,8 @@ create policy "Teams can insert their own documents"
 create policy "Teams can delete their own documents"
   on public.team_documents for delete
   using (auth.uid() = team_id);
+
+grant select, insert, delete on public.team_documents to authenticated;
 
 -- Storage bucket for the uploaded files. Private — accessed only via
 -- signed URLs / the authenticated owner, never public.
