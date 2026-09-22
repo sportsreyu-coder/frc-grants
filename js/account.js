@@ -15,50 +15,22 @@
   var sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
   document.getElementById("app").hidden = false;
 
-  var mode = "signin"; // or "signup"
   var currentUser = null;
 
   var authError = document.getElementById("auth-error");
-  var authInfo = document.getElementById("auth-info");
 
   function showError(el, msg) {
     el.textContent = msg;
     el.style.display = msg ? "block" : "none";
   }
 
-  document.getElementById("tab-signin").addEventListener("click", function () {
-    mode = "signin";
-    document.getElementById("tab-signin").classList.add("active");
-    document.getElementById("tab-signup").classList.remove("active");
-    document.getElementById("auth-submit").textContent = "Sign in";
+  document.getElementById("google-signin-btn").addEventListener("click", async function () {
     showError(authError, "");
-    showError(authInfo, "");
-  });
-
-  document.getElementById("tab-signup").addEventListener("click", function () {
-    mode = "signup";
-    document.getElementById("tab-signup").classList.add("active");
-    document.getElementById("tab-signin").classList.remove("active");
-    document.getElementById("auth-submit").textContent = "Create account";
-    showError(authError, "");
-    showError(authInfo, "");
-  });
-
-  document.getElementById("auth-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    showError(authError, "");
-    showError(authInfo, "");
-    var email = document.getElementById("auth-email").value.trim();
-    var password = document.getElementById("auth-password").value;
-
-    if (mode === "signup") {
-      var { error } = await sb.auth.signUp({ email: email, password: password });
-      if (error) return showError(authError, error.message);
-      showError(authInfo, "Account created. If email confirmation is on, check your inbox, then sign in.");
-    } else {
-      var res = await sb.auth.signInWithPassword({ email: email, password: password });
-      if (res.error) return showError(authError, res.error.message);
-    }
+    var { error } = await sb.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + window.location.pathname },
+    });
+    if (error) showError(authError, error.message);
   });
 
   document.getElementById("signout-btn").addEventListener("click", async function () {
