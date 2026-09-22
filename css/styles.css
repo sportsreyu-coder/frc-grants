@@ -1625,7 +1625,12 @@ main.site-main {
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+
+#cal-modal-gcal { display: inline-block; text-decoration: none; }
 
 /* ---------- Mechanism list (Team Settings) ---------- */
 

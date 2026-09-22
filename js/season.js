@@ -563,6 +563,27 @@
   var modalOverlay = document.getElementById("cal-modal-overlay");
   var modalItem = null;
 
+  // Builds a Google Calendar "quick add" link for a single item -- opens
+  // Google's pre-filled event form in a new tab, no file download needed.
+  // (Apple/Outlook users still need the .ics export, since there's no
+  // equivalent one-click URL scheme for those.)
+  function googleCalendarUrl(item) {
+    var start = icsDate(item.date);
+    var end = icsDate(new Date(item.date.getTime() + 24 * 60 * 60 * 1000));
+    var assignedTo = assignedMember(item.id);
+    var details = item.detail || "";
+    if (item.expanded) details += (details ? "\n\n" : "") + item.expanded;
+    if (assignedTo) details += (details ? "\n\n" : "") + "Assigned to: " + assignedTo.name;
+
+    var params = [
+      "action=TEMPLATE",
+      "text=" + encodeURIComponent(item.title),
+      "dates=" + start + "/" + end,
+      "details=" + encodeURIComponent(details),
+    ];
+    return "https://calendar.google.com/calendar/render?" + params.join("&");
+  }
+
   function openItemModal(item) {
     modalItem = item;
 
@@ -582,6 +603,8 @@
     if (item.detail) body.appendChild(el("p", { class: "ms-detail" }, [item.detail]));
     if (item.expanded) body.appendChild(el("p", { class: "ms-expanded" }, [item.expanded]));
 
+    document.getElementById("cal-modal-gcal").href = googleCalendarUrl(item);
+
     var toggleBtn = document.getElementById("cal-modal-toggle");
     var assignRow = document.getElementById("cal-modal-assign-row");
     if (item.big) {
@@ -594,7 +617,10 @@
       var assignSelect = document.getElementById("cal-modal-assign");
       fillMemberOptions(assignSelect, assignments[item.id]);
       assignSelect.disabled = !members.length;
-      assignSelect.onchange = function () { setAssignment(item.id, assignSelect.value || null); };
+      assignSelect.onchange = function () {
+        setAssignment(item.id, assignSelect.value || null);
+        document.getElementById("cal-modal-gcal").href = googleCalendarUrl(item);
+      };
     }
 
     modalOverlay.hidden = false;
