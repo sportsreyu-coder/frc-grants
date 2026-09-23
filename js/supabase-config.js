@@ -12,5 +12,5 @@
 //   2. Authentication -> URL Configuration -> add this site's account.html
 //      URL (e.g. https://<user>.github.io/<repo>/account.html) to the
 //      allowed Redirect URLs.
-window.SUPABASE_URL = "";
-window.SUPABASE_ANON_KEY = "";
+window.SUPABASE_URL = "https://vtkmcrfaydgmxjlpvbrn.supabase.co";
+window.SUPABASE_ANON_KEY = "sb_publishable_gkiAphPGfNPHFRgXCK3EhQ_EsvxQbgU";
