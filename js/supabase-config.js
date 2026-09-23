@@ -1,10 +1,11 @@
 // Fill these in from your Supabase project's Settings -> API page.
-// SUPABASE_ANON_KEY is safe to expose in frontend code (it's the public
-// key, gated by the row-level security policies in supabase/schema.sql).
-// Never put the service_role key here or anywhere in this repo.
+// SUPABASE_ANON_KEY is safe to expose in frontend code (it's the public/
+// publishable key). Never put the secret/service_role key here or
+// anywhere in this repo.
 //
-// Sign-in is Google-only (js/account.js calls signInWithOAuth). Before it
-// works you also need to, in the Supabase dashboard:
+// Sign-in is Google-only (js/account.js calls signInWithOAuth) and there's
+// no database schema to run -- account.html only uses Supabase Auth, no
+// tables. Before sign-in works you also need to, in the Supabase dashboard:
 //   1. Authentication -> Providers -> enable Google, using a Client ID /
 //      Secret from a Google Cloud OAuth consent screen + credential you
 //      create yourself (console.cloud.google.com -> APIs & Services ->

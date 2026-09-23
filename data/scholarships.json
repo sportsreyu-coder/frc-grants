@@ -1,0 +1,123 @@
+[
+  {
+    "id": "wpi-first-scholarship",
+    "name": "WPI FIRST Robotics Scholarship",
+    "provider": "Worcester Polytechnic Institute",
+    "link": "https://www.wpi.edu/admissions/tuition-aid/types-of-aid/scholarships-grants/wpi-merit/robotics-scholarships",
+    "amount": "Full tuition, 4 years (~$220,000 total)",
+    "deadline": "Applications typically open mid-December and close in late February",
+    "category": "frc-specific",
+    "tags": ["full-ride", "renewable"],
+    "notes": "For FIRST Robotics Competition, FIRST Tech Challenge, or FIRST Global Challenge team members admitted to WPI. One of the largest scholarships available to FIRST alumni."
+  },
+  {
+    "id": "rose-hulman-first-scholarship",
+    "name": "Rose-Hulman FIRST Robotics Scholarship",
+    "provider": "Rose-Hulman Institute of Technology",
+    "link": "https://www.rose-hulman.edu/admissions-and-aid/financial-aid/scholarships-and-grants/rose-hulman-scholarships/index.html",
+    "amount": "$10,000/year, renewable up to $40,000 over 4 years",
+    "deadline": "Typically due February 1 — must already be admitted to apply",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "Two awarded per year to admitted students who competed on a FIRST Robotics Competition team, contingent on maintaining good academic standing."
+  },
+  {
+    "id": "kettering-robotics-scholarship",
+    "name": "Kettering University Robotics Scholarship",
+    "provider": "Kettering University",
+    "link": "https://www.kettering.edu/first-vex-robotics/robotics-scholarships",
+    "amount": "Up to $5,000/year, up to $25,000 over 5 years",
+    "deadline": "Application window typically opens November 1; accepted students apply by March 1",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "Kettering has awarded nearly $5 million in robotics scholarships since 1999 — up to 50 awarded annually to FRC/VEX competitors."
+  },
+  {
+    "id": "michigan-tech-first-scholarship",
+    "name": "Michigan Tech FIRST Scholarship",
+    "provider": "Michigan Technological University",
+    "link": "https://www.mtu.edu/admissions/financial/scholarships/",
+    "amount": "$1,500–$4,000/year",
+    "deadline": "Awarded competitively to incoming first-year applicants — apply as part of admission",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "Open to incoming students who competed on a FIRST Robotics Competition, FIRST Tech Challenge, or VEX Robotics team."
+  },
+  {
+    "id": "detroit-mercy-first-scholarship",
+    "name": "FIRST Scholarship Program",
+    "provider": "University of Detroit Mercy",
+    "link": "https://eng-sci.udmercy.edu/scholarships/robotics-scholarship.php",
+    "amount": "Up to $4,000/year, renewable up to 4 years",
+    "deadline": "Check current cycle on Detroit Mercy's site",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "For high school seniors with a background in robotics, including FIRST Robotics Competition participants."
+  },
+  {
+    "id": "mercer-first-scholars",
+    "name": "FIRST Scholars Award",
+    "provider": "Mercer University",
+    "link": "https://engineering.mercer.edu/student-resources/scholarship-opportunities/first-robotics-scholarship/",
+    "amount": "$1,000/year, renewable",
+    "deadline": "Check current cycle on Mercer's site",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "Awarded to admitted students selected as Mercer FIRST Scholars based on their FIRST program participation."
+  },
+  {
+    "id": "oregon-tech-first-scholarship",
+    "name": "FIRST/VEX Robotics Engineering Scholarship",
+    "provider": "Oregon Institute of Technology",
+    "link": "https://www.oit.edu/college-costs/scholarships/new-transfer-student/other/first-robotics",
+    "amount": "$1,500/year, renewable",
+    "deadline": "Check current cycle on Oregon Tech's site",
+    "category": "frc-specific",
+    "tags": ["renewable", "university-specific"],
+    "notes": "Two awarded per year. Requires two years of active participation and demonstrated leadership on a FIRST Robotics Competition, FIRST Tech Challenge, or VEX team."
+  },
+  {
+    "id": "georgia-tech-first-scholarship",
+    "name": "FIRST Robotics Scholarship",
+    "provider": "Georgia Institute of Technology",
+    "link": "https://www.gatech.edu/",
+    "amount": "Varies — check current cycle",
+    "deadline": "Check current cycle on Georgia Tech's site",
+    "category": "frc-specific",
+    "tags": ["university-specific"],
+    "notes": "Offered to graduating high school seniors admitted to Georgia Tech who participated in FIRST Robotics Competition."
+  },
+  {
+    "id": "elbit-america-nh",
+    "name": "Elbit America FIRST Robotics Scholarship (New Hampshire)",
+    "provider": "Elbit America",
+    "link": "https://elbitamerica.secure-platform.com/site/page/ESA-First-Robotics-Scholarship",
+    "amount": "$1,000 (two awarded)",
+    "deadline": "Check current cycle on Elbit America's application portal",
+    "category": "frc-specific",
+    "tags": ["state-restricted"],
+    "notes": "Restricted to New Hampshire high school seniors who competed on a FIRST Robotics Competition team."
+  },
+  {
+    "id": "sme-education-foundation",
+    "name": "SME Education Foundation Scholarships",
+    "provider": "SME Education Foundation",
+    "link": "https://www.smeef.org/scholarships",
+    "amount": "Varies by program (60+ distinct scholarships)",
+    "deadline": "Varies by program — most open in fall/winter",
+    "category": "stem-general",
+    "tags": ["multiple-awards", "merit-or-need"],
+    "notes": "Not FIRST-exclusive, but manufacturing/engineering-focused scholarships that many FRC alumni are well-positioned for given hands-on robotics experience."
+  },
+  {
+    "id": "nfpa-first-scholarship",
+    "name": "Robotics Education Scholarship",
+    "provider": "NFPA Education & Technology Foundation",
+    "link": "https://www.nfpa.org/education-and-research/teaching-tools-and-resources/scholarships",
+    "amount": "One merit-based award",
+    "deadline": "Check current cycle on NFPA's site",
+    "category": "frc-specific",
+    "tags": ["merit-based"],
+    "notes": "For a high school senior who participated in FIRST, VEX, or the National Robotics League."
+  }
+]
