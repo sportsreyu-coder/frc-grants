@@ -140,7 +140,10 @@ input::placeholder { color: var(--text-faint2); }
 }
 
 .main-nav a {
-  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
   border-radius: 8px;
   color: var(--text-dim);
   font-size: 14px;
@@ -148,8 +151,13 @@ input::placeholder { color: var(--text-faint2); }
   text-decoration: none;
 }
 
+.main-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.8; }
+.main-nav a:hover svg, .main-nav a.active svg { opacity: 1; }
+
 .main-nav a:hover { color: var(--text); }
 .main-nav a.active { background: var(--bg-soft); color: var(--text); }
+
+.account-slot { display: flex; align-items: center; flex-shrink: 0; }
 
 .nav-cta {
   padding: 7px 15px;
@@ -161,6 +169,64 @@ input::placeholder { color: var(--text-faint2); }
 }
 
 .nav-cta:hover { border-color: var(--accent); color: var(--accent) !important; }
+
+.account-avatar-wrap { position: relative; }
+
+.account-avatar-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+}
+
+.account-avatar-btn:hover { border-color: var(--accent); }
+.account-avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  z-index: 50;
+}
+
+.account-dropdown-email {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  word-break: break-all;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.account-dropdown-signout {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.account-dropdown-signout:hover { border-color: var(--accent); color: var(--accent); }
 
 .theme-toggle {
   display: inline-flex;
