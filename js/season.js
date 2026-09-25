@@ -14,6 +14,7 @@
   var MECH_KEY = "frcgrants_season_mechanisms_v1";
   var MEMBERS_KEY = "frcgrants_season_members_v1";
   var ASSIGN_KEY = "frcgrants_season_assignments_v1";
+  var CUSTOM_TASKS_KEY = "frcgrants_season_custom_tasks_v1";
 
   var TEAM_LABELS = {
     design: "Design",
@@ -80,6 +81,12 @@
   function saveAssignments(a) {
     try { localStorage.setItem(ASSIGN_KEY, JSON.stringify(a)); } catch (e) { /* ignore */ }
   }
+  function loadCustomTasks() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_TASKS_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function saveCustomTasks(list) {
+    try { localStorage.setItem(CUSTOM_TASKS_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  }
 
   // ---- Cloud sync (Supabase) ----
   //
@@ -102,6 +109,7 @@
       mechanisms: mechanisms,
       members: members,
       assignments: assignments,
+      customTasks: customTasks,
     };
   }
 
@@ -114,6 +122,7 @@
     if (data.mechanisms) { mechanisms = data.mechanisms; saveMechanisms(mechanisms); }
     if (data.members) { members = data.members; saveMembers(members); }
     if (data.assignments) { assignments = data.assignments; saveAssignments(assignments); }
+    if (data.customTasks) { customTasks = data.customTasks; saveCustomTasks(customTasks); }
   }
 
   function scheduleCloudSave() {
@@ -170,6 +179,10 @@
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
 
+  var initialSub = "";
+  try { initialSub = new URLSearchParams(window.location.search).get("sub") || ""; } catch (e) { /* ignore */ }
+  var checklistSub = initialSub === "grants" ? "grants" : "technical"; // or "grants"
+
   var today = Core.startOfDay(new Date());
   var anchor = Core.resolveAnchor(today);
   var milestones = Core.getMilestonesWithDates();
@@ -181,6 +194,66 @@
   var mechanisms = loadMechanisms();
   var members = loadMembers();
   var assignments = loadAssignments();
+  var customTasks = loadCustomTasks();
+
+  // ---- Grant deadlines (from data/grants.json) ----
+  var grantDeadlines = [];
+  var GRANT_MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+  function parseGrantDate(str) {
+    if (!str) return null;
+    var m = String(str).toLowerCase().match(/([a-z]+)\s*(\d+)?/);
+    if (!m) return null;
+    var mi = -1;
+    for (var i = 0; i < GRANT_MONTHS.length; i++) {
+      if (GRANT_MONTHS[i].indexOf(m[1].slice(0, 3)) === 0) { mi = i; break; }
+    }
+    if (mi < 0) return null;
+    var day = parseInt(m[2] || "1", 10) || 1;
+    // Sept-Dec deadlines fall in preseason, before Kickoff -- anchor them to
+    // the year before Kickoff; Jan-Aug deadlines anchor to Kickoff's year.
+    var year = mi >= 8 ? anchor.getFullYear() - 1 : anchor.getFullYear();
+    return new Date(year, mi, day);
+  }
+
+  function loadGrantDeadlines() {
+    fetch("data/grants.json")
+      .then(function (r) { return r.json(); })
+      .then(function (grants) {
+        grantDeadlines = grants
+          .filter(function (g) { return g.closeDate; })
+          .map(function (g) {
+            return {
+              id: "grant-" + g.id,
+              name: g.name,
+              link: g.link,
+              date: parseGrantDate(g.closeDate),
+              closeDateText: g.closeDate,
+              status: g.status,
+              notes: g.notes,
+            };
+          })
+          .filter(function (g) { return g.date; })
+          .sort(function (a, b) { return a.date - b.date; });
+        render();
+      })
+      .catch(function (err) { console.error("Could not load grant deadlines:", err); });
+  }
+
+  // ---- Calendar category filters (grants vs. technical assignments) ----
+  var CAL_FILTER_KEY = "frcgrants_season_cal_filters_v1";
+  function loadCalFilters() {
+    try {
+      var stored = JSON.parse(localStorage.getItem(CAL_FILTER_KEY) || "{}");
+      return { grants: stored.grants !== false, technical: stored.technical !== false };
+    } catch (e) {
+      return { grants: true, technical: true };
+    }
+  }
+  function saveCalFilters(f) {
+    try { localStorage.setItem(CAL_FILTER_KEY, JSON.stringify(f)); } catch (e) { /* ignore */ }
+  }
+  var calFilters = loadCalFilters();
 
   function isDone(m) { return !!progress[m.id]; }
   function subtaskKey(m, idx) { return m.id + "::sub" + idx; }
@@ -256,6 +329,41 @@
     render();
   }
 
+  function addCustomTask(label, team) {
+    var task = {
+      id: "custom-task-" + Date.now() + Math.floor(Math.random() * 1000),
+      label: label,
+      team: team || "cross-team",
+    };
+    customTasks.push(task);
+    saveCustomTasks(customTasks);
+    render();
+  }
+
+  function removeCustomTask(id) {
+    customTasks = customTasks.filter(function (t) { return t.id !== id; });
+    saveCustomTasks(customTasks);
+    delete progress[id];
+    delete assignments[id];
+    saveProgress(progress);
+    saveAssignments(assignments);
+    render();
+  }
+
+  function removeAllCustomTasks() {
+    if (!customTasks.length) return;
+    if (!confirm("Delete all " + customTasks.length + " custom task" + (customTasks.length === 1 ? "" : "s") + "? This can't be undone.")) return;
+    customTasks.forEach(function (t) {
+      delete progress[t.id];
+      delete assignments[t.id];
+    });
+    customTasks = [];
+    saveCustomTasks(customTasks);
+    saveProgress(progress);
+    saveAssignments(assignments);
+    render();
+  }
+
   // Fills a <select> with "Unassigned" + every team member, selecting
   // `currentId` if given. Shared by the checklist's inline assign control
   // and the calendar item modal.
@@ -285,7 +393,12 @@
     document.getElementById("kickoff-date").textContent = formatDate(anchor);
     renderPace();
     renderProgressBar();
+    document.getElementById("checklist-subnav").hidden = viewMode !== "checklist";
+    document.getElementById("cal-filter-row").hidden = viewMode !== "calendar";
+    document.getElementById("subnav-technical").classList.toggle("active", checklistSub === "technical");
+    document.getElementById("subnav-grants").classList.toggle("active", checklistSub === "grants");
     renderPhases();
+    renderGrantChecklist();
     renderCalendar();
     renderSettings();
     scheduleCloudSave();
@@ -350,8 +463,8 @@
 
   function renderPhases() {
     var container = document.getElementById("phase-list");
-    container.hidden = viewMode !== "checklist";
-    if (viewMode !== "checklist") return;
+    container.hidden = !(viewMode === "checklist" && checklistSub === "technical");
+    if (container.hidden) return;
 
     var order = ["Preseason", "Build Season", "Competition Season", "Postseason"];
     container.innerHTML = "";
@@ -455,6 +568,117 @@
       section.appendChild(list);
       container.appendChild(section);
     });
+
+    // ---- Custom tasks: anything the team added themselves, beyond the
+    // curated milestones above. ----
+    var customDone = customTasks.filter(function (t) { return !!progress[t.id]; }).length;
+    var customSection = el("section", { class: "phase-section" }, [
+      el("div", { class: "phase-head" }, [
+        el("h2", {}, ["Custom Tasks"]),
+        el("div", { class: "phase-head-right" }, [
+          el("span", { class: "phase-count" }, [customDone + " / " + customTasks.length]),
+          customTasks.length
+            ? (function () {
+                var btn = el("button", { type: "button", class: "reset-btn" }, ["Delete all"]);
+                btn.addEventListener("click", removeAllCustomTasks);
+                return btn;
+              })()
+            : null,
+        ]),
+      ]),
+    ]);
+
+    if (customTasks.length) {
+      var customList = el("div", { class: "milestone-list" });
+      customTasks.forEach(function (t) {
+        var done = !!progress[t.id];
+        var chk = el("input", { type: "checkbox", "aria-label": t.label });
+        chk.checked = done;
+        chk.addEventListener("change", function () { toggleGeneric(t.id); });
+
+        var removeBtn = el("button", { type: "button", class: "ms-expand-toggle" }, ["Remove"]);
+        removeBtn.addEventListener("click", function () { removeCustomTask(t.id); });
+
+        var body = el("div", { class: "ms-body" }, [
+          el("div", { class: "ms-top" }, [
+            el("div", { class: "ms-title-group" }, [
+              el("span", { class: done ? "ms-label ms-subtask-done" : "ms-label" }, [t.label]),
+              el("span", { class: "team-badge" }, [
+                el("span", { class: "team-dot team-" + t.team }),
+                TEAM_LABELS[t.team] || t.team,
+              ]),
+            ]),
+          ]),
+          el("div", { class: "ms-meta-row" }, [
+            el("div", { class: "ms-meta-left" }, [buildAssignControl(t.id)]),
+            removeBtn,
+          ]),
+        ]);
+
+        customList.appendChild(el("div", { class: "milestone-row team-edge team-edge-" + t.team }, [chk, body]));
+      });
+      customSection.appendChild(customList);
+    } else {
+      customSection.appendChild(el("p", { class: "finder-hint" }, ["No custom tasks yet — add one below."]));
+    }
+
+    var addForm = el("form", { class: "custom-task-form" });
+    var labelInput = el("input", { type: "text", placeholder: "e.g. Order new bumpers", maxlength: "80", required: "" });
+    var teamSelect = el("select", {}, [
+      el("option", { value: "cross-team" }, ["Cross-team"]),
+      el("option", { value: "mechanical" }, ["Mechanical"]),
+      el("option", { value: "electrical" }, ["Electrical"]),
+      el("option", { value: "programming" }, ["Programming"]),
+      el("option", { value: "design" }, ["Design/Strategy"]),
+      el("option", { value: "business" }, ["Business/Outreach"]),
+    ]);
+    var addBtn = el("button", { type: "submit", class: "submit-btn-sm" }, ["Add task"]);
+    addForm.appendChild(labelInput);
+    addForm.appendChild(teamSelect);
+    addForm.appendChild(addBtn);
+    addForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var val = labelInput.value.trim();
+      if (!val) return;
+      addCustomTask(val, teamSelect.value);
+    });
+    customSection.appendChild(addForm);
+
+    container.appendChild(customSection);
+  }
+
+  function renderGrantChecklist() {
+    var container = document.getElementById("grant-checklist-view");
+    container.hidden = !(viewMode === "checklist" && checklistSub === "grants");
+    if (container.hidden) return;
+
+    container.innerHTML = "";
+
+    if (!grantDeadlines.length) {
+      container.appendChild(el("p", { class: "finder-hint" }, ["Loading grant deadlines…"]));
+      return;
+    }
+
+    container.appendChild(el("p", { class: "finder-hint" }, [
+      "Every grant with a published close date, soonest first. Dates repeat annually unless the grantor says otherwise — always confirm on the grantor's own site.",
+    ]));
+
+    var table = el("div", { class: "dates-table" });
+    grantDeadlines.forEach(function (g) {
+      var p = g.status === "open" ? { cls: "pill-open", label: "Open" }
+        : g.status === "closed" ? { cls: "pill-closed", label: "Closed" }
+        : { cls: "pill-unsure", label: "Unsure" };
+      var nameLink = el("a", { class: "dname", href: g.link || "#", target: "_blank", rel: "noopener", style: "color:inherit;" }, [g.name]);
+      table.appendChild(el("div", { class: "dates-row" }, [
+        el("span", { class: "dcode" }, [g.closeDateText]),
+        el("span", {}, [
+          nameLink,
+          el("span", { class: "dsub" }, [g.notes || "See grantor site for criteria"]),
+        ]),
+        el("span", { class: "pill " + p.cls }, [p.label]),
+      ]));
+    });
+    container.appendChild(table);
   }
 
   // ---- Unified calendar item list: milestones + subtasks + fine-grained
@@ -539,6 +763,17 @@
       });
     });
 
+    grantDeadlines.forEach(function (g) {
+      items.push({
+        id: g.id,
+        date: g.date, team: "business", kind: "grant", category: "grant",
+        short: "💰 " + g.name, title: g.name + " — grant deadline",
+        detail: (g.notes ? g.notes + " " : "") + "Status: " + (g.status || "unknown") + ". Always confirm on the grantor's own site.",
+        isDone: function () { return !!progress[g.id]; },
+        toggle: function () { toggleGeneric(g.id); },
+      });
+    });
+
     return items;
   }
 
@@ -586,6 +821,8 @@
     var items = buildCalendarItems();
     var byDay = {};
     items.forEach(function (item) {
+      var isGrant = item.category === "grant";
+      if (isGrant ? !calFilters.grants : !calFilters.technical) return;
       if (item.date.getFullYear() === calendarMonth.getFullYear() && item.date.getMonth() === calendarMonth.getMonth()) {
         var d = item.date.getDate();
         (byDay[d] = byDay[d] || []).push(item);
@@ -947,6 +1184,29 @@
     URL.revokeObjectURL(url);
   });
 
+  document.getElementById("subnav-technical").addEventListener("click", function () {
+    checklistSub = "technical";
+    render();
+  });
+  document.getElementById("subnav-grants").addEventListener("click", function () {
+    checklistSub = "grants";
+    render();
+  });
+
+  document.getElementById("cal-filter-technical").addEventListener("change", function (e) {
+    calFilters.technical = e.target.checked;
+    saveCalFilters(calFilters);
+    renderCalendar();
+  });
+  document.getElementById("cal-filter-grants").addEventListener("change", function (e) {
+    calFilters.grants = e.target.checked;
+    saveCalFilters(calFilters);
+    renderCalendar();
+  });
+  document.getElementById("cal-filter-technical").checked = calFilters.technical;
+  document.getElementById("cal-filter-grants").checked = calFilters.grants;
+
   render();
   initCloudSync();
+  loadGrantDeadlines();
 })();

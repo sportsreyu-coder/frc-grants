@@ -135,7 +135,7 @@ input::placeholder { color: var(--text-faint2); }
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 14px;
   margin: 0 auto;
 }
 
@@ -1094,6 +1094,45 @@ main.site-main {
   color: var(--text-faint);
 }
 
+.phase-head-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.phase-head-right .reset-btn {
+  padding: 5px 12px;
+  font-size: 12.5px;
+}
+
+.custom-task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.custom-task-form input[type="text"] {
+  flex: 1;
+  min-width: 180px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 13.5px;
+}
+
+.custom-task-form select {
+  padding: 9px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 13.5px;
+}
+
 .milestone-list {
   display: flex;
   flex-direction: column;
@@ -1250,6 +1289,45 @@ main.site-main {
 
 .view-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .view-tab:not(.active):hover { border-color: var(--accent); color: var(--accent); }
+
+.checklist-subnav {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 20px;
+}
+
+.subnav-tab {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-faint);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subnav-tab.active { background: var(--bg-soft); border-color: var(--border-strong); color: var(--text); }
+.subnav-tab:not(.active):hover { color: var(--text-dim); }
+
+.cal-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+
+.cal-filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.cal-filter-toggle input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
 
 .settings-toggle {
   margin-left: auto;
