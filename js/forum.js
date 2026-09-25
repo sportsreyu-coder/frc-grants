@@ -43,7 +43,6 @@
 
   function boardCard(board) {
     return el("a", { class: "simple-card", href: "forum.html?board=" + encodeURIComponent(board.slug) }, [
-      el("span", { class: "badge" }, [board.category === "district" ? "District" : "Team-to-team"]),
       el("span", { class: "title-link" }, [board.name]),
       el("p", {}, [board.description]),
     ]);

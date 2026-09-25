@@ -29,6 +29,7 @@
   };
 
   var state = "";
+  var activeType = "";
   var items = [];
 
   function el(tag, attrs, children) {
@@ -50,10 +51,27 @@
     return "https://www.google.com/maps/search/?api=1&query=" + q;
   }
 
+  function renderTypeFilters() {
+    var row = document.getElementById("type-filter-row");
+    row.innerHTML = "";
+    var types = Array.from(new Set(items.map(function (i) { return i.type; }).filter(Boolean))).sort();
+
+    var allChip = el("button", { type: "button", class: "chip" + (!activeType ? " active" : "") }, ["All types"]);
+    allChip.addEventListener("click", function () { activeType = ""; renderTypeFilters(); render(); });
+    row.appendChild(allChip);
+
+    types.forEach(function (t) {
+      var chip = el("button", { type: "button", class: "chip" + (activeType === t ? " active" : "") }, [t]);
+      chip.addEventListener("click", function () { activeType = t; renderTypeFilters(); render(); });
+      row.appendChild(chip);
+    });
+  }
+
   function render() {
     var grid = document.getElementById("fundraising-grid");
     grid.innerHTML = "";
-    items.forEach(function (item) {
+    var shown = activeType ? items.filter(function (i) { return i.type === activeType; }) : items;
+    shown.forEach(function (item) {
       var children = [
         el("span", { class: "badge" }, [item.type || "Fundraiser"]),
         el("a", { class: "title-link", href: item.link || "#", target: "_blank", rel: "noopener" }, [item.name]),
@@ -84,6 +102,7 @@
     .then(function (r) { return r.json(); })
     .then(function (data) {
       items = data;
+      renderTypeFilters();
       render();
     })
     .catch(function (err) { console.error(err); });

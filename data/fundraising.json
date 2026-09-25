@@ -17,28 +17,28 @@
     "id": "bd-s-mongolian-grill",
     "name": "BD's Mongolian Grill",
     "link": "https://www.bdsgrill.com/fundraising",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back"
   },
   {
     "id": "bertucci-s",
     "name": "Bertucci's",
     "link": "https://www.bertuccis.com/fundraising/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back"
   },
   {
     "id": "bj-s-restaurant",
     "name": "BJ's Restaurant",
     "link": "https://www.cvent.com/events/SMMForm/MeetingRequest/MeetingMain.aspx?smm_form_stub=a8eea31e-858b-454c-8ad9-d5c2e318f893",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "blaze-pizza",
     "name": "Blaze Pizza",
     "link": "https://www.blazepizza.com/fundraising",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
@@ -52,7 +52,7 @@
     "id": "buffalo-wild-wings",
     "name": "Buffalo Wild Wings",
     "link": "https://ewrf.buffalowildwings.com/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back"
   },
   {
@@ -66,7 +66,7 @@
     "id": "california-pizza-kitchen",
     "name": "California Pizza Kitchen",
     "link": "https://www.cpk.com/events/fundraisers",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
@@ -80,14 +80,14 @@
     "id": "chick-fil-a",
     "name": "Chick-fil-a",
     "link": "https://www.chick-fil-a.com/customer-support/who-we-are/giving-back/does-chick-fil-a-offer-fundraising-opportunities-to-help-organizations-raise-money",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back - Need to talk to local locations"
   },
   {
     "id": "chipotle",
     "name": "Chipotle",
     "link": "https://marketing.chipotle.com/partner/fundraiser-request/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "25% back"
   },
   {
@@ -108,14 +108,14 @@
     "id": "el-pollo-loco",
     "name": "El Pollo Loco",
     "link": "https://www.elpolloloco.com/fundraisers-charities/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "famous-dave-s",
     "name": "Famous Dave's",
     "link": "https://www.famousdaves.com/LandingPage/fdcommunity//",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
@@ -129,21 +129,21 @@
     "id": "groupraise",
     "name": "Groupraise",
     "link": "https://www.groupraise.com/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "Help find local fundraising opportunities"
   },
   {
     "id": "home-run-inn-pizza",
     "name": "Home Run Inn Pizza",
     "link": "https://www.homeruninnpizza.com/fundraising/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "Up to 30% back"
   },
   {
     "id": "houlihan-s",
     "name": "Houlihan's",
     "link": "https://www.houlihans.com/event/plate-it-forward/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back"
   },
   {
@@ -157,7 +157,7 @@
     "id": "jersey-mikes",
     "name": "Jersey Mikes",
     "link": "https://jerseymikes.force4good.com/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
@@ -185,56 +185,56 @@
     "id": "moe-s",
     "name": "Moe's",
     "link": "",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "Local moes will offer fundraising opportunities"
   },
   {
     "id": "noodles-company",
     "name": "Noodles & Company",
     "link": "https://www.noodles.com/about-noodles/giving-back",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "panda-express",
     "name": "Panda Express",
     "link": "https://community.pandaexpress.com/fundraisers",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "panera",
     "name": "Panera",
     "link": "https://fundraising.panerabread.com/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "Up to 25% back"
   },
   {
     "id": "pieology",
     "name": "Pieology",
     "link": "https://pieology.com/fundraising-nonprofits-schools/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "pizza-hut",
     "name": "Pizza Hut",
     "link": "https://www.pizzahutgivesback.com/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
     "id": "rasing-canes",
     "name": "Rasing Canes",
     "link": "https://raisingcanes.com/community-partnerships/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "15% back"
   },
   {
     "id": "red-robin",
     "name": "Red Robin",
     "link": "https://www.redrobin.com/fundraisers",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   },
   {
@@ -248,14 +248,14 @@
     "id": "rita-s-ices",
     "name": "Rita's Ices",
     "link": "https://www.ritasice.com/community/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": ""
   },
   {
     "id": "shake-shack",
     "name": "Shake Shack",
     "link": "https://shakeshack.com/fundraising#/",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "25% back"
   },
   {
@@ -276,7 +276,7 @@
     "id": "uno-s",
     "name": "Uno's",
     "link": "https://www.unos.com/raisers.php",
-    "type": "Resturant Giveback",
+    "type": "Restaurant Giveback",
     "notes": "20% back"
   }
 ]

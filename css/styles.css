@@ -768,7 +768,8 @@ main.site-main {
 
 .grant-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: start;
   gap: 14px;
 }
 
@@ -776,10 +777,10 @@ main.site-main {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-card);
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 9px;
 }
 
 .grant-card:hover { border-color: var(--border-strong); }
@@ -992,7 +993,7 @@ main.site-main {
   text-transform: uppercase;
 }
 
-.simple-card a.title-link {
+.simple-card .title-link {
   display: block;
   margin-top: 12px;
   font-family: var(--font-serif);
@@ -1000,7 +1001,9 @@ main.site-main {
   color: var(--text);
 }
 
-.simple-card a.title-link:hover { color: var(--accent); }
+.simple-card .title-link:first-child { margin-top: 0; }
+
+.simple-card .title-link:hover { color: var(--accent); }
 
 .simple-card p {
   margin: 6px 0 0;
