@@ -30,10 +30,48 @@
     await sb.auth.signOut();
   });
 
+  var districtSelect = document.getElementById("profile-district");
+  (window.FRC_DISTRICTS || []).forEach(function (d) {
+    var opt = document.createElement("option");
+    opt.value = d.value;
+    opt.textContent = d.label;
+    districtSelect.appendChild(opt);
+  });
+
+  document.getElementById("profile-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var profileInfo = document.getElementById("profile-info");
+    showError(profileInfo, "");
+    var teamNumber = document.getElementById("profile-team-number").value.trim();
+    var teamName = document.getElementById("profile-team-name").value.trim();
+    var district = districtSelect.value;
+
+    var { error } = await sb.from("profiles").upsert({
+      id: currentUser.id,
+      team_number: teamNumber,
+      team_name: teamName || null,
+      district: district || null,
+      updated_at: new Date().toISOString(),
+    });
+    if (error) return showError(profileInfo, error.message);
+    profileInfo.textContent = "Saved.";
+    profileInfo.style.display = "block";
+  });
+
+  async function loadProfile() {
+    var { data: profile } = await sb.from("profiles").select("*").eq("id", currentUser.id).maybeSingle();
+    if (profile) {
+      document.getElementById("profile-team-number").value = profile.team_number || "";
+      document.getElementById("profile-team-name").value = profile.team_name || "";
+      districtSelect.value = profile.district || "";
+    }
+  }
+
   function showAuthed() {
     document.getElementById("auth-section").hidden = true;
     document.getElementById("dashboard-section").hidden = false;
     document.getElementById("signed-in-email").textContent = currentUser.email || "";
+    loadProfile();
   }
 
   function showSignedOut() {

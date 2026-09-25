@@ -1011,6 +1011,85 @@ main.site-main {
 .scholarship-provider { font-weight: 600; color: var(--text-dim) !important; }
 .scholarship-meta { font-family: var(--font-mono); font-size: 12.5px !important; }
 
+/* ---------- Forum ---------- */
+
+.forum-section { margin: 36px 0; }
+.forum-section .simple-grid { margin-top: 14px; }
+
+.forum-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.forum-back:hover { color: var(--accent); }
+
+.new-thread-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 560px;
+  margin: 4px 0 32px;
+}
+
+.new-thread-form input[type="text"],
+.new-thread-form textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.new-thread-form input:focus, .new-thread-form textarea:focus { outline: none; border-color: var(--accent); }
+.new-thread-form .submit-btn-sm { align-self: flex-start; }
+
+.thread-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thread-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: inherit;
+}
+
+.thread-row:hover { border-color: var(--accent); }
+
+.thread-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.thread-title { font-family: var(--font-serif); font-size: 17px; color: var(--text); }
+.thread-meta { font-size: 12.5px; color: var(--text-faint); font-family: var(--font-mono); }
+.thread-reply-count { flex-shrink: 0; font-size: 12.5px; color: var(--text-faint); white-space: nowrap; }
+
+.post-card, .reply-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  padding: 22px 24px;
+}
+
+.post-card { margin-bottom: 24px; }
+
+.reply-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+
+.post-meta { font-size: 12px; color: var(--text-faint); font-family: var(--font-mono); margin-bottom: 8px; }
+.post-title { margin: 0 0 12px; font-family: var(--font-serif); font-weight: 400; font-size: 26px; }
+.post-body { margin: 0; color: var(--text-dim); font-size: 14.5px; line-height: 1.6; white-space: pre-wrap; }
+.post-actions { margin-top: 14px; }
+
 /* ---------- Season Tracker ---------- */
 
 .pace-card { margin-top: 32px; }
@@ -1918,6 +1997,36 @@ main.site-main {
 .google-signin-btn svg { flex-shrink: 0; }
 
 .error-msg { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red-fg); padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; margin-bottom: 14px; display: none; }
+.info-msg { background: var(--green-bg); border: 1px solid rgba(14,124,93,0.3); color: var(--green); padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; margin-bottom: 14px; display: none; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-dim); margin-bottom: 6px; }
+
+.field input, .field select {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+
+.submit-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.submit-btn:hover { background: var(--accent-hover); }
 
 .signout-row { text-align: right; margin-bottom: 10px; }
 .signout-row button { background: none; border: none; color: var(--text-faint); font-size: 0.8rem; cursor: pointer; text-decoration: underline; }

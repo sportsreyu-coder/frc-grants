@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('frcgrants_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In — FRC Hub</title>
-<meta name="description" content="Sign in to FRC Hub with your Google account.">
+<title>Forum — FRC Hub</title>
+<meta name="description" content="Coordinate with FRC teams in your district — practice fields, carpools, scrimmages — or trade parts, find mentors, and line up scouting partnerships across teams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
       <a href="season.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Season Tracker</span></a>
       <a href="fundraising.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg><span>Fundraising</span></a>
       <a href="scholarships.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg><span>Scholarships</span></a>
-      <a href="forum.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>Forum</span></a>
+      <a href="forum.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>Forum</span></a>
       <a href="resources.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg><span>Resources</span></a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
@@ -38,68 +38,65 @@
   </div>
 </header>
 
-<main>
+<main class="site-main">
   <div id="config-warning" class="config-warning" hidden>
     Supabase isn't configured yet. Add your project URL and anon key to
-    <code>js/supabase-config.js</code>, and enable the Google provider under
-    Authentication → Providers before accounts will work.
+    <code>js/supabase-config.js</code> and run <code>supabase/schema.sql</code> before the forum will work.
   </div>
 
-  <div id="app" class="account-wrap" hidden>
+  <!-- ---- Board directory ---- -->
+  <section id="forum-directory">
+    <div class="page-head">
+      <h1>Forum</h1>
+      <p>Not a general Q&amp;A forum — for that, Chief Delphi already does it well. This is for practical team-to-team stuff: coordinating with teams in your district, and trading parts, mentors, or scouting partnerships with any team.</p>
+    </div>
 
-    <section id="auth-section">
-      <div class="account-card account-card-signin">
-        <h2>Sign in</h2>
-        <p class="small">One click, no account or password to manage.</p>
-        <div class="error-msg" id="auth-error"></div>
-        <button type="button" class="google-signin-btn" id="google-signin-btn">
-          <svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true">
-            <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"/>
-            <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.87-3.04.87-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/>
-            <path fill="#FBBC05" d="M3.97 10.73A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.19.29-1.73V4.94H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.06l3.01-2.33z"/>
-            <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.59-2.59C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.94l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
-          </svg>
-          <span>Continue with Google</span>
-        </button>
-      </div>
-    </section>
+    <div id="your-district-section"></div>
 
-    <section id="dashboard-section" hidden>
-      <div class="signout-row"><button id="signout-btn">Sign out</button></div>
+    <div class="forum-section">
+      <div class="eyebrow">Districts</div>
+      <div class="simple-grid" id="district-board-grid"></div>
+    </div>
 
-      <div class="account-card account-card-signin">
-        <h2>You're signed in</h2>
-        <p class="small" id="signed-in-email"></p>
-      </div>
+    <div class="forum-section">
+      <div class="eyebrow">Team-to-team</div>
+      <div class="simple-grid" id="matchmaking-board-grid"></div>
+    </div>
+  </section>
 
-      <div class="account-card">
-        <h2>Team profile</h2>
-        <p class="small">Attached to anything you post in the <a href="forum.html">Forum</a> — teams see your team number, not your name or email.</p>
-        <div class="info-msg" id="profile-info"></div>
-        <form id="profile-form">
-          <div class="field">
-            <label for="profile-team-number">Team number</label>
-            <input type="text" id="profile-team-number" placeholder="e.g. 4152" required>
-          </div>
-          <div class="field">
-            <label for="profile-team-name">Team name (optional)</label>
-            <input type="text" id="profile-team-name" placeholder="e.g. RoboCats">
-          </div>
-          <div class="field">
-            <label for="profile-district">District</label>
-            <select id="profile-district"></select>
-          </div>
-          <button type="submit" class="submit-btn">Save profile</button>
-        </form>
-      </div>
-    </section>
-  </div>
+  <!-- ---- Thread list for one board ---- -->
+  <section id="forum-thread-list" hidden>
+    <a href="forum.html" class="forum-back">← All boards</a>
+    <div class="page-head" id="board-head"></div>
+
+    <div id="new-thread-gate"></div>
+    <form id="new-thread-form" class="new-thread-form" hidden>
+      <input type="text" id="new-thread-title" placeholder="Thread title" maxlength="120" required>
+      <textarea id="new-thread-body" placeholder="What's going on?" rows="4" required></textarea>
+      <button type="submit" class="submit-btn-sm">Post thread</button>
+    </form>
+
+    <div class="thread-list" id="thread-list"></div>
+  </section>
+
+  <!-- ---- Single thread ---- -->
+  <section id="forum-thread-detail" hidden>
+    <a href="#" class="forum-back" id="back-to-board">← Back to board</a>
+    <div id="thread-post"></div>
+    <div class="reply-list" id="reply-list"></div>
+
+    <div id="reply-gate"></div>
+    <form id="reply-form" class="new-thread-form" hidden>
+      <textarea id="reply-body" placeholder="Write a reply…" rows="3" required></textarea>
+      <button type="submit" class="submit-btn-sm">Post reply</button>
+    </form>
+  </section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
     <span>FRC Hub — a community-maintained toolkit for FIRST Robotics Competition teams.</span>
-    <span>Not affiliated with FIRST®.</span>
+    <span>Not affiliated with FIRST®. Be a good pit neighbor — this is a small community, act like it.</span>
   </div>
 </footer>
 
@@ -108,6 +105,6 @@
 <script src="js/auth-header.js"></script>
 <script src="js/forum-data.js"></script>
 <script src="js/theme.js"></script>
-<script src="js/account.js" defer></script>
+<script src="js/forum.js"></script>
 </body>
 </html>
