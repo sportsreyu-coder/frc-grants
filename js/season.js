@@ -8,7 +8,10 @@
   var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   var CUSTOM_KEY = "frcgrants_season_custom_events_v1";
-  var OA_KEY = "frcgrants_season_oa_enabled_v1";
+  var OA_KEY = "frcgrants_season_oa_enabled_v1"; // legacy boolean-only key, migrated below
+  var OA_SETTINGS_KEY = "frcgrants_season_oa_settings_v1";
+  var DEFAULT_OA_SETTINGS = { enabled: false, videoDaysPerWeek: 1, blogDay: "" };
+  var OA_WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   var ROSTER_KEY = "frcgrants_season_team_sizes_v1";
   var DEFAULT_TEAM_SIZES = { mechanical: 6, electrical: 3, programming: 4, design: 4, business: 5 };
   var MECH_KEY = "frcgrants_season_mechanisms_v1";
@@ -46,11 +49,18 @@
   function saveCustomEvents(list) {
     try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
   }
-  function loadOAEnabled() {
-    try { return localStorage.getItem(OA_KEY) === "1"; } catch (e) { return false; }
+  function loadOASettings() {
+    try {
+      var stored = JSON.parse(localStorage.getItem(OA_SETTINGS_KEY) || "null");
+      if (stored) return Object.assign({}, DEFAULT_OA_SETTINGS, stored);
+    } catch (e) { /* fall through to legacy check */ }
+    // Migrate the old boolean-only setting the first time this loads.
+    var legacyEnabled = false;
+    try { legacyEnabled = localStorage.getItem(OA_KEY) === "1"; } catch (e) { /* ignore */ }
+    return Object.assign({}, DEFAULT_OA_SETTINGS, { enabled: legacyEnabled });
   }
-  function saveOAEnabled(v) {
-    try { localStorage.setItem(OA_KEY, v ? "1" : "0"); } catch (e) { /* ignore */ }
+  function saveOASettings(settings) {
+    try { localStorage.setItem(OA_SETTINGS_KEY, JSON.stringify(settings)); } catch (e) { /* ignore */ }
   }
   function loadTeamSizes() {
     try {
@@ -104,7 +114,7 @@
     return {
       progress: progress,
       customEvents: customEvents,
-      oaEnabled: oaEnabled,
+      oaSettings: oaSettings,
       teamSizes: teamSizes,
       mechanisms: mechanisms,
       members: members,
@@ -117,7 +127,7 @@
     if (!data) return;
     if (data.progress) { progress = data.progress; saveProgress(progress); }
     if (data.customEvents) { customEvents = data.customEvents; saveCustomEvents(customEvents); }
-    if (typeof data.oaEnabled === "boolean") { oaEnabled = data.oaEnabled; saveOAEnabled(oaEnabled); }
+    if (data.oaSettings) { oaSettings = Object.assign({}, DEFAULT_OA_SETTINGS, data.oaSettings); saveOASettings(oaSettings); }
     if (data.teamSizes) { teamSizes = Object.assign({}, DEFAULT_TEAM_SIZES, data.teamSizes); saveTeamSizes(teamSizes); }
     if (data.mechanisms) { mechanisms = data.mechanisms; saveMechanisms(mechanisms); }
     if (data.members) { members = data.members; saveMembers(members); }
@@ -189,7 +199,7 @@
   var progress = Core.loadProgress();
   var calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   var customEvents = loadCustomEvents();
-  var oaEnabled = loadOAEnabled();
+  var oaSettings = loadOASettings();
   var teamSizes = loadTeamSizes();
   var mechanisms = loadMechanisms();
   var members = loadMembers();
@@ -306,23 +316,58 @@
   function memberById(id) {
     return members.filter(function (mm) { return mm.id === id; })[0] || null;
   }
-  function assignedMember(itemId) {
-    var mid = assignments[itemId];
-    return mid ? memberById(mid) : null;
+
+  // Assignments now hold a *list* of tokens per item, so a task can go to
+  // several people and/or a whole subteam at once. A token is either a
+  // member id, or "team:<team>" for "assign the whole subteam". Old saved
+  // data was a single member-id string -- assignmentTokens() upgrades
+  // that transparently the first time it's read.
+  var TEAM_TOKEN_PREFIX = "team:";
+
+  function assignmentTokens(itemId) {
+    var v = assignments[itemId];
+    if (!v) return [];
+    return Array.isArray(v) ? v : [v];
   }
-  function setAssignment(itemId, memberId) {
-    if (memberId) assignments[itemId] = memberId;
+
+  function assignmentTokenLabel(token) {
+    if (token.indexOf(TEAM_TOKEN_PREFIX) === 0) {
+      var team = token.slice(TEAM_TOKEN_PREFIX.length);
+      return TEAM_LABELS[team] || team;
+    }
+    var m = memberById(token);
+    return m ? m.name : null;
+  }
+
+  function assignmentSummary(itemId) {
+    var labels = assignmentTokens(itemId).map(assignmentTokenLabel).filter(Boolean);
+    return labels.length ? labels.join(", ") : "";
+  }
+
+  // `light` skips the full render() (used while a checkbox popover is
+  // open, so picking several people in a row doesn't close it -- the
+  // caller updates just its own button text instead).
+  function toggleAssignmentToken(itemId, token, on, light) {
+    var tokens = assignmentTokens(itemId).slice();
+    var idx = tokens.indexOf(token);
+    if (on && idx === -1) tokens.push(token);
+    else if (!on && idx !== -1) tokens.splice(idx, 1);
+    if (tokens.length) assignments[itemId] = tokens;
     else delete assignments[itemId];
     saveAssignments(assignments);
-    render();
+    if (light) scheduleCloudSave();
+    else render();
   }
+
   function removeMember(idx) {
     var mm = members[idx];
     members.splice(idx, 1);
     saveMembers(members);
     if (mm) {
       Object.keys(assignments).forEach(function (k) {
-        if (assignments[k] === mm.id) delete assignments[k];
+        var tokens = assignmentTokens(k).filter(function (t) { return t !== mm.id; });
+        if (tokens.length) assignments[k] = tokens;
+        else delete assignments[k];
       });
       saveAssignments(assignments);
     }
@@ -364,28 +409,60 @@
     render();
   }
 
-  // Fills a <select> with "Unassigned" + every team member, selecting
-  // `currentId` if given. Shared by the checklist's inline assign control
-  // and the calendar item modal.
-  function fillMemberOptions(selectEl, currentId) {
-    selectEl.innerHTML = "";
-    selectEl.appendChild(el("option", { value: "" }, ["Unassigned"]));
-    members.forEach(function (mm) {
-      selectEl.appendChild(el("option", { value: mm.id }, [mm.name + " (" + (TEAM_LABELS[mm.team] || mm.team) + ")"]));
-    });
-    selectEl.value = currentId || "";
-  }
-
-  // Compact "assign to" dropdown used inline on checklist rows. Stops
-  // propagation so it doesn't trigger the row's expand/checkbox behavior.
-  function buildAssignControl(itemId) {
+  // "Assign to" control: a button showing a summary ("Alex Kim, Jordan
+  // Lee", "Mechanical", "Unassigned"...) that opens a checkbox popover --
+  // pick any number of individual members and/or whole subteams. Reused
+  // inline on checklist rows and in the calendar item modal. Toggling a
+  // checkbox saves and refreshes just this control (not a full render()),
+  // so the popover stays open while picking several people.
+  function buildAssignControl(itemId, onChange) {
     var wrap = el("div", { class: "assign-wrap" });
     wrap.addEventListener("click", function (e) { e.stopPropagation(); });
-    var select = el("select", { class: "assign-select", "aria-label": "Assign to" });
-    fillMemberOptions(select, assignments[itemId]);
-    select.disabled = !members.length;
-    select.addEventListener("change", function () { setAssignment(itemId, select.value || null); });
-    wrap.appendChild(select);
+
+    var btn = el("button", { type: "button", class: "assign-select" }, [assignmentSummary(itemId) || "Unassigned"]);
+    var popover = el("div", { class: "assign-popover", hidden: "" });
+
+    function assignRow(token, label, checked) {
+      var rowId = "assign-" + Math.random().toString(36).slice(2);
+      var chk = el("input", { type: "checkbox", id: rowId });
+      chk.checked = checked;
+      chk.addEventListener("change", function () {
+        toggleAssignmentToken(itemId, token, chk.checked, true);
+        btn.textContent = assignmentSummary(itemId) || "Unassigned";
+        if (onChange) onChange();
+      });
+      return el("label", { class: "assign-popover-row", for: rowId }, [chk, label]);
+    }
+
+    function fillPopover() {
+      popover.innerHTML = "";
+      var tokens = assignmentTokens(itemId);
+
+      if (members.length) {
+        popover.appendChild(el("div", { class: "assign-popover-label" }, ["Members"]));
+        members.forEach(function (mm) {
+          popover.appendChild(assignRow(mm.id, mm.name, tokens.indexOf(mm.id) !== -1));
+        });
+      } else {
+        popover.appendChild(el("p", { class: "assign-popover-hint" }, ["Add team members in Team Settings to assign individuals."]));
+      }
+
+      popover.appendChild(el("div", { class: "assign-popover-label" }, ["Whole subteam"]));
+      ROSTER_TEAMS.forEach(function (team) {
+        var token = TEAM_TOKEN_PREFIX + team;
+        popover.appendChild(assignRow(token, TEAM_LABELS[team] || team, tokens.indexOf(token) !== -1));
+      });
+    }
+
+    btn.addEventListener("click", function () {
+      popover.hidden = !popover.hidden;
+      if (!popover.hidden) fillPopover();
+    });
+    popover.addEventListener("click", function (e) { e.stopPropagation(); });
+    document.addEventListener("click", function () { popover.hidden = true; });
+
+    wrap.appendChild(btn);
+    wrap.appendChild(popover);
     return wrap;
   }
 
@@ -644,6 +721,37 @@
     });
     customSection.appendChild(addForm);
 
+    // ---- Open Alliance updates: only shown once the team has opted in
+    // via Team Settings. Same items that show on the calendar, so
+    // checking one off here or there stays in sync. ----
+    if (oaSettings.enabled) {
+      var oaItems = buildOAItems();
+      var oaDone = oaItems.filter(function (o) { return !!progress[o.id]; }).length;
+      var oaSection = el("section", { class: "phase-section" }, [
+        el("div", { class: "phase-head" }, [
+          el("h2", {}, ["Open Alliance Updates"]),
+          el("span", { class: "phase-count" }, [oaDone + " / " + oaItems.length]),
+        ]),
+      ]);
+      var oaList = el("div", { class: "milestone-list" });
+      oaItems.forEach(function (o) {
+        var isVideo = o.kind === "video";
+        var date = Core.addDays(anchor, o.offset);
+        var chk = el("input", { type: "checkbox", "aria-label": isVideo ? "Post progress video" : "Update build blog" });
+        chk.checked = !!progress[o.id];
+        chk.addEventListener("change", function () { toggleGeneric(o.id); });
+        var body = el("div", { class: "ms-body" }, [
+          el("div", { class: "ms-top" }, [
+            el("span", { class: "ms-label" }, [isVideo ? "📹 Post progress video" : "📝 Update build blog"]),
+            el("span", { class: "ms-date" }, [formatDate(date)]),
+          ]),
+        ]);
+        oaList.appendChild(el("div", { class: "milestone-row team-edge team-edge-business" }, [chk, body]));
+      });
+      oaSection.appendChild(oaList);
+      container.appendChild(oaSection);
+    }
+
     container.appendChild(customSection);
   }
 
@@ -679,6 +787,39 @@
       ]));
     });
     container.appendChild(table);
+  }
+
+  // Open Alliance reminders, generated from oaSettings instead of a fixed
+  // weekly cadence: `videoDaysPerWeek` progress-video reminders spread
+  // evenly across each week of build season, plus one build-blog reminder
+  // per week on the chosen weekday (if the team keeps one at all).
+  var OA_SEASON_START = 1;
+  var OA_SEASON_END = 49;
+
+  function buildOAItems() {
+    var oaItems = [];
+    if (!oaSettings.enabled) return oaItems;
+
+    var perWeek = Math.max(1, Math.min(7, oaSettings.videoDaysPerWeek || 1));
+    for (var weekStart = OA_SEASON_START; weekStart <= OA_SEASON_END; weekStart += 7) {
+      for (var i = 0; i < perWeek; i++) {
+        var dayOffset = Math.round(((i + 1) * 7) / (perWeek + 1));
+        var day = weekStart + Math.min(6, Math.max(0, dayOffset - 1));
+        if (day > OA_SEASON_END) continue;
+        oaItems.push({ id: "oa-video-" + day + "-" + i, offset: day, kind: "video" });
+      }
+    }
+
+    if (oaSettings.blogDay) {
+      var targetDow = OA_WEEKDAYS.indexOf(oaSettings.blogDay);
+      for (var d = OA_SEASON_START; d <= OA_SEASON_END; d++) {
+        if (Core.addDays(anchor, d).getDay() === targetDow) {
+          oaItems.push({ id: "oa-blog-" + d, offset: d, kind: "blog" });
+        }
+      }
+    }
+
+    return oaItems;
   }
 
   // ---- Unified calendar item list: milestones + subtasks + fine-grained
@@ -736,20 +877,21 @@
       });
     });
 
-    if (oaEnabled) {
-      (window.SEASON_OA_OFFSETS || []).forEach(function (off, idx) {
-        var oaId = "oa-update-" + idx;
-        var oaDate = Core.addDays(anchor, off);
-        items.push({
-          id: oaId,
-          date: oaDate, team: "business", kind: "oa",
-          short: "📹 Post OA Update", title: "Open Alliance: post this week's progress update video",
-          detail: "Open Alliance teams publicly post a short progress-update video on a regular cadence through build season. This is one of those check-ins.",
-          isDone: function () { return !!progress[oaId]; },
-          toggle: function () { toggleGeneric(oaId); },
-        });
+    buildOAItems().forEach(function (o) {
+      var oaDate = Core.addDays(anchor, o.offset);
+      var isVideo = o.kind === "video";
+      items.push({
+        id: o.id,
+        date: oaDate, team: "business", kind: "oa",
+        short: isVideo ? "📹 Post OA Update" : "📝 Update Build Blog",
+        title: isVideo ? "Open Alliance: post this week's progress update video" : "Open Alliance: update the build blog",
+        detail: isVideo
+          ? "Open Alliance teams publicly post a short progress-update video on the cadence your team set in Team Settings."
+          : "Open Alliance teams keep a build blog updated on the day your team picked in Team Settings.",
+        isDone: function () { return !!progress[o.id]; },
+        toggle: function () { toggleGeneric(o.id); },
       });
-    }
+    });
 
     customEvents.forEach(function (ce) {
       var ceId = "custom-" + ce.id;
@@ -850,9 +992,9 @@
           return;
         }
 
-        var assignedTo = assignedMember(item.id);
-        var chipText = item.short + (assignedTo ? " · " + assignedTo.name.split(" ")[0] : "");
-        var chipTitle = item.title + (assignedTo ? " — assigned to " + assignedTo.name : "");
+        var assignSummary = assignmentSummary(item.id);
+        var chipText = item.short + (assignSummary ? " · " + assignSummary.split(",")[0].split(" ")[0] + (assignSummary.indexOf(",") !== -1 ? " +" + (assignSummary.split(",").length - 1) : "") : "");
+        var chipTitle = item.title + (assignSummary ? " — assigned to " + assignSummary : "");
 
         var done = item.isDone();
         var status = statusOf(done, item.date);
@@ -894,10 +1036,10 @@
   function googleCalendarUrl(item) {
     var start = icsDate(item.date);
     var end = icsDate(new Date(item.date.getTime() + 24 * 60 * 60 * 1000));
-    var assignedTo = assignedMember(item.id);
+    var assignSummary = assignmentSummary(item.id);
     var details = item.detail || "";
     if (item.expanded) details += (details ? "\n\n" : "") + item.expanded;
-    if (assignedTo) details += (details ? "\n\n" : "") + "Assigned to: " + assignedTo.name;
+    if (assignSummary) details += (details ? "\n\n" : "") + "Assigned to: " + assignSummary;
 
     var params = [
       "action=TEMPLATE",
@@ -938,13 +1080,11 @@
       toggleBtn.hidden = false;
       assignRow.hidden = false;
       refreshModalToggle();
-      var assignSelect = document.getElementById("cal-modal-assign");
-      fillMemberOptions(assignSelect, assignments[item.id]);
-      assignSelect.disabled = !members.length;
-      assignSelect.onchange = function () {
-        setAssignment(item.id, assignSelect.value || null);
+      var assignControlHost = document.getElementById("cal-modal-assign-control");
+      assignControlHost.innerHTML = "";
+      assignControlHost.appendChild(buildAssignControl(item.id, function () {
         document.getElementById("cal-modal-gcal").href = googleCalendarUrl(item);
-      };
+      }));
     }
 
     modalOverlay.hidden = false;
@@ -980,7 +1120,11 @@
   var ROSTER_TEAMS = ["mechanical", "electrical", "programming", "design", "business"];
 
   function renderSettings() {
-    document.getElementById("oa-checkbox").checked = oaEnabled;
+    document.getElementById("oa-checkbox").checked = oaSettings.enabled;
+    document.getElementById("oa-details").hidden = !oaSettings.enabled;
+    var oaVideoDaysInput = document.getElementById("oa-video-days");
+    if (document.activeElement !== oaVideoDaysInput) oaVideoDaysInput.value = oaSettings.videoDaysPerWeek;
+    document.getElementById("oa-blog-day").value = oaSettings.blogDay;
 
     ROSTER_TEAMS.forEach(function (team) {
       var input = document.getElementById("roster-" + team);
@@ -1062,8 +1206,21 @@
   });
 
   document.getElementById("oa-checkbox").addEventListener("change", function (e) {
-    oaEnabled = e.target.checked;
-    saveOAEnabled(oaEnabled);
+    oaSettings.enabled = e.target.checked;
+    saveOASettings(oaSettings);
+    render();
+  });
+
+  document.getElementById("oa-video-days").addEventListener("change", function (e) {
+    var n = parseInt(e.target.value, 10);
+    oaSettings.videoDaysPerWeek = isNaN(n) ? 1 : Math.max(1, Math.min(7, n));
+    saveOASettings(oaSettings);
+    render();
+  });
+
+  document.getElementById("oa-blog-day").addEventListener("change", function (e) {
+    oaSettings.blogDay = e.target.value;
+    saveOASettings(oaSettings);
     render();
   });
 
@@ -1152,9 +1309,9 @@
     items.forEach(function (item) {
       var start = icsDate(item.date);
       var end = icsDate(new Date(item.date.getTime() + 24 * 60 * 60 * 1000));
-      var assignedTo = assignedMember(item.id);
+      var assignSummary = assignmentSummary(item.id);
       var desc = item.detail || "";
-      if (assignedTo) desc += (desc ? "\n\n" : "") + "Assigned to: " + assignedTo.name;
+      if (assignSummary) desc += (desc ? "\n\n" : "") + "Assigned to: " + assignSummary;
 
       lines.push(
         "BEGIN:VEVENT",

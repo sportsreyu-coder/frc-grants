@@ -109,8 +109,28 @@
     <div class="settings-row">
       <label class="oa-toggle">
         <input type="checkbox" id="oa-checkbox">
-        <span>Our team is part of <strong>Open Alliance</strong> — remind us to post a progress update video</span>
+        <span>Our team is part of <strong>Open Alliance</strong></span>
       </label>
+
+      <div class="oa-details" id="oa-details" hidden>
+        <div class="oa-detail-field">
+          <label for="oa-video-days">Progress videos per week</label>
+          <input type="number" id="oa-video-days" min="1" max="7" value="1">
+        </div>
+        <div class="oa-detail-field">
+          <label for="oa-blog-day">Build blog update day</label>
+          <select id="oa-blog-day">
+            <option value="">We don't keep a build blog</option>
+            <option value="sunday">Sunday</option>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <div class="settings-row custom-event-row">
@@ -150,8 +170,8 @@
     <div class="cal-modal-team" id="cal-modal-team"></div>
     <div id="cal-modal-body"></div>
     <div class="cal-modal-assign" id="cal-modal-assign-row">
-      <label for="cal-modal-assign" class="eyebrow">Assigned to</label>
-      <select id="cal-modal-assign"></select>
+      <span class="eyebrow">Assigned to</span>
+      <div id="cal-modal-assign-control"></div>
     </div>
     <div class="cal-modal-actions">
       <a href="#" target="_blank" rel="noopener" class="submit-btn-sm submit-btn-ghost" id="cal-modal-gcal">+ Add to Google Calendar</a>

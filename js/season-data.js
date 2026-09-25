@@ -536,8 +536,3 @@ window.buildCompetitionSeasonGoals = function (teamSizes, teamLabels) {
 
   return goals;
 };
-
-// Recurring Open Alliance update reminders, when a team opts in (see the
-// toggle on season.html). Open Alliance teams publicly post a short
-// progress update on a regular cadence through build season.
-window.SEASON_OA_OFFSETS = [7, 14, 21, 28, 35, 42, 49];
