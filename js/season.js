@@ -81,6 +81,92 @@
     try { localStorage.setItem(ASSIGN_KEY, JSON.stringify(a)); } catch (e) { /* ignore */ }
   }
 
+  // ---- Cloud sync (Supabase) ----
+  //
+  // Purely additive on top of the localStorage layer above: signed-out
+  // (or Supabase not configured) behaves exactly as before. When signed
+  // in, every render() also schedules a debounced upload of the whole
+  // state to the season_data table, and on load, an existing cloud row
+  // wins over whatever's in this browser's localStorage (so a second
+  // device picks up your data). If no cloud row exists yet, this
+  // browser's local data seeds it.
+  var cloudUserId = null;
+  var cloudSaveTimer = null;
+
+  function cloudSnapshot() {
+    return {
+      progress: progress,
+      customEvents: customEvents,
+      oaEnabled: oaEnabled,
+      teamSizes: teamSizes,
+      mechanisms: mechanisms,
+      members: members,
+      assignments: assignments,
+    };
+  }
+
+  function applyCloudSnapshot(data) {
+    if (!data) return;
+    if (data.progress) { progress = data.progress; saveProgress(progress); }
+    if (data.customEvents) { customEvents = data.customEvents; saveCustomEvents(customEvents); }
+    if (typeof data.oaEnabled === "boolean") { oaEnabled = data.oaEnabled; saveOAEnabled(oaEnabled); }
+    if (data.teamSizes) { teamSizes = Object.assign({}, DEFAULT_TEAM_SIZES, data.teamSizes); saveTeamSizes(teamSizes); }
+    if (data.mechanisms) { mechanisms = data.mechanisms; saveMechanisms(mechanisms); }
+    if (data.members) { members = data.members; saveMembers(members); }
+    if (data.assignments) { assignments = data.assignments; saveAssignments(assignments); }
+  }
+
+  function scheduleCloudSave() {
+    if (!cloudUserId || !window.__frcHubSupabase) return;
+    clearTimeout(cloudSaveTimer);
+    cloudSaveTimer = setTimeout(function () {
+      window.__frcHubSupabase
+        .from("season_data")
+        .upsert({ user_id: cloudUserId, data: cloudSnapshot(), updated_at: new Date().toISOString() })
+        .then(function (res) {
+          if (res.error) console.warn("Season Tracker cloud save failed:", res.error.message);
+        });
+    }, 1200);
+  }
+
+  function updateSyncStatus() {
+    var el = document.getElementById("sync-status");
+    if (!el) return;
+    el.textContent = cloudUserId
+      ? "Synced to your account."
+      : "Saved in this browser only — sign in to sync across devices.";
+  }
+
+  function initCloudSync() {
+    var sb = window.__frcHubSupabase;
+    if (!sb) return;
+
+    function handleSession(session) {
+      if (!session || !session.user) {
+        cloudUserId = null;
+        updateSyncStatus();
+        return;
+      }
+      cloudUserId = session.user.id;
+      updateSyncStatus();
+      sb.from("season_data").select("data").eq("user_id", cloudUserId).maybeSingle().then(function (res) {
+        if (res.error) {
+          console.warn("Season Tracker cloud load failed:", res.error.message);
+          return;
+        }
+        if (res.data && res.data.data) {
+          applyCloudSnapshot(res.data.data);
+          render();
+        } else {
+          scheduleCloudSave();
+        }
+      });
+    }
+
+    sb.auth.onAuthStateChange(function (_event, session) { handleSession(session); });
+    sb.auth.getSession().then(function (res) { handleSession(res.data.session); });
+  }
+
   var expandedIds = new Set();
   var viewMode = "checklist"; // or "calendar"
 
@@ -202,6 +288,7 @@
     renderPhases();
     renderCalendar();
     renderSettings();
+    scheduleCloudSave();
   }
 
   function renderPace() {
@@ -705,7 +792,7 @@
   }
 
   document.getElementById("season-reset").addEventListener("click", function () {
-    if (!confirm("Clear all season progress saved in this browser?")) return;
+    if (!confirm("Clear all season progress? This also clears your synced copy if you're signed in.")) return;
     progress = {};
     saveProgress(progress);
     render();
@@ -861,4 +948,5 @@
   });
 
   render();
+  initCloudSync();
 })();
