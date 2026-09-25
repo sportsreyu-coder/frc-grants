@@ -1203,6 +1203,15 @@ main.site-main {
   font-size: 13.5px;
 }
 
+.custom-task-form input[type="date"] {
+  padding: 9px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 13.5px;
+}
+
 .custom-task-form select {
   padding: 9px 10px;
   border-radius: 9px;

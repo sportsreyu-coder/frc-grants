@@ -374,11 +374,12 @@
     render();
   }
 
-  function addCustomTask(label, team) {
+  function addCustomTask(label, team, dueDate) {
     var task = {
       id: "custom-task-" + Date.now() + Math.floor(Math.random() * 1000),
       label: label,
       team: team || "cross-team",
+      dueDate: dueDate || "", // optional "YYYY-MM-DD" -- e.g. a Google Classroom assignment's due date
     };
     customTasks.push(task);
     saveCustomTasks(customTasks);
@@ -647,7 +648,9 @@
     });
 
     // ---- Custom tasks: anything the team added themselves, beyond the
-    // curated milestones above. ----
+    // curated milestones above -- including a quick way to hand-carry a
+    // Google Classroom assignment over here (see the note above the add
+    // form). Give one a due date and it also shows up on the calendar. ----
     var customDone = customTasks.filter(function (t) { return !!progress[t.id]; }).length;
     var customSection = el("section", { class: "phase-section" }, [
       el("div", { class: "phase-head" }, [
@@ -676,6 +679,11 @@
         var removeBtn = el("button", { type: "button", class: "ms-expand-toggle" }, ["Remove"]);
         removeBtn.addEventListener("click", function () { removeCustomTask(t.id); });
 
+        var metaLeftChildren = [buildAssignControl(t.id)];
+        if (t.dueDate) {
+          metaLeftChildren.unshift(el("span", { class: "ms-date" }, ["Due " + formatDate(new Date(t.dueDate + "T00:00:00"))]));
+        }
+
         var body = el("div", { class: "ms-body" }, [
           el("div", { class: "ms-top" }, [
             el("div", { class: "ms-title-group" }, [
@@ -687,7 +695,7 @@
             ]),
           ]),
           el("div", { class: "ms-meta-row" }, [
-            el("div", { class: "ms-meta-left" }, [buildAssignControl(t.id)]),
+            el("div", { class: "ms-meta-left" }, metaLeftChildren),
             removeBtn,
           ]),
         ]);
@@ -699,8 +707,13 @@
       customSection.appendChild(el("p", { class: "finder-hint" }, ["No custom tasks yet — add one below."]));
     }
 
+    customSection.appendChild(el("p", { class: "finder-hint", style: "margin-top:14px;" }, [
+      "Quick way to hand off a Google Classroom assignment: paste the title in, add its due date, and it'll show up here and on the calendar — then use \"Assign to\" to say who on the team is actually doing it.",
+    ]));
+
     var addForm = el("form", { class: "custom-task-form" });
-    var labelInput = el("input", { type: "text", placeholder: "e.g. Order new bumpers", maxlength: "80", required: "" });
+    var labelInput = el("input", { type: "text", placeholder: "e.g. Order new bumpers, or paste a Classroom assignment title", maxlength: "80", required: "" });
+    var dueDateInput = el("input", { type: "date", "aria-label": "Due date (optional)" });
     var teamSelect = el("select", {}, [
       el("option", { value: "cross-team" }, ["Cross-team"]),
       el("option", { value: "mechanical" }, ["Mechanical"]),
@@ -711,13 +724,14 @@
     ]);
     var addBtn = el("button", { type: "submit", class: "submit-btn-sm" }, ["Add task"]);
     addForm.appendChild(labelInput);
+    addForm.appendChild(dueDateInput);
     addForm.appendChild(teamSelect);
     addForm.appendChild(addBtn);
     addForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var val = labelInput.value.trim();
       if (!val) return;
-      addCustomTask(val, teamSelect.value);
+      addCustomTask(val, teamSelect.value, dueDateInput.value);
     });
     customSection.appendChild(addForm);
 
@@ -902,6 +916,18 @@
         detail: "A custom date your team added to the calendar.",
         isDone: function () { return !!progress[ceId]; },
         toggle: function () { toggleGeneric(ceId); },
+      });
+    });
+
+    customTasks.forEach(function (t) {
+      if (!t.dueDate) return;
+      items.push({
+        id: t.id,
+        date: new Date(t.dueDate + "T00:00:00"), team: t.team || "cross-team", kind: "custom-task",
+        short: t.label, title: t.label,
+        detail: "A custom task your team added — e.g. a Google Classroom assignment carried over here.",
+        isDone: function () { return !!progress[t.id]; },
+        toggle: function () { toggleGeneric(t.id); },
       });
     });
 
